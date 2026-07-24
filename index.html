@@ -161,9 +161,10 @@
     background-size:200% 100%;animation:shimmer 1.2s linear infinite}
   @keyframes shimmer{to{background-position:-200% 0}}
   @media (prefers-reduced-motion:reduce){.window.loading::after{animation:none}}
-  .explorepill{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
-               background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
+  .pillrow{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+  .explorepill{background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
                border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px);cursor:pointer}
+  @media (min-width:901px){.explorepill.capture{display:none}} /* desktop pan owns the frame — capture scroll is mobile-only */
   .progress i{display:block;height:100%;width:0;background:#F4F1EA}
   /* flipped cards: site LEFT, numbers RIGHT (deck rhythm: standard / flip / flip) */
   .story.flip .pin{grid-template-columns:1fr 280px}
@@ -491,28 +492,33 @@
     const domain = st.sec.querySelector('.url').textContent.trim();
     const canFrame = !!FRAMEABLE[domain];
     st.iframed = false;
-    const pill = document.createElement('button');
-    pill.className = 'explorepill ' + (canFrame ? 'pf' : 'pnf'); pill.type = 'button';
-    pill.textContent = canFrame ? 'Explore the live site' : 'Explore the live site \u2197';
-    st.win.parentElement.appendChild(pill);
-    const reset = () => {
-      const f = st.win.querySelector('iframe'); if (f) f.remove();
-      const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = '';
-      st.iframed = false; st.win.classList.remove('explore', 'live', 'loading'); pill.style.display = '';
-    };
-    pill.addEventListener('click', () => {
-      pill.style.display = 'none';
-      if (canFrame) {
+    const row = document.createElement('div'); row.className = 'pillrow';
+    st.win.parentElement.appendChild(row);
+    const mk = (label, cls) => { const b = document.createElement('button');
+      b.className = 'explorepill' + (cls ? ' ' + cls : ''); b.type = 'button'; b.textContent = label;
+      row.appendChild(b); return b; };
+    if (canFrame) {
+      const pill = mk('Explore the live site');
+      pill.addEventListener('click', () => {
+        row.style.display = 'none';
         const f = document.createElement('iframe');
         f.src = 'https://' + domain; f.title = domain;
         f.addEventListener('load', () => { st.win.classList.remove('loading'); f.style.opacity = '1'; }, { once: true });
         const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = 'none';
         st.win.classList.add('live', 'loading'); st.win.appendChild(f); st.iframed = true;
-      } else {
-        window.open('https://' + domain, '_blank', 'noopener'); // XFO-blocked: real site, new tab
-        pill.style.display = '';
-      }
-    });
+      });
+    } else {
+      // XFO-blocked: scroll the capture in place (mobile), or the real site in a new tab
+      const cap = mk('Explore the site', 'capture');
+      cap.addEventListener('click', () => { st.win.classList.add('explore'); row.style.display = 'none'; });
+      const live = mk('Live site \u2197');
+      live.addEventListener('click', () => window.open('https://' + domain, '_blank', 'noopener'));
+    }
+    const reset = () => {
+      const f = st.win.querySelector('iframe'); if (f) f.remove();
+      const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = '';
+      st.iframed = false; st.win.classList.remove('explore', 'live', 'loading'); row.style.display = '';
+    };
     exploreCtl.set(st, { reset });
   });
 
