@@ -112,6 +112,33 @@
   .pal .iform input:focus, .pal .iform textarea:focus{border-color:var(--acc);outline:none}
   .pal .explorepill{border-color:var(--acc)}
   .pal .bigbook .sq{background:var(--acc);color:#101114}
+  .pal .svcleft .eyebrow{color:var(--acc)}
+  .pal .svcs li.active{color:var(--acc)}
+  .pal .qa.open .q{background:var(--acc);color:#101114}
+  /* ── ground schemes: break the black run (?ground=1 exhale, ?ground=2 daylight) ── */
+  body.g-ex .svc, body.g-ex .faq{background:#F3EFE7;color:#15161A}
+  body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .svcleft p{color:rgba(21,22,26,.62)}
+  body.g-ex .svcs li{color:rgba(21,22,26,.14)}
+  body.g-ex .svcs li.active{color:#15161A}
+  body.g-ex .svcs li .d{color:rgba(21,22,26,.62)}
+  body.g-ex .faqleft .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .faqask p{color:rgba(21,22,26,.65)}
+  body.g-ex .qa{border-color:rgba(21,22,26,.16)}
+  body.g-ex .qa:last-child{border-color:rgba(21,22,26,.16)}
+  body.g-ex .qa .q{color:#15161A}
+  body.g-ex .qa.open .q{background:#15161A;color:#F4F1EA}
+  body.g-ex .qa .a{color:rgba(21,22,26,.68)}
+  body.g-ex .faq .cta2{background:#15161A;color:#F4F1EA}
+  body.g-ex .faq .cta2 .sq{background:#F4F1EA;color:#15161A}
+  body.g-ex.pal .svcs li.active{color:var(--acc)}
+  body.g-ex.pal .qa.open .q{background:var(--acc);color:#101114}
+  body.g-all .close{background:#F3EFE7;color:#15161A;border-top-color:rgba(21,22,26,.12)}
+  body.g-all .close .eyebrow{color:rgba(21,22,26,.5)}
+  body.g-all .close p{color:rgba(21,22,26,.7)}
+  body.g-all .bigbook{background:#15161A;color:#F4F1EA}
+  body.g-all .bigbook .sq{background:#F4F1EA;color:#15161A}
+  body.g-all .iform input, body.g-all .iform textarea{border-bottom-color:rgba(21,22,26,.35);color:#15161A}
   .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
   .hero .cta:hover{background:#F4F1EA;color:#101114}
   .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
@@ -672,12 +699,15 @@
     document.querySelector('.hero').classList.add('centered');
 
   /* ?pal=1..5 — studio accent auditions (dev-only switcher below) */
-  const PALETTES = {1:'#E9A13B', 2:'#B4402F', 3:'#4E8F7B', 4:'#D8F04F', 5:'#4353FF'};
+  const PALETTES = {1:'#E9A13B', 2:'#B4402F', 3:'#4E8F7B', 4:'#D8F04F', 5:'#4353FF', 6:'#FF4A1F', 7:'#F2C230', 8:'#F07167', 9:'#9A7BF7'};
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) {
     document.body.classList.add('pal');
     document.documentElement.style.setProperty('--acc', PALETTES[palN]);
   }
+  const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
+  if (groundN >= 1) document.body.classList.add('g-ex');
+  if (groundN >= 2) document.body.classList.add('g-all');
 
   /* ?logo=1..3 — THRUM logo auditions (dev-only switcher below) */
   const HUM = '<svg class="hum" viewBox="0 0 64 12" aria-hidden="true"><path d="M0 6H18C23 6 24 2 29 2C35 2 34 10 40 10C45 10 46 6 50 6H64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
@@ -780,7 +810,7 @@
       const pcur=q.get('pal')||'0';
       const pwrap=document.createElement('span'); pwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       pwrap.innerHTML='<b>PAL</b>';
-      [['0','none'],['1','#E9A13B'],['2','#B4402F'],['3','#4E8F7B'],['4','#D8F04F'],['5','#4353FF']].forEach(([n,c])=>{
+      [['0','none'],['1','#E9A13B'],['2','#B4402F'],['3','#4E8F7B'],['4','#D8F04F'],['5','#4353FF'],['6','#FF4A1F'],['7','#F2C230'],['8','#F07167'],['9','#9A7BF7']].forEach(([n,c])=>{
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
@@ -789,6 +819,18 @@
         pwrap.appendChild(a);
       });
       bar.appendChild(pwrap);
+      const gcur=q.get('ground')||'0';
+      const gwrap=document.createElement('span'); gwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
+      gwrap.innerHTML='<b>GND</b>';
+      [['0','dark'],['1','exhale'],['2','daylight']].forEach(([n,lab])=>{
+        const a=document.createElement('a');
+        a.textContent=lab;
+        const p=new URLSearchParams(location.search); if(n!=='0')p.set('ground',n); else p.delete('ground');
+        a.href='?'+p.toString();
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(gcur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        gwrap.appendChild(a);
+      });
+      bar.appendChild(gwrap);
     })();
   </script>
 </div>
