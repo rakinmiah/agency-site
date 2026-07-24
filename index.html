@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<title>Case study prototype — JDH Gas</title>
+<style>
+  /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
+  :root{
+    --paper:#FAF7F2; --ink:#16181D; --dim:#6b6f76; --line:rgba(22,24,29,.14);
+    --blue:#1b46c2; /* JDH's real brand blue — the section borrows the CLIENT's accent */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+       -webkit-font-smoothing:antialiased;line-height:1.45}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* ── HERO: mission line floating, giant wordmark anchored, aurora drifting behind ── */
+  .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;
+        background:#101114;color:#F4F1EA}
+  /* texture, not gradient: film grain (SVG turbulence, stepped like analogue noise) over a
+     MONOCHROME light-drift — light moving across paper. No hue mixing, nothing pastel. */
+  .heroimg{position:absolute;inset:0;z-index:0}
+  .heroimg img,.heroimg video{width:100%;height:100%;object-fit:cover;display:block;
+               filter:brightness(.94) contrast(1.05) saturate(1.06)}
+  .heroimg video{filter:none}
+  /* clip 5's smoke mass sits high in the source — scale + drop it so the smoke reads centred */
+  .heroimg.lowered video{transform:scale(1.38) translateY(11%)}
+  .heroimg:after{content:"";position:absolute;inset:0;background:
+    linear-gradient(180deg, rgba(16,17,20,.34), rgba(16,17,20,.06) 30%, rgba(16,17,20,.1) 62%, #101114 97%)}
+  /* with an image or video mounted, the media is the ONLY animation: no light-field, no grain
+     shimmer, no wordmark sheen — nothing moves except the smoke itself */
+  .hero.hasimg .texture{display:none}
+  .hero.hasimg .wordmark{animation:none;background:none;color:#F4F1EA;-webkit-text-fill-color:#F4F1EA}
+  .texture{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .texture .fx{position:absolute;inset:0;width:100%;height:100%;filter:blur(42px);opacity:.9}
+  .texture .grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain .9s steps(3) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}33%{transform:translate(-60px,40px)}66%{transform:translate(40px,-70px)}100%{transform:translate(0,0)}}
+  .hero .bar{position:relative;z-index:3;margin:0 28px;border-bottom:0}
+  .navnums{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:44px}
+  .navnums a{color:rgba(244,241,234,.92);text-decoration:none;font-size:15px;font-weight:600}
+  .navnums a:hover{color:#fff}
+  .navnums sup{font-size:10px;color:rgba(244,241,234,.5);margin-left:5px;font-weight:500}
+  .cta2{display:flex;align-items:center;gap:11px;background:#F4F1EA;color:#101114;border-radius:6px;
+        padding:8px 8px 8px 16px;text-decoration:none;font-weight:650;font-size:15.5px;
+        box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
+  .cta2 .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;color:#F4F1EA;
+            border-radius:5px;font-size:14px}
+  .cta2:hover .sq{transform:translate(1px,-1px)}
+  .heroleft{position:absolute;z-index:2;left:28px;top:29%;max-width:24ch}
+  .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78)}
+  .heroleft p b{color:#fff;font-weight:650}
+  .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
+                font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
+  .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
+                      border-top:1.5px solid rgba(244,241,234,.9);border-right:1.5px solid rgba(244,241,234,.9)}
+  .heroright{position:absolute;z-index:2;right:28px;top:27%;text-align:right;display:flex;
+             flex-direction:column;align-items:flex-end;gap:34px}
+  .heroright .go{margin-top:0}
+  .mobgo{display:none}
+  .svclist{font-size:1.05rem;line-height:1.6;color:rgba(244,241,234,.9)}
+  .svclist i{font-style:normal;color:rgba(244,241,234,.5);margin-right:8px;font-size:.85em}
+  .copystrip{display:flex;align-items:center;gap:10px;
+             color:rgba(244,241,234,.55);font-size:.85rem}
+  .copystrip .ticks{letter-spacing:2px;font-size:.7rem;opacity:.7}
+  .cross{position:absolute;z-index:2;color:rgba(244,241,234,.55);font-size:20px;font-weight:300;pointer-events:none}
+  .scrollpill{position:absolute;z-index:2;left:50%;bottom:14px;transform:translateX(-50%);
+              width:46px;height:9px;border-radius:999px;border:1.5px solid rgba(244,241,234,.5)}
+  /* mobile hero: Fuel-style single left column — copy, CTA, services, (c) strip, wordmark.
+     Monolog keeps its Start-a-project button in the nav, so we keep ours (compact). */
+  @media (max-width:760px){
+    .navnums,.cross,.scrollpill{display:none}
+    .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
+    .cta2 .sq{width:24px;height:24px;font-size:12.5px}
+    .heroleft{top:17%;max-width:26ch}
+    .heroleft p{font-size:1.15rem}
+    .mobgo{display:inline-block;font-size:1.15rem;margin-top:34px}
+    .heroright .go{display:none}
+    .heroright{top:auto;bottom:16vh;right:auto;left:28px;text-align:left;align-items:flex-start;gap:14px}
+    .svclist{font-size:1.05rem;line-height:1.7}
+    .copystrip{margin-top:8px}
+    /* ?hero=center — Monolog-style centered statement variant */
+    .hero.centered .heroleft{left:24px;right:24px;top:31%;max-width:none;text-align:center}
+    .hero.centered .heroleft p{max-width:26ch;margin:0 auto}
+    .hero.centered .mobgo{margin-top:38px}
+    .hero.centered .heroright{left:24px;right:24px;align-items:center;text-align:center}
+    .hero.centered .copystrip{justify-content:center}
+  }
+  .hero .mark{color:#F4F1EA}
+  .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
+  .hero .cta:hover{background:#F4F1EA;color:#101114}
+  .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
+           color:rgba(244,241,234,.82);font-size:1.02rem;line-height:1.55;padding:0 24px}
+  .mission .g{display:block;margin:0 auto 18px;width:34px;opacity:.75}
+  .wordmark{position:relative;z-index:2;margin-top:auto;padding:6vh 0 0;
+            font-family:'Anton',-apple-system,sans-serif;font-weight:400;
+            letter-spacing:.005em;line-height:.82;white-space:nowrap;user-select:none;
+            transform-origin:left bottom;margin-bottom:.04em;
+            background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
+            background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
+            color:transparent;animation:sheen 9s ease-in-out infinite}
+  @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
+  @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
+
+  /* top bar */
+  .bar{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+  .mark{font-weight:800;letter-spacing:-.02em}
+  .mark span{color:var(--dim);font-weight:500}
+  .cta{border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;font-weight:650;font-size:14px;
+       text-decoration:none;color:var(--ink);transition:background .15s,color .15s}
+  .cta:hover{background:var(--ink);color:var(--paper)}
+
+  /* intro */
+  .intro{padding:72px 0 40px}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--blue)}
+  h1{font-size:clamp(2.4rem,5.2vw,4.4rem);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:14px 0 18px;max-width:18ch}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:52ch}
+
+  /* ── case deck: black full-screen cards, each sliding over the last (Fuel transition);
+        inside each, the site pans and the real numbers count as you scroll ── */
+  .story{height:320vh;position:relative;background:#0B0B0D}
+  #work{padding-top:11vh}
+  .story ~ .story{margin-top:-100vh}   /* the overlap that makes the next card slide OVER */
+  .story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:280px 1fr;
+              gap:40px;align-items:center;max-width:1440px;margin:0 auto;padding:0 24px;
+              will-change:transform;transition:transform .2s ease-out,filter .2s ease-out}
+  .caselabel{position:absolute;top:30px;left:24px;right:24px}
+  .caselabel .eyebrow{color:rgba(244,241,234,.55)}
+  .caselabel h3{color:#F4F1EA;font-weight:800;letter-spacing:-.02em;font-size:1.25rem;margin-top:6px}
+  .stats{display:flex;flex-direction:column;gap:34px}
+  .stat{opacity:.22;transform:translateY(6px);transition:opacity .5s,transform .5s}
+  .stat.on{opacity:1;transform:none}
+  .stat .num{font-size:clamp(3rem,5vw,4.4rem);font-weight:800;letter-spacing:-.04em;line-height:1;
+             color:#F4F1EA;font-variant-numeric:tabular-nums}
+  .stat .lab{font-weight:700;margin-top:6px;color:#F4F1EA}
+  .stat .ctx{color:rgba(244,241,234,.6);font-size:.95rem;max-width:34ch}
+  .browser{border:1px solid rgba(244,241,234,.14);border-radius:14px;background:#141519;overflow:hidden;
+           box-shadow:0 34px 80px -30px rgba(0,0,0,.65)}
+  .chrome{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid rgba(244,241,234,.12);background:#17181d}
+  .dot{width:10px;height:10px;border-radius:50%;background:rgba(244,241,234,.18)}
+  .url{flex:1;margin-left:10px;background:rgba(244,241,234,.08);border-radius:7px;padding:5px 12px;font-size:12.5px;color:rgba(244,241,234,.55)}
+  .window{height:64vh;overflow:hidden;position:relative}
+  .window img{width:100%;display:block;will-change:transform}
+  .window picture{display:block}
+  .progress{height:3px;background:rgba(244,241,234,.12)}
+  .progress i{display:block;height:100%;width:0;background:#F4F1EA}
+  /* flipped cards: site LEFT, numbers RIGHT (deck rhythm: standard / flip / flip) */
+  .story.flip .pin{grid-template-columns:1fr 280px}
+  .story.flip .pin .stats{order:2}
+  /* stat numbers in each client's brand colour (lightened where needed for black-ground contrast) */
+  #work .stat .num{color:#C9A961}                    /* National Taxi — champagne */
+  #work .progress i{background:#C9A961}
+  .story.flip .stat .num{color:#4C79F0}              /* JDH Gas — royal blue, lifted for ink */
+  .story.flip .progress i{background:#4C79F0}
+  .story.deen .stat .num{color:#4CA24F}      /* Deen Relief — forest green, lifted */
+  .story.deen .progress i{background:#4CA24F}
+
+  /* ── services: dimmed list, one lit, descriptor unfolds under the active row ── */
+  .svc{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px 18vh}
+  .svcgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(240px,4fr) 8fr;gap:56px;align-items:start}
+  .svcleft .eyebrow{color:rgba(244,241,234,.55)}
+  .svcleft p{margin-top:16px;color:rgba(244,241,234,.62);font-size:1rem;line-height:1.6;max-width:30ch}
+  .svcs{list-style:none;position:relative}
+  .svcs li{font-size:clamp(1.9rem,4.6vw,4.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.28;
+           color:rgba(244,241,234,.15);cursor:default;transition:color .35s;position:relative;width:fit-content}
+  .svcs li.active{color:#F4F1EA}
+  .svcs li .d{display:block;overflow:hidden;max-height:0;opacity:0;
+              font-size:1rem;font-weight:400;letter-spacing:0;line-height:1.5;
+              color:rgba(244,241,234,.6);transition:max-height .45s ease,opacity .45s ease;max-width:44ch}
+  .svcs li.active .d{max-height:3.2em;opacity:1;margin-top:2px;margin-bottom:10px}
+  @media (max-width:900px){.svcgrid{grid-template-columns:1fr;gap:30px}.svcs li{width:auto}}
+
+  /* ── FAQ: dimmed accordion, lit active row (Monolog pattern), book prompt in the left rail ── */
+  .faq{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px}
+  .faqgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:8fr minmax(240px,4fr);gap:56px;align-items:start}
+  .faqleft{display:flex;flex-direction:column;align-self:stretch;align-items:flex-end;text-align:right;order:2}
+  .faqleft .eyebrow{color:rgba(244,241,234,.55)}
+  .faqask{margin-top:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+  .faqask p{color:rgba(244,241,234,.65);margin-bottom:14px}
+  .faq h2{font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.03em;font-weight:800;line-height:1.06;max-width:18ch;margin-bottom:48px}
+  .qa{border-top:1px solid rgba(244,241,234,.14)}
+  .qa:last-child{border-bottom:1px solid rgba(244,241,234,.14)}
+  .qa .q{width:100%;text-align:left;background:none;border:0;color:#F4F1EA;font:inherit;font-weight:650;
+         font-size:clamp(1.05rem,1.6vw,1.35rem);padding:22px 18px;cursor:pointer;border-radius:9px;
+         transition:background .25s,color .25s}
+  .qa.open .q{background:#F4F1EA;color:#101114}
+  .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease;color:rgba(244,241,234,.68);line-height:1.6}
+  .qa.open .a{max-height:14em}
+  .qa .a p{padding:16px 18px 24px;max-width:62ch}
+  @media (max-width:900px){.faqgrid{grid-template-columns:1fr;gap:30px}.faqleft{position:static;min-height:0}
+    .faqask{margin-top:18px}}
+
+  /* ── the close: giant ask, booking primary, inquiry form secondary ── */
+  .close{background:#0B0B0D;color:#F4F1EA;padding:18vh 24px 16vh;border-top:1px solid rgba(244,241,234,.08)}
+  .closegrid{max-width:1200px;margin:0 auto}
+  .close h2{font-family:'Anton',-apple-system,sans-serif;font-weight:400;letter-spacing:.005em;
+            font-size:clamp(3rem,9vw,9rem);line-height:.95;margin:10px 0 48px}
+  .closecols{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+  .closecols .lead p{color:rgba(244,241,234,.65);line-height:1.6;max-width:40ch;margin-bottom:26px}
+  .bigbook{display:inline-flex;align-items:center;gap:14px;background:#F4F1EA;color:#101114;border-radius:8px;
+           padding:16px 18px 16px 26px;text-decoration:none;font-weight:700;font-size:1.25rem}
+  .bigbook .sq{display:grid;place-items:center;width:34px;height:34px;background:#101114;color:#F4F1EA;border-radius:6px}
+  .bigbook:hover .sq{transform:translate(1px,-1px)}
+  .iform label{display:block;font-size:.85rem;font-weight:600;color:rgba(244,241,234,.55);margin:22px 0 6px}
+  .iform input,.iform textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(244,241,234,.3);
+        color:#F4F1EA;font:inherit;padding:8px 2px;outline:none;resize:none}
+  .iform input:focus,.iform textarea:focus{border-color:#F4F1EA}
+  .iform button{margin-top:30px;display:inline-flex;align-items:center;gap:11px;background:none;border:1.5px solid #F4F1EA;
+        color:#F4F1EA;border-radius:8px;padding:12px 22px;font:inherit;font-weight:650;cursor:pointer}
+  .iform button:hover{background:#F4F1EA;color:#101114}
+  .iform .note{margin-top:14px;font-size:.85rem;color:rgba(244,241,234,.45)}
+  @media (max-width:900px){.closecols{grid-template-columns:1fr;gap:44px}}
+
+  /* ── footer: ink, quiet, bookending the hero's furniture ── */
+  footer{background:#0B0B0D;color:#F4F1EA;border-top:1px solid rgba(244,241,234,.1);padding:64px 28px 30px}
+  .footgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto auto;gap:48px;align-items:start}
+  .footgrid .mark{color:#F4F1EA;font-size:1.2rem}
+  .footgrid .mark span{color:#F4F1EA;font-weight:800}
+  .footgrid .tag{margin-top:10px;color:rgba(244,241,234,.55);font-size:.95rem;max-width:30ch;line-height:1.55}
+  .footnav{display:flex;flex-direction:column;gap:10px}
+  .footnav a{color:rgba(244,241,234,.75);text-decoration:none;font-size:.98rem}
+  .footnav a:hover{color:#fff}
+  .footbar{max-width:1200px;margin:52px auto 0;padding-top:22px;border-top:1px solid rgba(244,241,234,.1);
+           display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+           color:rgba(244,241,234,.45);font-size:.85rem}
+  .footbar .ticks{letter-spacing:2px;font-size:.7rem;opacity:.7}
+  @media (max-width:760px){.footgrid{grid-template-columns:1fr;gap:30px}}
+
+  @media (max-width:900px){
+    .story{height:210vh}   /* mobile: enough dwell that the next card doesn't bury the stats */
+    .story .pin,.story.flip .pin{grid-template-columns:1fr;gap:18px;align-content:start;padding-top:140px;padding-left:14px;padding-right:14px} /* room for two-line labels */
+    .stats,.story.flip .pin .stats{flex-direction:row;gap:14px;order:0} /* above the frame — next card covers bottom-first */
+    .stat .num{font-size:1.65rem}
+    .stat .lab{font-size:.78rem;margin-top:3px}
+    .stat .ctx{display:none}
+    .window{height:56vh;scrollbar-width:none}            /* page scroll passes straight through */
+    .window.explore{overflow-y:auto;overscroll-behavior:contain}
+    .window::-webkit-scrollbar{display:none}
+    .browser{position:relative}
+    .explorepill{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
+                 background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
+                 border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px)}
+    .story.deen{height:140vh}                            /* last card: no successor, release quickly */
+    .wordmark{margin-bottom:22px}
+    .touch{grid-template-columns:1fr;gap:70px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .stat{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="texture" aria-hidden="true"><canvas class="fx"></canvas><div class="grain"></div></div>
+  <div class="bar">
+    <div class="mark"><span id="markname">Placeholder</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
+    <nav class="navnums">
+      <a href="#work">Work</a><a href="#">Services</a><a href="#">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
+  </div>
+  <div class="heroleft">
+    <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
+    <a class="go mobgo" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call</a>
+  </div>
+  <div class="heroright">
+    <a class="go" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call</a>
+    <div class="svclist"><div>Websites</div><div>Search</div><div>Enquiries</div></div>
+    <div class="copystrip">&copy; 2026 <span class="ticks">||||||||||</span> BN1</div>
+  </div>
+  <span class="cross" style="left:46%;top:50%">+</span>
+  <span class="cross" style="left:30%;top:66%">+</span>
+  <span class="cross" style="right:9%;top:52%">+</span>
+  <div class="scrollpill" aria-hidden="true"></div>
+  <div class="wordmark" id="wordmark"><span id="wmtext" style="display:inline-block">PLACEHOLDER</span></div>
+</header>
+
+
+
+
+
+<!-- sticky scroll-story: stats activate while the REAL site pans in the frame -->
+<section class="story" id="work">
+  <div class="pin">
+    <div class="caselabel"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>Fixed fares, booked online.</h3></div>
+    <div class="stats">
+      <div class="stat" data-count="1818" data-suffix="+"><div class="num">0</div><div class="lab">passengers carried</div><div class="ctx">Long-distance airport runs across the South East — booked online at a fixed price.</div></div>
+      <div class="stat" data-count="5" data-decimals="1" data-suffix=" ★"><div class="num">0</div><div class="lab">from 80 Google reviews</div><div class="ctx">Rated by the passengers it drives — every review public.</div></div>
+      <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">revenue — from zero</div><div class="ctx">Zero to five figures — every fare booked and paid through the site.</div></div>
+    </div>
+    <div>
+      <div class="browser">
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">nationaltaxi.co.uk</span></div>
+        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/taxi-mobile.jpg"><img class="pan" src="assets/taxi-desktop.jpg" alt="The National Taxi website, panning through the full page"></picture></div>
+        <div class="progress"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story flip">
+  <div class="pin">
+    <div class="caselabel"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>From invisible to 16 enquiries a month.</h3></div>
+    <div class="stats">
+      <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries in month one</div><div class="ctx">Calls, WhatsApps and quote requests — from a site that didn't exist five weeks earlier.</div></div>
+      <div class="stat" data-count="2" data-suffix="×"><div class="num">0×</div><div class="lab">Google clicks</div><div class="ctx">Doubled against launch week — same trade, same town, better site.</div></div>
+      <div class="stat" data-count="5" data-suffix="×"><div class="num">0×</div><div class="lab">search visibility</div><div class="ctx">Shows up five times more often when Burgess Hill searches for a gas engineer.</div></div>
+    </div>
+    <div>
+      <div class="browser">
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">jdhgas.co.uk</span></div>
+        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/jdh-mobile.jpg"><img class="pan" src="assets/jdh-desktop.jpg" alt="The JDH Gas website, panning through the full page"></picture></div>
+        <div class="progress"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story deen">
+  <div class="pin">
+    <div class="caselabel"><div class="eyebrow">DEEN RELIEF — UK REGISTERED CHARITY</div><h3>Giving, made effortless.</h3></div>
+    <div class="stats">
+      <div class="stat" data-count="6"><div class="num">0</div><div class="lab">live campaigns</div><div class="ctx">From emergency relief to orphan sponsorship — donations flow straight through the site.</div></div>
+      <div class="stat" data-count="6" data-suffix="-figure"><div class="num">0</div><div class="lab">ad grant, managed</div><div class="ctx">A six-figure Google Ad Grant run and optimised by us — charity search ads on, year-round.</div></div>
+      <div class="stat" data-count="40000" data-suffix="+"><div class="num">0</div><div class="lab">search impressions a quarter</div><div class="ctx">Seen in Google 40,000+ times every quarter through the grant-funded campaigns.</div></div>
+    </div>
+    <div>
+      <div class="browser">
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">deenrelief.org</span></div>
+        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/deen-mobile.jpg"><img class="pan" src="assets/deen-desktop.jpg" alt="The Deen Relief website, panning through the full page"></picture></div>
+        <div class="progress"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="svc" id="services">
+  <div class="svcgrid">
+    <div class="svcleft">
+      <div class="eyebrow">WHAT WE DO</div>
+      <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
+    </div>
+    <ul class="svcs">
+      <li class="active">Web design<span class="d">Designed around your business — never a template.</span></li>
+      <li>Web development<span class="d">Fast, hand-built, and yours.</span></li>
+      <li>Local SEO<span class="d">Found when your town searches for the job.</span></li>
+      <li>Paid advertising<span class="d">Google Ads spent carefully — and tracked.</span></li>
+      <li>Maintenance &amp; ongoing care<span class="d">Updates, fixes, and a site that never goes stale.</span></li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section class="faq" id="faq">
+  <div class="faqgrid">
+    <div class="faqleft">
+      <div class="eyebrow">● FAQS</div>
+      <div class="faqask">
+        <p>Got a question we haven't answered?</p>
+        <a class="cta2" style="display:inline-flex" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call <span class="sq">&#8599;</span></a>
+      </div>
+    </div>
+    <div>
+      <h2>The questions owners ask us — answered straight.</h2>
+      <div class="qa open"><button class="q">Who actually builds our website?</button>
+        <div class="a"><p>The people you talk to. Design, build and the search work are all done in-house — nothing is passed to an outsourcer you'll never meet.</p></div></div>
+      <div class="qa"><button class="q">How long does a website take?</button>
+        <div class="a"><p>Quicker than you'd expect. You'll see a working preview of your site early on — not a mood board — and most sites are live within weeks, not months.</p></div></div>
+      <div class="qa"><button class="q">What do you need from us to start?</button>
+        <div class="a"><p>Very little. Your business details, photos if you have them, and what you want the site to do. We build from what's real — your work, your reviews, your voice.</p></div></div>
+      <div class="qa"><button class="q">What happens after launch?</button>
+        <div class="a"><p>We don't disappear. Updates, fixes and ongoing care are part of the offer, and the search work carries on after go-live — that's usually where the results compound.</p></div></div>
+      <div class="qa"><button class="q">Do you handle Google — search and ads?</button>
+        <div class="a"><p>Yes. Local SEO, your Google Business Profile and paid advertising are all handled here, alongside the site itself — one team for the whole picture.</p></div></div>
+      <div class="qa"><button class="q">What does it cost?</button>
+        <div class="a"><p>You'll have a plain number before any work starts — quoted for your job, not from a rate card. No surprise invoices, nothing you didn't ask for. Book a call and you'll know quickly.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="close" id="contact">
+  <div class="closegrid">
+    <div class="eyebrow" style="color:rgba(244,241,234,.55)">START</div>
+    <h2>READY WHEN YOU ARE.</h2>
+    <div class="closecols">
+      <div class="lead">
+        <p>Book a call and we'll talk through your business, what you need, and what it would take — plainly, no obligation. You'll see a working preview of your site before you commit to anything.</p>
+        <a class="bigbook" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call <span class="sq">&#8599;</span></a>
+      </div>
+      <form class="iform" onsubmit="return false" novalidate>
+        <label>Your name</label><input name="name" placeholder="e.g. Sam Rivers">
+        <label>Business</label><input name="business" placeholder="e.g. Riverside Joinery">
+        <label>What do you need?</label><textarea name="need" rows="3" placeholder="New website, better search, more enquiries…"></textarea>
+        <button type="submit">Send message</button>
+        <div class="note">Prototype note: this form wires to your inbox at deploy (Cloudflare Worker). The booking button is live now.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footgrid">
+    <div>
+      <div class="mark"><span id="footname">Placeholder</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
+      <p class="tag">Websites for local businesses that earn their keep — Brighton &amp; Sussex.</p>
+    </div>
+    <nav class="footnav">
+      <a href="#work">Work</a><a href="#services">Services</a><a href="#faq">FAQs</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="cta2" style="align-self:start" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call <span class="sq">&#8599;</span></a>
+  </div>
+  <div class="footbar">
+    <span>&copy; 2026 <span id="footcopy">Placeholder Studio</span> · Brighton &amp; Sussex</span>
+    <span class="ticks">||||||||||</span>
+    <span>BN1 · Built the way we build yours.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* one engine, every story: pan the real site by section progress, light stats at thresholds */
+  const stories = [...document.querySelectorAll('.story')].map(sec => {
+    const img = sec.querySelector('.pan');
+    return {
+      sec, img,
+      win: sec.querySelector('.window'),
+      bar: sec.querySelector('.progress i'),
+      pin: sec.querySelector('.pin'),
+      stats: [...sec.querySelectorAll('.stat')].map((el, i) => ({ el, at: [0.08, 0.28, 0.45][i] || 0.4 })),
+    };
+  });
+  let ticking = false;
+  function update(){
+    ticking = false;
+    for (let si = 0; si < stories.length; si++) {
+      const st = stories[si];
+      // Fuel recede: as the NEXT card slides over, this pinned card sinks back and dims
+      const nxt = stories[si + 1];
+      if (nxt && !reduced) {
+        const nr = nxt.sec.getBoundingClientRect();
+        const cover = Math.min(1, Math.max(0, 1 - nr.top / innerHeight));
+        st.pin.style.transform = 'scale(' + (1 - cover * 0.05) + ')';
+        st.pin.style.filter = 'brightness(' + (1 - cover * 0.35) + ')';
+      }
+      const r = st.sec.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > innerHeight + 200) continue;
+      const total = r.height - innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      const overflow = st.img.offsetHeight - st.win.offsetHeight;
+      // last card has no successor sliding over its tail — pan the full length so motion
+      // continues right up to release instead of 20% dead scroll
+      const end = (si === stories.length - 1) ? 1 : 0.8;
+      if (overflow > 0 && !reduced && !autoPanMq.matches) st.img.style.transform = 'translate3d(0,' + (-Math.min(1, p / end) * overflow) + 'px,0)';
+      st.bar.style.width = (Math.min(1, p / end) * 100) + '%';
+      if (!(autoPanMq.matches && !reduced)) st.stats.forEach(x => x.el.classList.toggle('on', p >= x.at));
+    }
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+
+  /* mobile: the site frames are plain touch-scrollable containers — no auto-drift.
+     On card arrival (≥60% truly visible, not yet buried by the next card): frame resets
+     to the site's hero and the stats step out. Page scroll never has to pass through
+     the sites themselves. Desktop keeps the scroll-linked pan. */
+  const autoPanMq = matchMedia('(max-width:900px)');
+  const cardWatchers = new Map();
+  function setupCardArrival(){
+    stories.forEach((st, idx) => {
+      const prev = cardWatchers.get(st);
+      if (prev) { prev.stop(); cardWatchers.delete(st); }
+      if (!autoPanMq.matches || reduced) return;
+      const nextSec = stories[idx + 1] && stories[idx + 1].sec;
+      let running = false, active = false, raf = 0;
+      // count-up stays — but digits growing mid-count reflowed the row. Lock each number's
+      // box at its FINAL width first, so the count runs inside a fixed footprint.
+      const lockWidth = (x) => {
+        if (x.locked || x.el.dataset.static != null) return; x.locked = true;
+        const n = x.el.querySelector('.num');
+        const target = +x.el.dataset.count, dec = +(x.el.dataset.decimals || 0);
+        const final = (x.el.dataset.prefix || '') +
+          (dec ? target.toFixed(dec) : Math.round(target).toLocaleString('en-GB')) + (x.el.dataset.suffix || '');
+        const prev = n.textContent; n.textContent = final;
+        const w = Math.ceil(n.getBoundingClientRect().width);
+        n.textContent = prev; n.style.minWidth = w + 'px';
+      };
+      const pill = document.createElement('button');
+      pill.className = 'explorepill'; pill.type = 'button'; pill.textContent = 'Explore the site';
+      st.win.parentElement.appendChild(pill);
+      pill.addEventListener('click', () => { st.win.classList.add('explore'); pill.style.display = 'none'; });
+      const seenFrac = () => {
+        const wr = st.win.getBoundingClientRect();
+        if (!wr.height) return 0;
+        let top = Math.max(wr.top, 0), bottom = Math.min(wr.bottom, innerHeight);
+        if (nextSec) bottom = Math.min(bottom, nextSec.getBoundingClientRect().top);
+        return Math.max(0, bottom - top) / wr.height;
+      };
+      const step = () => {
+        raf = 0;
+        if (!running) return;
+        const f = seenFrac();
+        const nowActive = active ? f >= 0.35 : f >= 0.6;
+        if (nowActive && !active) {
+          st.win.scrollTop = 0; st.win.classList.remove('explore'); pill.style.display = ''; // fresh from the hero
+          st.stats.forEach((x, i) => { lockWidth(x); setTimeout(() => x.el.classList.add('on'), 120 * i); });
+        }
+        active = nowActive;
+        raf = requestAnimationFrame(step);
+      };
+      const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
+      const io = new IntersectionObserver(es => { running = es[0].isIntersecting; if (running) kick(); });
+      io.observe(st.win);
+      cardWatchers.set(st, { stop(){ io.disconnect(); if (raf) cancelAnimationFrame(raf); pill.remove(); st.win.classList.remove('explore'); } });
+    });
+  }
+  setupCardArrival();
+  autoPanMq.addEventListener('change', setupCardArrival);
+
+  /* count-up on first activation; data-static stats just appear */
+  const allStats = stories.flatMap(s => s.stats);
+  const obs = new MutationObserver(() => {
+    allStats.forEach(x => {
+      if (x.done || !x.el.classList.contains('on')) return;
+      x.done = true;
+      if (x.el.dataset.static != null) return;                       // shown as written
+      const n = x.el.querySelector('.num');
+      const target = +x.el.dataset.count, dec = +(x.el.dataset.decimals || 0);
+      const pre = x.el.dataset.prefix || '', suf = x.el.dataset.suffix || '';
+      const fmt = v => pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-GB')) + suf;
+      if (reduced) { n.textContent = fmt(target); return; }
+      const t0 = performance.now(), dur = 900;
+      (function tick(t){
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        n.textContent = fmt(e * target);
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  });
+  allStats.forEach(x => obs.observe(x.el, { attributes: true, attributeFilter: ['class'] }));
+
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll, { passive: true });
+  stories.forEach(st => st.img.addEventListener('load', onScroll));
+  onScroll();
+
+  /* services: hover lights a row and the preview floats beside it; without hover it follows scroll */
+  const svcList = document.querySelector('.svcs');
+  if (svcList) {
+    const items = [...svcList.querySelectorAll('li')];
+    let hovered = false;
+    function svcActivate(i){ items.forEach((li, k) => li.classList.toggle('active', k === i)); }
+    items.forEach((li, i) => li.addEventListener('mouseenter', () => { hovered = true; svcActivate(i); }));
+    svcList.addEventListener('mouseleave', () => { hovered = false; });
+    addEventListener('scroll', () => requestAnimationFrame(() => {
+      if (hovered) return;
+      const r = svcList.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const p = Math.min(0.999, Math.max(0, (innerHeight * 0.72 - r.top) / r.height));
+      svcActivate(Math.floor(p * items.length));
+    }), { passive: true });
+    svcActivate(0);
+  }
+
+  /* FAQ accordion: one open at a time */
+  document.querySelectorAll('.qa .q').forEach(btn => btn.addEventListener('click', () => {
+    const qa = btn.parentElement, was = qa.classList.contains('open');
+    document.querySelectorAll('.qa.open').forEach(x => x.classList.remove('open'));
+    if (!was) qa.classList.add('open');
+  }));
+
+  /* hero image audition: ?img=1..5 mounts a graded candidate under the light-field */
+  const imN = parseInt(new URLSearchParams(location.search).get('img'), 10);
+  const hasImg = imN >= 1 && imN <= 10;
+  if (hasImg) {
+    const lay = document.createElement('div'); lay.className = 'heroimg';
+    lay.innerHTML = imN >= 5
+      ? '<video autoplay muted loop playsinline preload="auto" poster="assets/hero-' + imN + '-poster.jpg"><source src="assets/hero-' + imN + '.mp4" type="video/mp4"></video>'
+      : '<img src="assets/hero-' + imN + '.jpg" alt="">';
+    const hero = document.querySelector('.hero'); hero.insertBefore(lay, hero.firstChild);
+    hero.classList.add('hasimg');
+    if (imN === 5) lay.classList.add('lowered');
+    const hv = lay.querySelector('video');
+    if (hv) { // hidden tabs suspend muted loops; resume politely
+      const kick = () => { if (!document.hidden) hv.play().catch(()=>{}); };
+      document.addEventListener('visibilitychange', kick);
+      hv.addEventListener('pause', kick);
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
+    }
+  }
+
+  if (new URLSearchParams(location.search).get('hero') === 'center')
+    document.querySelector('.hero').classList.add('centered');
+
+  /* hero wordmark: ?name=CANDIDATE swaps the brand live — audition names at full scale */
+  const wm = document.getElementById('wordmark');
+  const nm = new URLSearchParams(location.search).get('name');
+  if (nm) {
+    const clean = nm.replace(/[^\w &'’.-]/g, '').slice(0, 18).toUpperCase();
+    if (clean) { const t = clean[0] + clean.slice(1).toLowerCase();
+      document.getElementById('wmtext').textContent = clean;
+      document.getElementById('markname').textContent = t;
+      const fn = document.getElementById('footname'); if (fn) fn.textContent = t;
+      const fc = document.getElementById('footcopy'); if (fc) fc.textContent = t;
+    }
+  }
+  /* hero light-field: soft sources drifting AND breathing on unrelated rhythms — the overlap
+     boundary MORPHS (smoke-like), unlike any single panning layer. Low-res canvas + CSS blur. */
+  const cv = document.querySelector('.fx');
+  if (cv && !hasImg) {
+    const g2 = cv.getContext('2d');
+    const size = () => { cv.width = Math.max(280, Math.floor(innerWidth / 6)); cv.height = Math.max(180, Math.floor(innerHeight * 0.92 / 6)); };
+    size(); addEventListener('resize', size, { passive: true });
+    const ORBS = [
+      { c: '255,228,190', a: .34, r: .72, fx: .030, fy: .022, px: 0.0, py: 1.7, rx: .38, ry: .30, bf: .019 },
+      { c: '255,212,168', a: .24, r: .55, fx: .018, fy: .027, px: 2.1, py: 0.4, rx: .42, ry: .36, bf: .028 },
+      { c: '196,208,235', a: .15, r: .60, fx: .024, fy: .015, px: 4.2, py: 2.9, rx: .40, ry: .33, bf: .023 },
+      { c: '255,240,215', a: .13, r: .88, fx: .012, fy: .019, px: 1.1, py: 5.0, rx: .30, ry: .42, bf: .014 },
+    ];
+    let fxRun = !reduced, fxSeen = true;
+    function drawFx(tms){
+      const t = tms / 1000;
+      g2.clearRect(0, 0, cv.width, cv.height);
+      g2.globalCompositeOperation = 'lighter';
+      for (const o of ORBS) {
+        const x = cv.width  * (0.5 + o.rx * Math.sin(t * o.fx * 6.283 + o.px));
+        const y = cv.height * (0.48 + o.ry * Math.sin(t * o.fy * 6.283 + o.py));
+        const r = Math.max(12, cv.height * o.r * (1 + 0.38 * Math.sin(t * o.bf * 6.283 + o.px * 2)));
+        const gr = g2.createRadialGradient(x, y, 0, x, y, r);
+        gr.addColorStop(0, 'rgba(' + o.c + ',' + (o.a * (0.75 + 0.25 * Math.sin(t * 0.11 + o.py))) + ')');
+        gr.addColorStop(1, 'rgba(0,0,0,0)');
+        g2.fillStyle = gr; g2.fillRect(0, 0, cv.width, cv.height);
+      }
+      if (fxRun && fxSeen && !document.hidden) requestAnimationFrame(drawFx);
+    }
+    requestAnimationFrame(drawFx);
+    new IntersectionObserver(es => { fxSeen = es[0].isIntersecting; if (fxSeen) requestAnimationFrame(drawFx); })
+      .observe(document.querySelector('.hero'));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(drawFx); });
+  }
+
+  function fitWordmark(){
+    wm.style.fontSize = '100px';
+    const tw = document.getElementById('wmtext').getBoundingClientRect().width; // true text width
+    if (!tw) return;
+    const scale = document.documentElement.clientWidth / tw;
+    wm.style.fontSize = Math.floor(100 * scale * 0.994) + 'px'; // edge-to-edge, Monolog scale
+  }
+  fitWordmark();
+  addEventListener('resize', fitWordmark, { passive: true });
+  if (document.fonts) {
+    document.fonts.load('400 100px Anton').then(fitWordmark).catch(()=>{});
+    document.fonts.ready.then(fitWordmark);
+  }
+  setTimeout(fitWordmark, 900); // belt-and-braces after late font swap
+})();
+</script>
+<!-- prototype-only audition bar -->
+<div id="audbar" style="position:fixed;right:14px;bottom:14px;z-index:99;background:rgba(16,17,20,.92);color:#F4F1EA;
+     border:1px solid rgba(244,241,234,.25);border-radius:12px;padding:10px 12px;font-size:12.5px;display:flex;
+     gap:6px;align-items:center;flex-wrap:wrap;max-width:320px;backdrop-filter:blur(6px)">
+  <b style="letter-spacing:.02em">AUDITION</b>
+  <span style="opacity:.55">img:</span>
+  <script>
+    (function(){
+      const q=new URLSearchParams(location.search);
+      const cur=q.get('img')||'0', nm=q.get('name')||'';
+      const bar=document.currentScript.parentElement;
+      ['0','1','2','3','4','5','6','7','8','9','10'].forEach(n=>{
+        const b=document.createElement('a');
+        b.textContent=n==='0'?'none':n;
+        const p=new URLSearchParams(); if(n!=='0')p.set('img',n); if(nm)p.set('name',nm);
+        b.href='?'+p.toString();
+        b.style.cssText='color:inherit;text-decoration:none;padding:4px 9px;border-radius:8px;border:1px solid rgba(244,241,234,.3);'+(cur===n||(n==='0'&&!q.get('img'))?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        bar.appendChild(b);
+      });
+      const lay=q.get('hero')||'left';
+      [['left',''],['center','center']].forEach(([label,val])=>{
+        const a=document.createElement('a');
+        a.textContent=label;
+        const p=new URLSearchParams(location.search); if(val)p.set('hero',val); else p.delete('hero');
+        a.href='?'+p.toString();
+        a.style.cssText='color:inherit;text-decoration:none;padding:4px 9px;border-radius:8px;border:1px solid rgba(244,241,234,.3);'+((val||'left')===lay?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        bar.appendChild(a);
+      });
+      const inp=document.createElement('input');
+      inp.placeholder='name… ⏎'; inp.value=nm;
+      inp.style.cssText='background:transparent;border:1px solid rgba(244,241,234,.3);border-radius:8px;color:inherit;padding:4px 8px;width:90px;font-size:12.5px';
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){const p=new URLSearchParams(location.search);if(inp.value.trim())p.set('name',inp.value.trim());else p.delete('name');location.search=p.toString();}});
+      bar.appendChild(inp);
+    })();
+  </script>
+</div>
+</body>
+</html>
