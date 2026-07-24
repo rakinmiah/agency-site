@@ -94,16 +94,14 @@
     .hero.centered .copystrip{justify-content:center}
   }
   .hero .mark{color:#F4F1EA}
-  /* TALLY logo system: five-bar gate + struck-LL devices */
-  .mark .gate{width:1.02em;height:.74em;margin-right:.26em;vertical-align:-6%}
-  .mark .gatecap{display:inline-block;margin-left:.2em;transform:translateY(-.55em)}
-  .mark .gatecap .gate{width:.8em;height:.58em;margin:0;vertical-align:baseline}
+  /* THRUM logo system: hum line, thrums (thread-ends), living wordmark */
+  .mark .lock{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;vertical-align:middle;color:inherit;font-weight:800}
+  .mark .hum{width:3.1em;height:.42em;display:block}
+  .mark .thrums{width:1.15em;height:.82em;margin-right:.3em;vertical-align:-14%}
   .mark sup.r{font-size:.55em;opacity:.6}
-  .ll{position:relative;display:inline-block}
-  .wordmark.struck .ll:after{content:"";position:absolute;left:1%;right:1%;top:50%;height:.06em;
-    background:#0B0B0D;transform:translateY(-50%) rotate(-24deg)}   /* ink knockout: the strike CUTS the Ls */
-  .mark .ll:after{content:"";position:absolute;left:-8%;right:-8%;top:50%;height:.11em;
-    background:#0B0B0D;transform:translateY(-50%) rotate(-26deg)}
+  @keyframes wmhum{0%,100%{transform:translateY(0)}50%{transform:translateY(-.012em)}}
+  .wordmark.humming #wmtext{animation:wmhum 2.4s ease-in-out infinite}
+  @media (prefers-reduced-motion:reduce){.wordmark.humming #wmtext{animation:none}}
   .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
   .hero .cta:hover{background:#F4F1EA;color:#101114}
   .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
@@ -663,22 +661,22 @@
   if (new URLSearchParams(location.search).get('hero') === 'center')
     document.querySelector('.hero').classList.add('centered');
 
-  /* ?logo=1..4 — TALLY logo auditions (dev-only switcher below) */
-  const GATE = '<svg class="gate" viewBox="0 0 34 24" aria-hidden="true"><g stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M4 3v18M12 3v18M20 3v18M28 3v18"/><path d="M1 19L31 5"/></g></svg>';
+  /* ?logo=1..3 — THRUM logo auditions (dev-only switcher below) */
+  const HUM = '<svg class="hum" viewBox="0 0 64 12" aria-hidden="true"><path d="M0 6H18C23 6 24 2 29 2C35 2 34 10 40 10C45 10 46 6 50 6H64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  const THRUMS = '<svg class="thrums" viewBox="0 0 40 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 2v15M11 2v19M18 2v12M25 2v17M32 2v14"/></g></svg>';
   const logoN = parseInt(new URLSearchParams(location.search).get('logo'), 10);
-  if (logoN >= 1 && logoN <= 4) {
-    document.getElementById('wmtext').innerHTML = (logoN === 3) ? 'TA<span class="ll">LL</span>Y' : 'TALLY';
-    if (logoN === 3) document.getElementById('wordmark').classList.add('struck');
+  if (logoN >= 1 && logoN <= 3) {
+    document.getElementById('wmtext').textContent = 'THRUM';
+    if (logoN === 3) document.getElementById('wordmark').classList.add('humming');
     const navHTML = {
-      1: 'Tally<sup class="r">&reg;</sup>',
-      2: GATE + 'Tally',
-      3: 'Ta<span class="ll">ll</span>y',
-      4: 'Tally<span class="gatecap">' + GATE + '</span>'
+      1: '<span class="lock">Thrum' + HUM + '</span>',
+      2: THRUMS + 'Thrum',
+      3: 'Thrum<sup class="r">&reg;</sup>'
     }[logoN];
     document.querySelector('.hero .mark').innerHTML = navHTML;
     const fm = document.querySelector('.footgrid .mark');
-    if (fm) fm.innerHTML = navHTML + (logoN === 1 ? '' : '');
-    const fc = document.getElementById('footcopy'); if (fc) fc.textContent = 'Tally';
+    if (fm) fm.innerHTML = navHTML;
+    const fc = document.getElementById('footcopy'); if (fc) fc.textContent = 'Thrum';
   }
 
   /* hero wordmark: ?name=CANDIDATE swaps the brand live — audition names at full scale */
@@ -752,7 +750,7 @@
   <script>
     (function(){
       const q=new URLSearchParams(location.search), cur=q.get('logo')||'0', bar=document.currentScript.parentElement;
-      [['none','0'],['\u00ae wordmark','1'],['gate','2'],['struck LL','3'],['gate cap','4']].forEach(([lab,n])=>{
+      [['none','0'],['hum line','1'],['thrums','2'],['living mark','3']].forEach(([lab,n])=>{
         const a=document.createElement('a');
         a.textContent=lab;
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('logo',n); else p.delete('logo');
