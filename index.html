@@ -269,7 +269,7 @@
 </head>
 <body>
 
-<header class="hero">
+<header class="hero centered">
   <div class="texture" aria-hidden="true"><canvas class="fx"></canvas><div class="grain"></div></div>
   <div class="bar">
     <div class="mark"><span id="markname">Placeholder</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
@@ -625,7 +625,8 @@
   }));
 
   /* hero image audition: ?img=1..5 mounts a graded candidate under the light-field */
-  const imN = parseInt(new URLSearchParams(location.search).get('img'), 10);
+  const imRaw = new URLSearchParams(location.search).get('img');
+  const imN = imRaw === null ? 10 : parseInt(imRaw, 10);   // decided: hero-10, the black crinkle
   const hasImg = imN >= 1 && imN <= 10;
   if (hasImg) {
     const lay = document.createElement('div'); lay.className = 'heroimg';
@@ -710,41 +711,6 @@
   setTimeout(fitWordmark, 900); // belt-and-braces after late font swap
 })();
 </script>
-<!-- prototype-only audition bar -->
-<div id="audbar" style="position:fixed;right:14px;bottom:14px;z-index:99;background:rgba(16,17,20,.92);color:#F4F1EA;
-     border:1px solid rgba(244,241,234,.25);border-radius:12px;padding:10px 12px;font-size:12.5px;display:flex;
-     gap:6px;align-items:center;flex-wrap:wrap;max-width:320px;backdrop-filter:blur(6px)">
-  <b style="letter-spacing:.02em">AUDITION</b>
-  <span style="opacity:.55">img:</span>
-  <script>
-    (function(){
-      const q=new URLSearchParams(location.search);
-      const cur=q.get('img')||'0', nm=q.get('name')||'';
-      const bar=document.currentScript.parentElement;
-      ['0','1','2','3','4','5','6','7','8','9','10'].forEach(n=>{
-        const b=document.createElement('a');
-        b.textContent=n==='0'?'none':n;
-        const p=new URLSearchParams(); if(n!=='0')p.set('img',n); if(nm)p.set('name',nm);
-        b.href='?'+p.toString();
-        b.style.cssText='color:inherit;text-decoration:none;padding:4px 9px;border-radius:8px;border:1px solid rgba(244,241,234,.3);'+(cur===n||(n==='0'&&!q.get('img'))?'background:#F4F1EA;color:#101114;font-weight:700;':'');
-        bar.appendChild(b);
-      });
-      const lay=q.get('hero')||'left';
-      [['left',''],['center','center']].forEach(([label,val])=>{
-        const a=document.createElement('a');
-        a.textContent=label;
-        const p=new URLSearchParams(location.search); if(val)p.set('hero',val); else p.delete('hero');
-        a.href='?'+p.toString();
-        a.style.cssText='color:inherit;text-decoration:none;padding:4px 9px;border-radius:8px;border:1px solid rgba(244,241,234,.3);'+((val||'left')===lay?'background:#F4F1EA;color:#101114;font-weight:700;':'');
-        bar.appendChild(a);
-      });
-      const inp=document.createElement('input');
-      inp.placeholder='name… ⏎'; inp.value=nm;
-      inp.style.cssText='background:transparent;border:1px solid rgba(244,241,234,.3);border-radius:8px;color:inherit;padding:4px 8px;width:90px;font-size:12.5px';
-      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){const p=new URLSearchParams(location.search);if(inp.value.trim())p.set('name',inp.value.trim());else p.delete('name');location.search=p.toString();}});
-      bar.appendChild(inp);
-    })();
-  </script>
-</div>
+
 </body>
 </html>

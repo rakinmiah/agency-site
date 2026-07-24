@@ -20,3 +20,7 @@ Recorded here for the licence audit trail.
 - hero-10.mp4 / hero-10-poster.jpg — "blacktexture" (Pexels video 15690300), Pexels licence. Graded: mono + strong specular tame, 1920w.
 Source masters not committed; re-download from videos.pexels.com/video-files/<id>/ if regrade needed.
 - taxi-mobile.jpg / jdh-mobile.jpg / deen-mobile.jpg — own full-page mobile captures (375pt @2x, cropped to 9500px) of nationaltaxi.co.uk / jdhgas.co.uk / deenrelief.org via capture-mobile.js (2026-07-23). Client work, owner's portfolio rights.
+
+## Hero decision (2026-07-24)
+CHOSEN: hero-10.mp4 ("blacktexture", Pexels 15690300) — permanent hero mount.
+Candidates 1-9 removed from the repo; re-download via the Pexels IDs above if ever needed.
