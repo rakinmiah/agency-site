@@ -139,6 +139,20 @@
   body.g-all .bigbook{background:#15161A;color:#F4F1EA}
   body.g-all .bigbook .sq{background:#F4F1EA;color:#15161A}
   body.g-all .iform input, body.g-all .iform textarea{border-bottom-color:rgba(21,22,26,.35);color:#15161A}
+  /* ── colour worlds (?world=): temperature lives in the GROUND, not in stickers ── */
+  body[data-world]{background:var(--wp)}
+  body[data-world] .hero, body[data-world] .story, body[data-world] .svc,
+  body[data-world] .faq, body[data-world] .close, body[data-world] footer{background:var(--wg)}
+  body[data-world] #work{background:var(--wg)}
+  body[data-world] .cta2, body[data-world] .bigbook, body[data-world] .qa.open .q{background:var(--wp)}
+  body[data-world] .cta2 .sq, body[data-world] .bigbook .sq{background:var(--wg);color:var(--wp)}
+  body[data-world] .wordmark, body[data-world].pal .wordmark{color:var(--wp)}
+  body[data-world] .hero.hasimg .wordmark{color:var(--wp);-webkit-text-fill-color:var(--wp)}
+  body[data-world] .wordmark.struck .ll:after{background:var(--wg)}
+  body[data-world] .progress i{background:var(--wp)}
+  body[data-world] .explorepill{background:color-mix(in srgb, var(--wg) 85%, transparent)}
+  body[data-world].pal .cta2 .sq, body[data-world].pal .bigbook .sq{background:var(--acc);color:var(--wg)}
+  body[data-world].pal .qa.open .q{background:var(--acc);color:var(--wg)}
   .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
   .hero .cta:hover{background:#F4F1EA;color:#101114}
   .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
@@ -708,6 +722,19 @@
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
   if (groundN >= 1) document.body.classList.add('g-ex');
   if (groundN >= 2) document.body.classList.add('g-all');
+  const WORLDS = {
+    harbour: { wg:'#101822', wp:'#EAE6DA', acc:'#E8683A' },   // navy water, ecru, blaze orange
+    bottle:  { wg:'#141D16', wp:'#EFEAD9', acc:'#C75B3C' },   // van green, stone, terracotta
+    tar:     { wg:'#191410', wp:'#E6D9C3', acc:'#B4402F' }    // bitumen, duck canvas, oxide
+  };
+  const worldK = new URLSearchParams(location.search).get('world');
+  if (WORLDS[worldK]) {
+    const w = WORLDS[worldK];
+    document.body.dataset.world = worldK;
+    document.body.classList.add('pal');
+    const st = document.documentElement.style;
+    st.setProperty('--wg', w.wg); st.setProperty('--wp', w.wp); st.setProperty('--acc', w.acc);
+  }
 
   /* ?logo=1..3 — THRUM logo auditions (dev-only switcher below) */
   const HUM = '<svg class="hum" viewBox="0 0 64 12" aria-hidden="true"><path d="M0 6H18C23 6 24 2 29 2C35 2 34 10 40 10C45 10 46 6 50 6H64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
@@ -831,6 +858,18 @@
         gwrap.appendChild(a);
       });
       bar.appendChild(gwrap);
+      const wcur=q.get('world')||'none';
+      const wwrap=document.createElement('span'); wwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
+      wwrap.innerHTML='<b>WORLD</b>';
+      ['none','harbour','bottle','tar'].forEach(n=>{
+        const a=document.createElement('a');
+        a.textContent=n;
+        const p=new URLSearchParams(location.search); if(n!=='none')p.set('world',n); else p.delete('world');
+        a.href='?'+p.toString();
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(wcur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        wwrap.appendChild(a);
+      });
+      bar.appendChild(wwrap);
     })();
   </script>
 </div>
