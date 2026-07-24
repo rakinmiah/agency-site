@@ -109,7 +109,7 @@
   .mission .g{display:block;margin:0 auto 18px;width:34px;opacity:.75}
   .wordmark{position:relative;z-index:2;margin-top:auto;padding:6vh 0 0;
             font-family:'Anton',-apple-system,sans-serif;font-weight:400;
-            letter-spacing:.005em;line-height:.82;white-space:nowrap;user-select:none;
+            letter-spacing:-.02em;line-height:.82;white-space:nowrap;user-select:none;text-align:center;
             transform-origin:left bottom;margin-bottom:.04em;
             background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
@@ -730,8 +730,9 @@
     wm.style.fontSize = '100px';
     const tw = document.getElementById('wmtext').getBoundingClientRect().width; // true text width
     if (!tw) return;
-    const scale = document.documentElement.clientWidth / tw;
-    wm.style.fontSize = Math.floor(100 * scale * 0.994) + 'px'; // edge-to-edge, Monolog scale
+    const widthFit = 100 * (document.documentElement.clientWidth / tw) * 0.994; // edge-to-edge, Monolog scale
+    const heightCap = innerHeight * 0.42;   // short names: stop at a designed scale, don't swallow the hero
+    wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap)) + 'px';
   }
   fitWordmark();
   addEventListener('resize', fitWordmark, { passive: true });
