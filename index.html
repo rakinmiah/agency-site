@@ -94,6 +94,16 @@
     .hero.centered .copystrip{justify-content:center}
   }
   .hero .mark{color:#F4F1EA}
+  /* TALLY logo system: five-bar gate + struck-LL devices */
+  .mark .gate{width:1.02em;height:.74em;margin-right:.26em;vertical-align:-6%}
+  .mark .gatecap{display:inline-block;margin-left:.2em;transform:translateY(-.55em)}
+  .mark .gatecap .gate{width:.8em;height:.58em;margin:0;vertical-align:baseline}
+  .mark sup.r{font-size:.55em;opacity:.6}
+  .ll{position:relative;display:inline-block}
+  .wordmark.struck .ll:after{content:"";position:absolute;left:1%;right:1%;top:50%;height:.06em;
+    background:#0B0B0D;transform:translateY(-50%) rotate(-24deg)}   /* ink knockout: the strike CUTS the Ls */
+  .mark .ll:after{content:"";position:absolute;left:-8%;right:-8%;top:50%;height:.11em;
+    background:#0B0B0D;transform:translateY(-50%) rotate(-26deg)}
   .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
   .hero .cta:hover{background:#F4F1EA;color:#101114}
   .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
@@ -653,6 +663,24 @@
   if (new URLSearchParams(location.search).get('hero') === 'center')
     document.querySelector('.hero').classList.add('centered');
 
+  /* ?logo=1..4 — TALLY logo auditions (dev-only switcher below) */
+  const GATE = '<svg class="gate" viewBox="0 0 34 24" aria-hidden="true"><g stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M4 3v18M12 3v18M20 3v18M28 3v18"/><path d="M1 19L31 5"/></g></svg>';
+  const logoN = parseInt(new URLSearchParams(location.search).get('logo'), 10);
+  if (logoN >= 1 && logoN <= 4) {
+    document.getElementById('wmtext').innerHTML = (logoN === 3) ? 'TA<span class="ll">LL</span>Y' : 'TALLY';
+    if (logoN === 3) document.getElementById('wordmark').classList.add('struck');
+    const navHTML = {
+      1: 'Tally<sup class="r">&reg;</sup>',
+      2: GATE + 'Tally',
+      3: 'Ta<span class="ll">ll</span>y',
+      4: 'Tally<span class="gatecap">' + GATE + '</span>'
+    }[logoN];
+    document.querySelector('.hero .mark').innerHTML = navHTML;
+    const fm = document.querySelector('.footgrid .mark');
+    if (fm) fm.innerHTML = navHTML + (logoN === 1 ? '' : '');
+    const fc = document.getElementById('footcopy'); if (fc) fc.textContent = 'Tally';
+  }
+
   /* hero wordmark: ?name=CANDIDATE swaps the brand live — audition names at full scale */
   const wm = document.getElementById('wordmark');
   const nm = new URLSearchParams(location.search).get('name');
@@ -717,5 +745,23 @@
 })();
 </script>
 
+<!-- dev-only logo switcher -->
+<div style="position:fixed;left:14px;bottom:14px;z-index:99;background:rgba(16,17,20,.92);color:#F4F1EA;
+     border:1px solid rgba(244,241,234,.25);border-radius:10px;padding:7px 10px;font-size:12px;display:flex;gap:6px;align-items:center">
+  <b>LOGO</b>
+  <script>
+    (function(){
+      const q=new URLSearchParams(location.search), cur=q.get('logo')||'0', bar=document.currentScript.parentElement;
+      [['none','0'],['\u00ae wordmark','1'],['gate','2'],['struck LL','3'],['gate cap','4']].forEach(([lab,n])=>{
+        const a=document.createElement('a');
+        a.textContent=lab;
+        const p=new URLSearchParams(location.search); if(n!=='0')p.set('logo',n); else p.delete('logo');
+        a.href='?'+p.toString();
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(244,241,234,.3);'+(cur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        bar.appendChild(a);
+      });
+    })();
+  </script>
+</div>
 </body>
 </html>
