@@ -153,8 +153,14 @@
   .url a{color:inherit;text-decoration:none}
   .url a:hover{text-decoration:underline}
   .browser{position:relative}
-  .window iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .window iframe{width:100%;height:100%;border:0;display:block;background:#fff;opacity:0;transition:opacity .35s ease}
   .window.live{overflow:hidden}
+  /* shimmer while the live site loads — no white flash */
+  .window.loading::after{content:"";position:absolute;inset:0;z-index:2;
+    background:linear-gradient(100deg,#141519 40%,#20222a 50%,#141519 60%);
+    background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  @media (prefers-reduced-motion:reduce){.window.loading::after{animation:none}}
   .explorepill{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
                background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
                border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px);cursor:pointer}
@@ -493,15 +499,16 @@
     const reset = () => {
       const f = st.win.querySelector('iframe'); if (f) f.remove();
       const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = '';
-      st.iframed = false; st.win.classList.remove('explore', 'live'); pill.style.display = '';
+      st.iframed = false; st.win.classList.remove('explore', 'live', 'loading'); pill.style.display = '';
     };
     pill.addEventListener('click', () => {
       pill.style.display = 'none';
       if (canFrame) {
         const f = document.createElement('iframe');
         f.src = 'https://' + domain; f.title = domain;
+        f.addEventListener('load', () => { st.win.classList.remove('loading'); f.style.opacity = '1'; }, { once: true });
         const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = 'none';
-        st.win.classList.add('live'); st.win.appendChild(f); st.iframed = true;
+        st.win.classList.add('live', 'loading'); st.win.appendChild(f); st.iframed = true;
       } else {
         st.win.classList.add('explore');
       }
