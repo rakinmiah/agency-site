@@ -209,8 +209,10 @@
   .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease;color:rgba(244,241,234,.68);line-height:1.6}
   .qa.open .a{max-height:14em}
   .qa .a p{padding:16px 18px 24px;max-width:62ch}
-  @media (max-width:900px){.faqgrid{grid-template-columns:1fr;gap:30px}.faqleft{position:static;min-height:0}
-    .faqask{margin-top:18px}}
+  @media (max-width:900px){.faqgrid{grid-template-columns:1fr;gap:30px}
+    .faqleft{display:contents}                     /* split: eyebrow above the FAQ, ask below it */
+    .faqleft .eyebrow{order:-1;text-align:left}
+    .faqask{order:2;margin-top:8px}}
 
   /* ── the close: giant ask, booking primary, inquiry form secondary ── */
   .close{background:#0B0B0D;color:#F4F1EA;padding:18vh 24px 16vh;border-top:1px solid rgba(244,241,234,.08)}
