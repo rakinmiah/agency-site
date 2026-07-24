@@ -150,6 +150,15 @@
   .window img{width:100%;display:block;will-change:transform}
   .window picture{display:block}
   .progress{height:3px;background:rgba(244,241,234,.12)}
+  .url a{color:inherit;text-decoration:none}
+  .url a:hover{text-decoration:underline}
+  .browser{position:relative}
+  .window iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  .window.live{overflow:hidden}
+  .explorepill{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
+               background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
+               border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px);cursor:pointer}
+  @media (min-width:901px){.explorepill.pnf{display:none}} /* desktop: no pill where framing is blocked — URL link covers it */
   .progress i{display:block;height:100%;width:0;background:#F4F1EA}
   /* flipped cards: site LEFT, numbers RIGHT (deck rhythm: standard / flip / flip) */
   .story.flip .pin{grid-template-columns:1fr 280px}
@@ -243,10 +252,6 @@
     .window{height:56vh;scrollbar-width:none}            /* page scroll passes straight through */
     .window.explore{overflow-y:auto;overscroll-behavior:contain}
     .window::-webkit-scrollbar{display:none}
-    .browser{position:relative}
-    .explorepill{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
-                 background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
-                 border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px)}
     .story.deen{height:140vh}                            /* last card: no successor, release quickly */
     .wordmark{margin-bottom:22px}
     .touch{grid-template-columns:1fr;gap:70px}
@@ -298,7 +303,7 @@
     </div>
     <div>
       <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">nationaltaxi.co.uk</span></div>
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://nationaltaxi.co.uk" target="_blank" rel="noopener">nationaltaxi.co.uk</a></span></div>
         <div class="window"><picture><source media="(max-width:900px)" srcset="assets/taxi-mobile.jpg"><img class="pan" src="assets/taxi-desktop.jpg" alt="The National Taxi website, panning through the full page"></picture></div>
         <div class="progress"><i></i></div>
       </div>
@@ -316,7 +321,7 @@
     </div>
     <div>
       <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">jdhgas.co.uk</span></div>
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://jdhgas.co.uk" target="_blank" rel="noopener">jdhgas.co.uk</a></span></div>
         <div class="window"><picture><source media="(max-width:900px)" srcset="assets/jdh-mobile.jpg"><img class="pan" src="assets/jdh-desktop.jpg" alt="The JDH Gas website, panning through the full page"></picture></div>
         <div class="progress"><i></i></div>
       </div>
@@ -334,7 +339,7 @@
     </div>
     <div>
       <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">deenrelief.org</span></div>
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://deenrelief.org" target="_blank" rel="noopener">deenrelief.org</a></span></div>
         <div class="window"><picture><source media="(max-width:900px)" srcset="assets/deen-mobile.jpg"><img class="pan" src="assets/deen-desktop.jpg" alt="The Deen Relief website, panning through the full page"></picture></div>
         <div class="progress"><i></i></div>
       </div>
@@ -461,7 +466,7 @@
       // last card has no successor sliding over its tail — pan the full length so motion
       // continues right up to release instead of 20% dead scroll
       const end = (si === stories.length - 1) ? 1 : 0.8;
-      if (overflow > 0 && !reduced && !autoPanMq.matches) st.img.style.transform = 'translate3d(0,' + (-Math.min(1, p / end) * overflow) + 'px,0)';
+      if (overflow > 0 && !reduced && !autoPanMq.matches && !st.iframed) st.img.style.transform = 'translate3d(0,' + (-Math.min(1, p / end) * overflow) + 'px,0)';
       st.bar.style.width = (Math.min(1, p / end) * 100) + '%';
       if (!(autoPanMq.matches && !reduced)) st.stats.forEach(x => x.el.classList.toggle('on', p >= x.at));
     }
@@ -472,6 +477,38 @@
      On card arrival (≥60% truly visible, not yet buried by the next card): frame resets
      to the site's hero and the stats step out. Page scroll never has to pass through
      the sites themselves. Desktop keeps the scroll-linked pan. */
+  /* explore controls: the chrome URL opens the real site in a new tab; the pill explores
+     IN-frame — a live iframe where the client site permits embedding (JDH), the full-page
+     capture otherwise (Taxi/Deen send X-Frame-Options). */
+  const FRAMEABLE = { 'jdhgas.co.uk': true };
+  const exploreCtl = new Map();
+  stories.forEach(st => {
+    const domain = st.sec.querySelector('.url').textContent.trim();
+    const canFrame = !!FRAMEABLE[domain];
+    st.iframed = false;
+    const pill = document.createElement('button');
+    pill.className = 'explorepill ' + (canFrame ? 'pf' : 'pnf'); pill.type = 'button';
+    pill.textContent = canFrame ? 'Explore the live site' : 'Explore the site';
+    st.win.parentElement.appendChild(pill);
+    const reset = () => {
+      const f = st.win.querySelector('iframe'); if (f) f.remove();
+      const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = '';
+      st.iframed = false; st.win.classList.remove('explore', 'live'); pill.style.display = '';
+    };
+    pill.addEventListener('click', () => {
+      pill.style.display = 'none';
+      if (canFrame) {
+        const f = document.createElement('iframe');
+        f.src = 'https://' + domain; f.title = domain;
+        const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = 'none';
+        st.win.classList.add('live'); st.win.appendChild(f); st.iframed = true;
+      } else {
+        st.win.classList.add('explore');
+      }
+    });
+    exploreCtl.set(st, { reset });
+  });
+
   const autoPanMq = matchMedia('(max-width:900px)');
   const cardWatchers = new Map();
   function setupCardArrival(){
@@ -493,10 +530,7 @@
         const w = Math.ceil(n.getBoundingClientRect().width);
         n.textContent = prev; n.style.minWidth = w + 'px';
       };
-      const pill = document.createElement('button');
-      pill.className = 'explorepill'; pill.type = 'button'; pill.textContent = 'Explore the site';
-      st.win.parentElement.appendChild(pill);
-      pill.addEventListener('click', () => { st.win.classList.add('explore'); pill.style.display = 'none'; });
+
       const seenFrac = () => {
         const wr = st.win.getBoundingClientRect();
         if (!wr.height) return 0;
@@ -510,7 +544,7 @@
         const f = seenFrac();
         const nowActive = active ? f >= 0.35 : f >= 0.6;
         if (nowActive && !active) {
-          st.win.scrollTop = 0; st.win.classList.remove('explore'); pill.style.display = ''; // fresh from the hero
+          st.win.scrollTop = 0; exploreCtl.get(st).reset();                          // fresh from the hero
           st.stats.forEach((x, i) => { lockWidth(x); setTimeout(() => x.el.classList.add('on'), 120 * i); });
         }
         active = nowActive;
@@ -519,7 +553,7 @@
       const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
       const io = new IntersectionObserver(es => { running = es[0].isIntersecting; if (running) kick(); });
       io.observe(st.win);
-      cardWatchers.set(st, { stop(){ io.disconnect(); if (raf) cancelAnimationFrame(raf); pill.remove(); st.win.classList.remove('explore'); } });
+      cardWatchers.set(st, { stop(){ io.disconnect(); if (raf) cancelAnimationFrame(raf); } });
     });
   }
   setupCardArrival();
