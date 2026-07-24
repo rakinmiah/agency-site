@@ -38,6 +38,8 @@
   .hero.hasimg .texture{display:none}
   .hero.hasimg .wordmark{animation:none;background:none;color:#F4F1EA;-webkit-text-fill-color:#F4F1EA}
   .texture{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .pagegrain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.20;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
   .texture .fx{position:absolute;inset:0;width:100%;height:100%;filter:blur(42px);opacity:.9}
   .texture .grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -236,14 +238,31 @@
   .story.deen .stat .num{color:#4CA24F}      /* Deen Relief — forest green, lifted */
   .story.deen .progress i{background:#4CA24F}
 
+  /* ── editorial section heads: the agency spine ── */
+  .sechead{max-width:1200px;margin:0 auto 64px;display:flex;justify-content:space-between;align-items:baseline;
+           border-top:1px solid rgba(244,241,234,.16);padding-top:16px}
+  .sechead .eyebrow{color:rgba(244,241,234,.55);font-weight:600}
+  .sechead .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  body.g-ex .svc .sechead, body.g-ex .faq .sechead{border-top-color:rgba(21,22,26,.2)}
+  body.g-ex .svc .sechead .eyebrow, body.g-ex .faq .sechead .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .svc .sechead .secn, body.g-ex .faq .sechead .secn{color:rgba(21,22,26,.35)}
+  .pal .sechead .eyebrow{color:var(--acc)}
   /* ── services: dimmed list, one lit, descriptor unfolds under the active row ── */
   .svc{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px 18vh}
   .svcgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(240px,4fr) 8fr;gap:56px;align-items:start}
   .svcleft .eyebrow{color:rgba(244,241,234,.55)}
   .svcleft p{margin-top:16px;color:rgba(244,241,234,.62);font-size:1rem;line-height:1.6;max-width:30ch}
-  .svcs{list-style:none;position:relative}
+  .svcs{list-style:none;position:relative;counter-reset:svc}
   .svcs li{font-size:clamp(1.9rem,4.6vw,4.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.28;
-           color:rgba(244,241,234,.15);cursor:default;transition:color .35s;position:relative;width:fit-content}
+           color:rgba(244,241,234,.15);cursor:default;transition:color .35s;position:relative;
+           counter-increment:svc;border-top:1px solid rgba(244,241,234,.1);padding:14px 0 14px 3.2rem}
+  .svcs li:last-child{border-bottom:1px solid rgba(244,241,234,.1)}
+  .svcs li:before{content:counter(svc,decimal-leading-zero);position:absolute;left:0;top:1.55em;
+                  font-size:.85rem;font-weight:600;letter-spacing:.06em;color:rgba(244,241,234,.4);
+                  font-variant-numeric:tabular-nums}
+  body.g-ex .svcs li{border-color:rgba(21,22,26,.14)}
+  body.g-ex .svcs li:before{color:rgba(21,22,26,.4)}
+  .pal .svcs li:before{color:var(--acc)}
   .svcs li.active{color:#F4F1EA}
   .svcs li .d{display:block;overflow:hidden;max-height:0;opacity:0;
               font-size:1rem;font-weight:400;letter-spacing:0;line-height:1.5;
@@ -251,6 +270,18 @@
   .svcs li.active .d{max-height:3.2em;opacity:1;margin-top:2px;margin-bottom:10px}
   @media (max-width:900px){.svcgrid{grid-template-columns:1fr;gap:30px}.svcs li{width:auto}}
 
+  /* ── proof band: the agency beat — real numbers, one strip ── */
+  .count{background:#0B0B0D;color:#F4F1EA;padding:10vh 24px 12vh}
+  body[data-world] .count{background:var(--wg)}
+  .countgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .count .c .n{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(2.6rem,5.4vw,4.6rem);
+               letter-spacing:.01em;line-height:1}
+  .count .c .l{margin-top:10px;font-weight:650}
+  .count .c .w{margin-top:2px;color:rgba(244,241,234,.5);font-size:.9rem}
+  .count .c:nth-child(1) .n{color:#C9A961}
+  .count .c:nth-child(2) .n{color:#4C79F0}
+  .count .c:nth-child(3) .n{color:#4CA24F}
+  @media (max-width:900px){.countgrid{grid-template-columns:1fr;gap:28px}.count{padding:8vh 24px}}
   /* ── FAQ: dimmed accordion, lit active row (Monolog pattern), book prompt in the left rail ── */
   .faq{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px}
   .faqgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:8fr minmax(240px,4fr);gap:56px;align-items:start}
@@ -332,6 +363,7 @@
 </style>
 </head>
 <body>
+<div class="pagegrain" aria-hidden="true"></div>
 
 <header class="hero centered">
   <div class="texture" aria-hidden="true"><canvas class="fx"></canvas><div class="grain"></div></div>
@@ -418,27 +450,36 @@
 </section>
 
 <section class="svc" id="services">
+  <div class="sechead"><span class="eyebrow">01 — What we do</span><span class="secn">01 / 04</span></div>
   <div class="svcgrid">
     <div class="svcleft">
-      <div class="eyebrow">WHAT WE DO</div>
       <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
     </div>
     <ul class="svcs">
-      <li class="active">Web design<span class="d">Designed around your business — never a template.</span></li>
-      <li>Web development<span class="d">Fast, hand-built, and yours.</span></li>
-      <li>Local SEO<span class="d">Found when your town searches for the job.</span></li>
-      <li>Paid advertising<span class="d">Google Ads spent carefully — and tracked.</span></li>
-      <li>Maintenance &amp; ongoing care<span class="d">Updates, fixes, and a site that never goes stale.</span></li>
+      <li class="active">Web design<span class="d">Designed around your business — never a template. All three case studies above: ours, end to end.</span></li>
+      <li>Web development<span class="d">Fast, hand-built, and yours — the taxi site takes live bookings and payments.</span></li>
+      <li>Local SEO<span class="d">Found when your town searches for the job — JDH shows up 5&times; more since launch.</span></li>
+      <li>Paid advertising<span class="d">Google Ads spent carefully — we run Deen Relief's six-figure Ad Grant year-round.</span></li>
+      <li>Maintenance &amp; ongoing care<span class="d">Updates, fixes, and a site that never goes stale — we stay on after launch.</span></li>
     </ul>
   </div>
 </section>
 
 
 
+<section class="count" aria-label="Results so far">
+  <div class="sechead"><span class="eyebrow">02 — The count so far</span><span class="secn">02 / 04</span></div>
+  <div class="countgrid">
+    <div class="c"><div class="n">1,818+</div><div class="l">passengers booked online</div><div class="w">National Taxi — from zero</div></div>
+    <div class="c"><div class="n">16</div><div class="l">enquiries in month one</div><div class="w">JDH Gas — a site five weeks old</div></div>
+    <div class="c"><div class="n">40,000+</div><div class="l">search impressions a quarter</div><div class="w">Deen Relief — grant-funded ads</div></div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
+  <div class="sechead"><span class="eyebrow">03 — Questions</span><span class="secn">03 / 04</span></div>
   <div class="faqgrid">
     <div class="faqleft">
-      <div class="eyebrow">● FAQS</div>
       <div class="faqask">
         <p>Got a question we haven't answered?</p>
         <a class="cta2" style="display:inline-flex" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call <span class="sq">&#8599;</span></a>
@@ -463,8 +504,8 @@
 </section>
 
 <section class="close" id="contact">
+  <div class="sechead"><span class="eyebrow">04 — Start</span><span class="secn">04 / 04</span></div>
   <div class="closegrid">
-    <div class="eyebrow" style="color:rgba(244,241,234,.55)">START</div>
     <h2>READY WHEN YOU ARE.</h2>
     <div class="closecols">
       <div class="lead">
