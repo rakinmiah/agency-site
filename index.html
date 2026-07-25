@@ -768,6 +768,17 @@
     bottle:  { wg:'#141D16', wp:'#EFEAD9', acc:'#C75B3C' },   // van green, stone, terracotta
     tar:     { wg:'#191410', wp:'#E6D9C3', acc:'#B4402F' }    // bitumen, duck canvas, oxide
   };
+  const qp = new URLSearchParams(location.search);
+  const hex = v => v && /^#?[0-9a-fA-F]{6}$/.test(v) ? ('#' + v.replace('#','')) : null;
+  const cInk = hex(qp.get('ink')), cPaper = hex(qp.get('paper')), cAcc = hex(qp.get('acc'));
+  if (cInk || cPaper || cAcc) {
+    const st = document.documentElement.style;
+    document.body.dataset.world = 'custom';
+    document.body.classList.add('pal');
+    st.setProperty('--wg', cInk || '#0B0B0D');
+    st.setProperty('--wp', cPaper || '#F4F1EA');
+    st.setProperty('--acc', cAcc || cPaper || '#F4F1EA');
+  }
   const worldK = new URLSearchParams(location.search).get('world');
   if (WORLDS[worldK]) {
     const w = WORLDS[worldK];
@@ -911,6 +922,28 @@
         wwrap.appendChild(a);
       });
       bar.appendChild(wwrap);
+      // palette lab: paste any hex from any tool, see it on the real page instantly
+      const lab=document.createElement('span'); lab.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
+      lab.innerHTML='<b>LAB</b>';
+      const labc={ink:q.get('ink')||'0B0B0D', paper:q.get('paper')||'F4F1EA', acc:q.get('acc')||'E9A13B'};
+      ['ink','paper','acc'].forEach(k=>{
+        const i=document.createElement('input'); i.type='color'; i.value='#'+labc[k].replace('#','');
+        i.title=k; i.style.cssText='width:22px;height:22px;border:1px solid rgba(244,241,234,.35);border-radius:6px;background:none;padding:0;cursor:pointer';
+        i.addEventListener('input',()=>{labc[k]=i.value.replace('#','');
+          const st=document.documentElement.style;
+          document.body.dataset.world='custom'; document.body.classList.add('pal');
+          st.setProperty('--wg','#'+labc.ink); st.setProperty('--wp','#'+labc.paper); st.setProperty('--acc','#'+labc.acc);
+        });
+        lab.appendChild(i);
+      });
+      const save=document.createElement('a'); save.textContent='link';
+      save.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
+      save.addEventListener('click',e=>{e.preventDefault();
+        const p=new URLSearchParams(location.search);
+        p.set('ink',labc.ink); p.set('paper',labc.paper); p.set('acc',labc.acc); p.delete('world');
+        location.search=p.toString();});
+      save.href='#'; lab.appendChild(save);
+      bar.appendChild(lab);
     })();
   </script>
 </div>
