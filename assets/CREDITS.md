@@ -43,3 +43,14 @@ cream type >=4.5:1 against the brightest 10% of frame), 1920x1080, ping-pong sea
 - hero-14.mp4 — "Close up abstract dust particles in light beam" (Pexels 36637658). 8s trim.
 - hero-15.mp4 — "An out of focus video footage of lights" (Pexels 3804695). Dusk bokeh.
 Measured: hero-11 23% | hero-12 12% | hero-13 10% | hero-14 14% | hero-15 14%. All pass AA.
+
+## Hero candidates — 4K aerial round (2026-07-25)
+All from 3840x2160 masters, LIGHT grade only (saturation + small brightness trim, no curve
+crushing), downscaled to 1920 (which sharpens), crf 26-29. Darkness is applied by a CSS scrim
+layer (.heroimg.dim) rather than by grading, so the footage stays clean.
+- hero-16.mp4 — "Aerial view of urban landscape at twilight" (Pexels 35210906)
+- hero-17.mp4 — "Aerial view of a quiet suburban neighborhood at dusk" (Pexels 34539698), 10s trim
+- hero-18.mp4 — "Drone footage of East Sussex landmark" (Pexels 3525403) — Eastbourne Pier, 10s trim
+- hero-19.mp4 — "Aerial view of clouds in overcast sky" (Pexels 30808497)
+Composite measured on-page with type hidden: town 16% | streets 10% | sussex 14% | cloud 13%,
+cream contrast 7.8-11.1:1 (all pass AA). Previous 1920-source round (12-15) retired for quality.

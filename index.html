@@ -26,6 +26,20 @@
         background:#101114;color:#F4F1EA}
   /* texture, not gradient: film grain (SVG turbulence, stepped like analogue noise) over a
      MONOCHROME light-drift — light moving across paper. No hue mixing, nothing pastel. */
+  /* ── LINES: the whole background is a flat ground + a few hairlines + one slow pass.
+     No footage. Weightless, brand-native, and it never competes with the type. ── */
+  .lines{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .lines:before{content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(90deg,
+      rgba(244,241,234,.055) 0 1px, transparent 1px 78px)}
+  .lines i{position:absolute;top:0;bottom:0;width:1px;left:0;
+    background:linear-gradient(180deg,transparent,var(--acc,#D5DDE2) 26%,var(--acc,#D5DDE2) 74%,transparent);
+    opacity:.65;animation:pass 15s linear infinite}
+  .lines i:nth-child(2){animation-delay:-7.5s;opacity:.32}
+  @keyframes pass{from{transform:translateX(0)}to{transform:translateX(100vw)}}
+  .lines:after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(11,11,13,.5),transparent 26%,transparent 62%,#0B0B0D 98%)}
+  @media (prefers-reduced-motion:reduce){.lines i{animation:none;left:38%}}
   .heroimg{position:absolute;inset:0;z-index:0}
   .heroimg img,.heroimg video{width:100%;height:100%;object-fit:cover;display:block;
                filter:brightness(.94) contrast(1.05) saturate(1.06)}
@@ -34,6 +48,11 @@
   .heroimg.lowered video{transform:scale(1.38) translateY(11%)}
   .heroimg:after{content:"";position:absolute;inset:0;background:
     linear-gradient(180deg, rgba(16,17,20,.34), rgba(16,17,20,.06) 30%, rgba(16,17,20,.1) 62%, #101114 97%)}
+  /* bright footage (daylight aerials) needs a real scrim, not a crushed grade —
+     keeps the source clean and puts the darkness in a layer we control */
+  .heroimg.dim:after{background:
+    linear-gradient(180deg, rgba(11,11,13,.72), rgba(11,11,13,.55) 32%, rgba(11,11,13,.62) 62%, #0B0B0D 98%),
+    linear-gradient(90deg, rgba(11,11,13,.5), rgba(11,11,13,.12) 45%, rgba(11,11,13,.3))}
   /* with an image or video mounted, the media is the ONLY animation: no light-field, no grain
      shimmer, no wordmark sheen — nothing moves except the smoke itself */
   .hero.hasimg .texture{display:none}
@@ -818,8 +837,14 @@
 
   /* hero image audition: ?img=1..5 mounts a graded candidate under the light-field */
   const imRaw = new URLSearchParams(location.search).get('img');
+  if (imRaw === 'lines') {
+    const L = document.createElement('div'); L.className = 'lines'; L.setAttribute('aria-hidden','true');
+    L.innerHTML = '<i></i><i></i>';
+    const h = document.querySelector('.hero'); h.insertBefore(L, h.firstChild);
+    h.classList.add('hasimg');                       // kills the canvas light-field + grain shimmer
+  }
   const imN = imRaw === null ? 11 : parseInt(imRaw, 10);   // decided: hero-11, woven cloth (grey-blue)
-  const hasImg = imN >= 1 && imN <= 15;
+  const hasImg = imN >= 1 && imN <= 19;
   if (hasImg) {
     const lay = document.createElement('div'); lay.className = 'heroimg';
     lay.innerHTML = imN >= 5
@@ -828,6 +853,7 @@
     const hero = document.querySelector('.hero'); hero.insertBefore(lay, hero.firstChild);
     hero.classList.add('hasimg');
     if (imN === 5) lay.classList.add('lowered');
+    if (imN >= 16) lay.classList.add('dim');   // daylight aerials
     const hv = lay.querySelector('video');
     if (hv) { // hidden tabs suspend muted loops; resume politely
       const kick = () => { if (!document.hidden) hv.play().catch(()=>{}); };
@@ -1139,10 +1165,10 @@
       const icur=q.get('img')||'11';
       const iwrap=document.createElement('span'); iwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       iwrap.innerHTML='<b>BG</b>';
-      [['0','none'],['11','cloth'],['12','wall'],['13','street'],['14','dust'],['15','bokeh']].forEach(([n,lab])=>{
+      [['0','none'],['11','cloth'],['16','town'],['17','streets'],['18','sussex'],['19','cloud']].forEach(([n,lab])=>{
         const a=document.createElement('a');
         a.textContent=lab;
-        const p=new URLSearchParams(location.search); if(n!=='0')p.set('img',n); else p.set('img','0');
+        const p=new URLSearchParams(location.search); p.set('img',n);
         a.href='?'+p.toString();
         a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(icur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
         iwrap.appendChild(a);
