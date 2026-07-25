@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Bodoni+Moda:wght@700..900&family=Stardos+Stencil:wght@700&family=Space+Mono:wght@700&family=Caveat:wght@700&family=Alfa+Slab+One&display=block" rel="stylesheet">
 <title>Case study prototype — JDH Gas</title>
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
@@ -167,6 +168,15 @@
             background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
             color:transparent;animation:sheen 9s ease-in-out infinite}
+  /* ── hero logo reel: the wordmark flips through treatments on load, lands on the real mark ── */
+  .wordmark.r1 #wmtext{font-family:'UnifrakturMaguntia',serif;letter-spacing:0}          /* guild blackletter */
+  .wordmark.r2 #wmtext{font-family:'Bodoni Moda',serif;font-weight:900;letter-spacing:-.01em}/* mill signage */
+  .wordmark.r3 #wmtext{font-family:'Stardos Stencil',sans-serif;font-weight:700;letter-spacing:.01em}/* crate stencil */
+  .wordmark.r4 #wmtext{font-family:'Space Mono',monospace;font-weight:700;letter-spacing:-.04em}/* punch card */
+  .wordmark.r5 #wmtext{font-family:'Caveat',cursive;font-weight:700;letter-spacing:0}     /* signwriter's hand */
+  .wordmark.r6 #wmtext{font-family:'Alfa Slab One',serif;letter-spacing:-.02em}           /* victorian slab */
+  .hero.hasimg .wordmark.r7 #wmtext{-webkit-text-fill-color:transparent;-webkit-text-stroke:2px #F4F1EA}/* blueprint outline */
+  .wordmark.reeling #wmtext{display:inline-block}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
 
@@ -863,6 +873,38 @@
   }
   fitWordmark();
   addEventListener('resize', fitWordmark, { passive: true });
+
+  /* ── logo reel: flip the wordmark through treatments, land on the real mark, stay ──
+     Runs once per page load (refresh replays it). Skipped for reduced-motion. */
+  const REEL_FONTS = ['400 100px UnifrakturMaguntia','900 100px "Bodoni Moda"','700 100px "Stardos Stencil"',
+                      '700 100px "Space Mono"','700 100px Caveat','400 100px "Alfa Slab One"'];
+  const REEL = ['r1','r2','r3','r4','r5','r6','r7'];   // blackletter → bodoni → stencil → mono → script → slab → outline
+  const REEL_MS = 165;
+  function runReel(){
+    if (reduced || new URLSearchParams(location.search).get('reel') === '0') return;
+    wm.classList.add('reeling');
+    let i = 0;
+    const step = () => {
+      REEL.forEach(c => wm.classList.remove(c));
+      if (i < REEL.length) {
+        wm.classList.add(REEL[i]);
+        fitWordmark();
+        i++;
+        setTimeout(step, REEL_MS);
+      } else {
+        fitWordmark();                                  // landed: the real mark
+        wm.classList.remove('reeling');
+      }
+    };
+    step();
+  }
+  window.__replayReel = runReel;
+  if (document.fonts) {
+    let started = false;
+    const go = () => { if (!started) { started = true; runReel(); } };
+    Promise.all(REEL_FONTS.map(f => document.fonts.load(f))).then(go).catch(go);
+    setTimeout(go, 1200);                                // never let a slow font block the hero
+  } else { runReel(); }
   if (document.fonts) {
     document.fonts.load('400 100px Anton').then(fitWordmark).catch(()=>{});
     document.fonts.ready.then(fitWordmark);
@@ -944,6 +986,10 @@
         location.search=p.toString();});
       save.href='#'; lab.appendChild(save);
       bar.appendChild(lab);
+      const rp=document.createElement('a'); rp.textContent='↻ reel'; rp.href='#';
+      rp.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;margin-left:8px';
+      rp.addEventListener('click',e=>{e.preventDefault(); if(window.__replayReel) window.__replayReel();});
+      bar.appendChild(rp);
     })();
   </script>
 </div>
