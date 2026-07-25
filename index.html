@@ -96,6 +96,7 @@
     .hero.centered .heroright{left:24px;right:24px;align-items:center;text-align:center}
     .hero.centered .copystrip{justify-content:center}
   }
+  :root{--acc:#D99A4E;--acc-dark:#8B6332}   /* studio amber (from the wordmark study) + light-ground sibling */
   .hero .mark{color:#F4F1EA}
   /* THRUM logo system: hum line, thrums (thread-ends), living wordmark */
   .mark .lock{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;vertical-align:middle;color:inherit;font-weight:800}
@@ -255,7 +256,7 @@
   .story{height:320vh;position:relative;background:#0B0B0D}
   #work{padding-top:11vh}
   .story ~ .story{margin-top:-100vh}   /* the overlap that makes the next card slide OVER */
-  .story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:280px 1fr;
+  .story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:334px 1fr;
               gap:40px;align-items:center;max-width:1440px;margin:0 auto;padding:0 24px;
               will-change:transform;transition:transform .2s ease-out,filter .2s ease-out}
   .caselabel{position:absolute;top:30px;left:24px;right:24px}
@@ -294,15 +295,14 @@
   @media (min-width:901px){.explorepill.capture{display:none}} /* desktop pan owns the frame — capture scroll is mobile-only */
   .progress i{display:block;height:100%;width:0;background:#F4F1EA}
   /* flipped cards: site LEFT, numbers RIGHT (deck rhythm: standard / flip / flip) */
-  .story.flip .pin{grid-template-columns:1fr 280px}
+  .story.flip .pin{grid-template-columns:1fr 334px}
   .story.flip .pin .stats{order:2}
   /* stat numbers in each client's brand colour (lightened where needed for black-ground contrast) */
-  #work .stat .num{color:#C9A961}                    /* National Taxi — champagne */
-  #work .progress i{background:#C9A961}
-  .story.flip .stat .num{color:#4C79F0}              /* JDH Gas — royal blue, lifted for ink */
-  .story.flip .progress i{background:#4C79F0}
-  .story.deen .stat .num{color:#4CA24F}      /* Deen Relief — forest green, lifted */
-  .story.deen .progress i{background:#4CA24F}
+  /* client colours retired: each card already shows the client's real site in full colour,
+     and the numbers are OUR claim. One studio accent instead of three borrowed ones. */
+  .stat .num{color:var(--acc)}
+  .progress i{background:var(--acc)}
+  body.stats-cream .stat .num{color:#F4F1EA}
 
   /* ── editorial section heads: the agency spine ── */
   .sechead{max-width:1200px;margin:0 auto 64px;display:flex;justify-content:space-between;align-items:baseline;
@@ -344,9 +344,8 @@
                letter-spacing:.01em;line-height:1}
   .count .c .l{margin-top:10px;font-weight:650}
   .count .c .w{margin-top:2px;color:rgba(244,241,234,.5);font-size:.9rem}
-  .count .c:nth-child(1) .n{color:#C9A961}
-  .count .c:nth-child(2) .n{color:#4C79F0}
-  .count .c:nth-child(3) .n{color:#4CA24F}
+  .count .c .n{color:var(--acc)}
+  body.stats-cream .count .c .n{color:#F4F1EA}
   @media (max-width:900px){.countgrid{grid-template-columns:1fr;gap:28px}.count{padding:8vh 24px}}
   /* ── FAQ: dimmed accordion, lit active row (Monolog pattern), book prompt in the left rail ── */
   .faq{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px}
@@ -820,6 +819,8 @@
     document.querySelector('.hero').classList.add('centered');
 
   /* ?pal=1..5 — studio accent auditions (dev-only switcher below) */
+  document.body.classList.add('pal');                       // studio amber is the default accent
+  if (new URLSearchParams(location.search).get('stats') === 'cream') document.body.classList.add('stats-cream');
   const PALETTES = {1:'#E9A13B', 2:'#B4402F', 3:'#4E8F7B', 4:'#D8F04F', 5:'#4353FF', 6:'#FF4A1F', 7:'#F2C230', 8:'#F07167', 9:'#9A7BF7'};
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) {
