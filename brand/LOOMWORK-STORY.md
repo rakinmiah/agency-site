@@ -145,3 +145,26 @@ the box (was 1, at +109px off-centre) · zero frames off-centre.
 - Pacing: 132ms per frame (~2.4s), 420ms hold on the landed mark, then one 1250ms eased travel.
 - NOTE: heights are now very uniform (1.3x). If more height drama is wanted, the brief's
   90-190px band can be widened.
+
+## REEL PARKED — 2026-07-25 (moved off the hero, earmarked for ABOUT)
+The reel is no longer the home page opening. It owned the first 2.3s and the hero copy wasn't
+readable until ~5.6s, which on a page whose job is booking intro calls is a straight conversion
+cost. Nothing was deleted: `REEL_FRAMES`, `runReel()`, `typeMission()` and the wordmark
+travel/handoff all live in index.html behind **`?reel=1`** (sets `html.reelon` from the head
+script). The 12 reel-only display families (~197KB) now load on demand via `loadReelFonts()`,
+so the default hero never requests them.
+Measured after the change: h1 fully painted at 563ms, stat count-up finished at 1379ms.
+
+## HOME HERO — conversion build, 2026-07-25
+Order is the argument: outcome headline -> how it works -> one primary action -> friction-killer
+-> counted proof. The giant wordmark stays as the bottom signature.
+- H1 "Websites that bring in work." — one line on desktop (34ch cap), 2 lines under 760px.
+- Primary CTA books the real cal.com intro; secondary jumps to the case studies.
+- Proof rail counts £2,000,000+ ad spend managed and 30+ clients managed, in the accent, with
+  the same ease-out as the case-study stats. Widths lock to the final string AFTER Anton loads
+  (capped at 600ms) — locking against fallback metrics locks the wrong width.
+- The aerial's bright band runs straight through the copy, so `.heroleft:before` carries a local
+  radial scrim rather than darkening the whole frame again; `.btn2` needs its own ground
+  (hairline borders vanish over the water).
+- Partner strip moved out of the hero to a `.trustbar` under it — see the ILLUSTRATIVE note in
+  index.html, those three accreditations are NOT held yet.

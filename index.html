@@ -7,16 +7,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Archivo:wght@400..900&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black&family=Bungee&family=Michroma&family=Monoton&family=Rampart+One&family=Rubik+Mono+One&family=Silkscreen:wght@400;700&family=Syne:wght@800&family=Titan+One&family=Yellowtail&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- The 12 display families below are used ONLY by the opening logo reel (~197KB). The reel is
+     parked for the About page, so this is injected on demand by runReel() instead of blocking
+     every hero paint. Href lives in REEL_CSS. -->
 <title>Case study prototype — JDH Gas</title>
 <script>
-  /* Arm the intro BEFORE first paint. The partner strip is visible by default (no-JS safe), so
-     without this it flashes on for ~250ms and then fades out as the reel takes over. Mirrors
-     runIntro's own condition exactly; runIntro disarms it when the subtext finishes typing. */
+  /* Arm the hero reveal BEFORE first paint. Hero content is visible by default (no-JS safe), so
+     arming here is what stops it painting and then being hidden. runIntro disarms it.
+     ?reel=1 additionally runs the opening logo reel — parked off the hero, see runIntro. */
   (function(){
-    var q = new URLSearchParams(location.search);
-    if (q.get('reel') !== '0' && !matchMedia('(prefers-reduced-motion:reduce)').matches)
-      document.documentElement.classList.add('reelarm');
+    if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    document.documentElement.classList.add('heroarm');
+    if (new URLSearchParams(location.search).get('reel') === '1')
+      document.documentElement.classList.add('reelon');
   })();
 </script>
 <style>
@@ -87,15 +90,61 @@
   .cta2 .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;color:#F4F1EA;
             border-radius:5px;font-size:14px}
   .cta2:hover .sq{transform:translate(1px,-1px)}
-  .heroleft{position:absolute;z-index:2;left:0;right:0;top:29%;text-align:center}
-  .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78);
-              max-width:30ch;margin:0 auto}
-  .heroleft p b{color:#fff;font-weight:650}
-  /* partner strip — three boxes locked to the copy column. .trust carries the paragraph's OWN
-     font-size so its `ch` resolves identically: the row is exactly as wide as the subtext. */
-  .trust{font-size:clamp(1.05rem,1.5vw,1.35rem);max-width:30ch;margin:30px auto 0;
-         display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .tbox{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;
+  /* ── CONVERSION HERO ────────────────────────────────────────────────────────────────
+     Order is the argument: outcome headline → how it works → one primary action →
+     friction-killer → counted proof. The logo reel used to own the first 2.3 seconds;
+     the offer now paints on frame one and the reel is parked for the About page. */
+  .heroleft{position:absolute;z-index:2;left:0;right:0;top:18%;text-align:center;padding:0 24px}
+  /* the aerial's brightest band runs straight through the copy. A soft local scrim keeps the
+     sub and the micro-line readable without darkening the whole frame again. */
+  .heroleft:before{content:"";position:absolute;z-index:-1;pointer-events:none;
+    left:50%;top:48%;transform:translate(-50%,-50%);width:min(1180px,98vw);height:165%;
+    background:radial-gradient(ellipse at center,rgba(11,11,13,.62),rgba(11,11,13,.40) 46%,transparent 73%)}
+  .heroleft h1{font-family:'Jost',sans-serif;font-weight:400;
+               font-size:clamp(2.25rem,4.5vw,4rem);line-height:1.03;letter-spacing:-.025em;
+               color:#F4F1EA;margin:0 auto;max-width:34ch}   /* one line on desktop — see below */
+  .hsub{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.5;color:rgba(244,241,234,.74);
+        max-width:46ch;margin:20px auto 0}
+  .hcta{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:30px;flex-wrap:wrap}
+  .btn1{display:inline-flex;align-items:center;gap:12px;background:#F4F1EA;color:#101114;
+        border-radius:7px;padding:11px 11px 11px 22px;text-decoration:none;font-weight:650;
+        font-size:1.02rem;box-shadow:0 18px 46px -16px rgba(0,0,0,.8)}
+  .btn1 .sq{display:grid;place-items:center;width:30px;height:30px;background:#101114;color:#F4F1EA;
+            border-radius:6px;font-size:15px;transition:transform .18s ease}
+  .btn1:hover .sq{transform:translate(1px,-1px)}
+  .pal .btn1 .sq{background:var(--acc);color:#101114}
+  /* a hairline border alone disappears against the bright water — it needs its own ground */
+  .btn2{display:inline-flex;align-items:center;color:#F4F1EA;text-decoration:none;font-weight:600;
+        font-size:1.02rem;padding:11px 20px;border-radius:7px;
+        border:1px solid rgba(244,241,234,.42);background:rgba(11,11,13,.42);
+        -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+        transition:background .18s ease,border-color .18s ease}
+  .btn2:hover{border-color:rgba(244,241,234,.78);background:rgba(11,11,13,.62)}
+  .hmicro{font-size:.85rem;line-height:1.45;color:rgba(244,241,234,.62);max-width:44ch;margin:15px auto 0}
+  /* counted proof, same easing as the case-study stats — the numbers ARE the credential */
+  .hstats{display:flex;justify-content:center;flex-wrap:wrap;margin:30px auto 0}
+  .hstat{padding:2px 30px;border-left:1px solid rgba(244,241,234,.17)}
+  .hstat:first-child{border-left:0}
+  .hstat .hn{display:block;font-family:'Anton',sans-serif;font-weight:400;
+             font-size:clamp(1.75rem,2.9vw,2.4rem);line-height:1;letter-spacing:.005em;color:#F4F1EA}
+  .pal .hstat .hn{color:var(--acc)}
+  .hstat .hl{display:block;margin-top:8px;font-size:.79rem;font-weight:500;letter-spacing:.015em;
+             color:rgba(244,241,234,.56)}
+  /* hero content fades up on load; armed in <head> so nothing is painted then hidden */
+  html.heroarm .heroleft > *{opacity:0;transform:translateY(11px);transition:none}
+  .heroleft > *{transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.24,1)}
+  .heroleft > *:nth-child(2){transition-delay:.06s}
+  .heroleft > *:nth-child(3){transition-delay:.12s}
+  .heroleft > *:nth-child(4){transition-delay:.18s}
+  .heroleft > *:nth-child(5){transition-delay:.24s}
+  @media (prefers-reduced-motion:reduce){.heroleft > *{transition:none}}
+
+  /* ── partner strip: moved out of the hero and under it, the way the reference bars it
+     along the bottom edge. The hero's own slot went to the counted proof. ── */
+  .trustbar{background:#0B0B0D;padding:26px 24px;border-bottom:1px solid rgba(244,241,234,.08)}
+  .trust{display:flex;justify-content:center;gap:10px;max-width:620px;margin:0 auto}
+  .tbox{flex:1 1 0;max-width:196px;
+        display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;
         padding:13px 5px 12px;border:1px solid rgba(244,241,234,.15);border-radius:5px;
         background:rgba(244,241,234,.04);text-align:center}
   .tbox svg{width:19px;height:19px;display:block;flex:none}
@@ -107,13 +156,8 @@
   .tbox .tp{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;line-height:1;
             color:rgba(244,241,234,.56);white-space:nowrap}
   @media (max-width:359px){.tbox .tp{font-size:8.5px;letter-spacing:.03em}}   /* SE headroom */
-  /* spawned after the subtext finishes typing, left to right */
-  /* armed in <head> so the strip is never painted before the reel; disarmed after the type. */
-  html.reelarm .trust .tbox{opacity:0;transform:translateY(9px);transition:none}
-  .trust .tbox{transition:opacity .55s ease,transform .55s cubic-bezier(.22,.61,.24,1)}
-  .trust .tbox:nth-child(2){transition-delay:.10s}
-  .trust .tbox:nth-child(3){transition-delay:.20s}
-  @media (prefers-reduced-motion:reduce){.trust .tbox{transition:none}}
+  /* the boxes no longer spawn — that beat belonged to the hero subtext they sat under.
+     Below the fold they are a standing credential, so they are simply always there. */
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
@@ -126,15 +170,23 @@
     .navnums,.scrollpill{display:none}
     .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
-    .heroleft{top:17%}
-    .heroleft p{font-size:1.15rem}
-    .trust{font-size:1.15rem;margin-top:24px;gap:7px}          /* stays locked to the copy column */
+    .heroleft{top:13%;padding:0 22px}
+    .heroleft h1{font-size:clamp(2rem,8.4vw,2.7rem);max-width:13ch}
+    .hsub{font-size:1.02rem;margin-top:16px;max-width:34ch}
+    .hcta{margin-top:24px;gap:10px}
+    .btn1,.btn2{width:100%;justify-content:center}                /* thumb-width primary action */
+    .btn1{padding:13px 13px 13px 22px}
+    .hmicro{font-size:.82rem;max-width:31ch;margin-top:14px}   /* 36ch orphaned the last word */
+    .hstats{margin-top:26px}
+    .hstat{padding:2px 18px}
+    .hstat .hn{font-size:1.65rem}
+    .hstat .hl{font-size:.72rem;margin-top:6px}
+    .trustbar{padding:20px 18px}
+    .trust{gap:7px}
     .tbox{padding:11px 4px 10px;gap:7px}
     .tbox svg{width:17px;height:17px}
     /* ?hero=center — Monolog-style centered statement variant */
-    .hero.centered .heroleft{left:24px;right:24px;top:31%;text-align:center}
-    .hero.centered .heroleft p{max-width:26ch;margin:0 auto}
-    .hero.centered .trust{max-width:26ch}
+    .hero.centered .heroleft{left:24px;right:24px;text-align:center}
   }
   :root{--acc:#83B7D8;--acc-dark:#4F6E82}   /* LOOMWORK accent + its light-ground sibling */
   .hero .mark{color:#F4F1EA}
@@ -525,11 +577,32 @@
     <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
   </div>
   <div class="heroleft">
-    <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
-    <!-- ILLUSTRATIVE / UNVERIFIED: these three are EARNED programme statuses (Google Partner,
-         Microsoft Advertising Partner, Meta Business Partner), each with its own spend and
-         certification thresholds. Do NOT deploy this strip until the accreditations are actually
-         held — swap in the honest proof points instead. -->
+    <h1>Websites that bring in work.</h1>
+    <p class="hsub">A site built around how customers actually find you — and the search work that
+       keeps it earning long after launch.</p>
+    <div class="hcta">
+      <a class="btn1" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a 15-minute intro <span class="sq" aria-hidden="true">&#8599;</span></a>
+      <a class="btn2" href="#work">See the work</a>
+    </div>
+    <p class="hmicro">No deck, no obligation — we'll look at how you show up on Google and tell you
+       what it's costing you.</p>
+    <!-- OWNER-SUPPLIED FIGURES. Both must be defensible on a call; a prospect can and will ask. -->
+    <div class="hstats">
+      <div class="hstat" data-count="2000000" data-prefix="&pound;" data-suffix="+">
+        <span class="hn">&pound;0</span><span class="hl">ad spend managed</span></div>
+      <div class="hstat" data-count="30" data-suffix="+">
+        <span class="hn">0</span><span class="hl">clients managed</span></div>
+    </div>
+  </div>
+  <div class="scrollpill" aria-hidden="true"></div>
+  <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
+</header>
+
+<!-- ILLUSTRATIVE / UNVERIFIED: these three are EARNED programme statuses (Google Partner,
+     Microsoft Advertising Partner, Meta Business Partner), each with its own spend and
+     certification thresholds. Do NOT deploy this strip until the accreditations are actually
+     held — swap in the honest proof points instead. -->
+<section class="trustbar">
     <div class="trust" aria-label="Partner accreditations">
       <div class="tbox">
         <svg viewBox="0 0 48 48" aria-hidden="true">
@@ -557,10 +630,7 @@
         <span class="tn">Meta</span><span class="tp">Ads Partner</span>
       </div>
     </div>
-  </div>
-  <div class="scrollpill" aria-hidden="true"></div>
-  <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
-</header>
+</section>
 
 
 
@@ -1121,8 +1191,22 @@
   const REEL_CLASSES = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15','w16',
                         'w17','w18','w19','w20','w21'];
   const REEL_MS = 105;
+  const REEL_CSS = 'https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black' +
+    '&family=Bungee&family=Michroma&family=Monoton&family=Rampart+One&family=Rubik+Mono+One' +
+    '&family=Silkscreen:wght@400;700&family=Syne:wght@800&family=Titan+One&family=Yellowtail' +
+    '&family=Instrument+Sans:wght@400;500;600&display=block';
+  function loadReelFonts(){                     // on demand — the hero never pays for these
+    if (document.getElementById('reelcss')) return Promise.resolve();
+    return new Promise(res => {
+      const l = document.createElement('link');
+      l.id = 'reelcss'; l.rel = 'stylesheet'; l.href = REEL_CSS;
+      l.onload = res; l.onerror = res; document.head.appendChild(l);
+      setTimeout(res, 1500);                    // never let a slow font stall the reel
+    }).then(() => document.fonts ? Promise.all(REEL_FONTS.map(f => document.fonts.load(f)))
+                                     .catch(()=>{}) : null);
+  }
   function runReel(done){
-    if (reduced || new URLSearchParams(location.search).get('reel') === '0') { done && done(); return; }
+    if (reduced || !document.documentElement.classList.contains('reelon')) { done && done(); return; }
     const hero = document.querySelector('.hero');
     const stage = document.createElement('div');
     stage.className = 'reelstage'; stage.setAttribute('aria-hidden','true');
@@ -1219,16 +1303,58 @@
     tick();
   }
 
-  /* the hero opens on the reel alone; everything else arrives after it lands */
+  /* hero proof numbers — same ease-out and en-GB grouping as the case-study stats.
+     Widths are locked to the FINAL string first so the row doesn't reflow mid-count. */
+  let heroCounted = false;
+  function countHeroStats(){
+    if (heroCounted) return; heroCounted = true;
+    // Anton loads async — locking the width against fallback metrics locks the WRONG width, so
+    // wait for the real face (capped at 600ms, which the .hstats reveal delay mostly covers).
+    let ran = false;
+    const once = () => { if (!ran) { ran = true; runCount(); } };
+    if (document.fonts) { document.fonts.load('400 40px Anton').then(once).catch(once); setTimeout(once, 600); }
+    else once();
+  }
+  function runCount(){
+    document.querySelectorAll('.hstat').forEach(el => {
+      const n = el.querySelector('.hn');
+      const target = +el.dataset.count, dec = +(el.dataset.decimals || 0);
+      const pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+      const fmt = v => pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-GB')) + suf;
+      n.textContent = fmt(target);
+      n.style.minWidth = Math.ceil(n.getBoundingClientRect().width) + 'px';
+      if (reduced) return;
+      n.textContent = fmt(0);
+      const t0 = performance.now(), dur = 1100;
+      (function tick(t){
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        n.textContent = fmt(e * target);
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }
+
+  /* ── hero open ──────────────────────────────────────────────────────────────────────
+     DEFAULT (conversion): the offer paints immediately and fades up over ~740ms. Nothing
+     the visitor needs to read or click waits on an animation.
+     ?reel=1: the full opening logo reel — 18 identities, hard cut, landing on the real mark,
+     then the wordmark travels down and the subtext types. PARKED HERE FOR THE ABOUT PAGE:
+     runReel / REEL_FRAMES / typeMission / the travel choreography are all intact and this is
+     the switch that plays them. See brand/LOOMWORK-STORY.md → OPENING REEL v2. */
   function runIntro(){
     const hero = document.querySelector('.hero');
     const vid = document.querySelector('.heroimg video');
-    const disarm = () => document.documentElement.classList.remove('reelarm');
+    const html = document.documentElement;
+    const disarm = () => { html.classList.remove('heroarm'); countHeroStats(); };
     const start = () => { if (vid) vid.play().catch(()=>{}); };
-    if (reduced || new URLSearchParams(location.search).get('reel') === '0') { disarm(); start(); return; }
+    if (reduced || !html.classList.contains('reelon')) {
+      start();
+      requestAnimationFrame(() => requestAnimationFrame(disarm));   // let the armed state paint once
+      return;
+    }
     if (vid) vid.pause();
     prepMission();                                 // never show the copy whole
-    document.documentElement.classList.add('reelarm');   // re-arm, so ↻ replay hides the strip too
+    html.classList.add('heroarm', 'reelon');       // re-arm, so ↻ replay hides the hero too
     hero.classList.add('intro');
     // lift the mark to the centre of the hero at logo scale
     const place = () => {
@@ -1240,8 +1366,9 @@
       wm.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
     };
     place();
-    runReel(() => {
+    loadReelFonts().then(() => runReel(() => {
       hero.classList.remove('intro');            // the mark is already sitting exactly where frame 18 was
+      html.classList.remove('heroarm');          // hero fades up; the subtext is blank and types below
       requestAnimationFrame(() => {
         setTimeout(() => {
           wm.classList.add('travel');
@@ -1249,20 +1376,15 @@
           setTimeout(() => {
             wm.classList.remove('travel');
             wm.style.transformOrigin = '';
-            typeMission(() => { disarm(); start(); });   // partner strip spawns after the copy
+            typeMission(() => { countHeroStats(); start(); });
           }, 1250);
         }, 420);                                   // hold on the landed mark before it moves
       });
-    });
+    }));
   }
 
   window.__replayReel = runIntro;
-  if (document.fonts) {
-    let started = false;
-    const go = () => { if (!started) { started = true; runIntro(); } };
-    Promise.all(REEL_FONTS.map(f => document.fonts.load(f))).then(go).catch(go);
-    setTimeout(go, 1200);                                // never let a slow font block the hero
-  } else { runIntro(); }
+  runIntro();                                      // no font gate — the hero owes nothing to the reel
   if (document.fonts) {
     document.fonts.load('400 100px Anton').then(fitWordmark).catch(()=>{});
     document.fonts.ready.then(fitWordmark);
