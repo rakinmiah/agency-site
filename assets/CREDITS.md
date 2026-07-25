@@ -32,3 +32,14 @@ Candidates 1-9 removed from the repo; re-download via the Pexels IDs above if ev
   Chosen on measurement: mean luminance 24% (target 15-32%; the previous hero-10 measured 1%,
   i.e. effectively a black rectangle). Cream type holds 4.65:1 against the brightest 10% of frame.
   On-brand: literally woven cloth, and already in the slate hue family of the studio accent.
+
+## Hero candidates — non-literal round (2026-07-25)
+All Pexels licence, free for commercial use. Graded to a measured target (mean luminance 12-24%,
+cream type >=4.5:1 against the brightest 10% of frame), 1920x1080, ping-pong seamless loop.
+- hero-12.mp4 — "Shadow a man over a wall" (Pexels 5155184). Window light across a wall.
+  Highlights pulled hard: the bright patches originally failed AA at 3.49:1, now 5.60:1.
+- hero-13.mp4 — "Berlin timelapse night city traffic lights" (Pexels 34665162). Street at night.
+  Night footage needed a LIFT, not a crush (first grade landed at 3% mean).
+- hero-14.mp4 — "Close up abstract dust particles in light beam" (Pexels 36637658). 8s trim.
+- hero-15.mp4 — "An out of focus video footage of lights" (Pexels 3804695). Dusk bokeh.
+Measured: hero-11 23% | hero-12 12% | hero-13 10% | hero-14 14% | hero-15 14%. All pass AA.

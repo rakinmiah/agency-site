@@ -819,7 +819,7 @@
   /* hero image audition: ?img=1..5 mounts a graded candidate under the light-field */
   const imRaw = new URLSearchParams(location.search).get('img');
   const imN = imRaw === null ? 11 : parseInt(imRaw, 10);   // decided: hero-11, woven cloth (grey-blue)
-  const hasImg = imN >= 1 && imN <= 11;
+  const hasImg = imN >= 1 && imN <= 15;
   if (hasImg) {
     const lay = document.createElement('div'); lay.className = 'heroimg';
     lay.innerHTML = imN >= 5
