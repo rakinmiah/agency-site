@@ -120,3 +120,15 @@ Light-ground sibling **`#4F6E82`** (4.62:1 on paper). On ink 9.11:1; against cre
 which is the range where the mark reads as a separate element without fighting the wordmark.
 Rejected: amber #D99A4E (65% sat mid-tone read as "highlighter"); pale slate #D5DDE2
 (only 1.17:1 against cream — the mark vanished into the type). See brand/accent-candidates.jpg.
+
+## REEL REFERENCES — corrected 2026-07-25
+First pass gathered VARIABLE IDENTITY systems (Whitney's stretching W, MIT Media Lab's
+reconfiguring bracket, Nickelodeon's splat) — one mark flexing across contexts. That is the
+opposite of what the reel needs. The reel needs MANY UNRELATED MARKS sharing one name.
+Correct sources (brand/logo-variety-refs.jpg):
+- Logobook.com — especially the Letters & Numbers grid: 26 monograms, 26 constructions.
+- Logo-archive.org — grids of unrelated modernist trademarks.
+- Identitydesigned.com — spread of real identities across studios and sectors.
+- Brand New (underconsideration.com/brandnew) — before/after identity case studies.
+- Still valid from the first pass: Mother Design's own reel; Pentagram's Public Theater
+  badge family (many constructions, one house).
