@@ -115,7 +115,7 @@
     .hero.centered .heroright{left:24px;right:24px;align-items:center;text-align:center}
     .hero.centered .copystrip{justify-content:center}
   }
-  :root{--acc:#D99A4E;--acc-dark:#8B6332}   /* studio amber (from the wordmark study) + light-ground sibling */
+  :root{--acc:#D5DDE2;--acc-dark:#4A5C68}   /* studio accent + its light-ground sibling */
   .hero .mark{color:#F4F1EA}
   /* THRUM logo system: hum line, thrums (thread-ends), living wordmark */
   .mark .lock{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;vertical-align:middle;color:inherit;font-weight:800}
@@ -867,24 +867,33 @@
     document.querySelector('.hero').classList.add('centered');
 
   /* ?pal=1..5 — studio accent auditions (dev-only switcher below) */
-  document.body.classList.add('pal');                       // studio amber is the default accent
+  document.body.classList.add('pal');
   if (new URLSearchParams(location.search).get('stats') === 'cream') document.body.classList.add('stats-cream');
+  /* the accent sticks across reloads and BG switches: ?pal / ?acc wins, else last choice */
+  const ACC_KEY = 'lw.acc';
+  function applyAcc(hex, remember){
+    if (!hex) return;
+    document.documentElement.style.setProperty('--acc', hex);
+    if (remember) try { localStorage.setItem(ACC_KEY, hex); } catch(e){}
+  }
+  (function restoreAcc(){
+    const qp = new URLSearchParams(location.search);
+    if (qp.get('pal') || qp.get('acc')) return;            // explicit choice in the URL takes over below
+    try { const v = localStorage.getItem(ACC_KEY); if (v) applyAcc(v, false); } catch(e){}
+  })();
   // accent candidates — light + desaturated (the premium register); all ≥6.5:1 on ink
   // pale-slate ladder — same hue family (203°), stepping lighter
-  const PALETTES = {1:'#B4C4CE',  // the original PAL 5, 76% light
-                    2:'#C7D2D9',  // +6%
-                    3:'#D5DDE2',  // +9%  ← likely landing
-                    4:'#DAE1E5',  // +12%
-                    5:'#E4E9EC',  // +16%
-                    6:'#ECF0F2',  // +18%, nearly white with a blue cast
-                    7:'#D5DBE2',  // bluer   (212°)
-                    8:'#D5DFE2',  // mineral (192°)
-                    9:'#C9B995'}; // restrained gold, kept for comparison
+  const PALETTES = {1:'#C7D2D9',  // slate, lighter
+                    2:'#D5DDE2',  // slate  ← current default
+                    3:'#E4E9EC',  // slate, lightest
+                    4:'#D5DBE2',  // bluer slate
+                    5:'#D9CDBA',  // oyster / undyed wool
+                    6:'#E8C4BC',  // blush
+                    7:'#A8B89C',  // sage
+                    8:'#C9B995',  // restrained gold
+                    9:'#D99A4E'}; // the original amber, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
-  if (PALETTES[palN]) {
-    document.body.classList.add('pal');
-    document.documentElement.style.setProperty('--acc', PALETTES[palN]);
-  }
+  if (PALETTES[palN]) { document.body.classList.add('pal'); applyAcc(PALETTES[palN], true); }
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
   if (groundN >= 1) document.body.classList.add('g-ex');
   if (groundN >= 2) document.body.classList.add('g-all');
@@ -902,7 +911,7 @@
     document.body.classList.add('pal');
     st.setProperty('--wg', cInk || '#0B0B0D');
     st.setProperty('--wp', cPaper || '#F4F1EA');
-    st.setProperty('--acc', cAcc || cPaper || '#F4F1EA');
+    applyAcc(cAcc || cPaper || '#F4F1EA', true);
   }
   const worldK = new URLSearchParams(location.search).get('world');
   if (WORLDS[worldK]) {
@@ -1152,12 +1161,14 @@
       const pcur=q.get('pal')||'0';
       const pwrap=document.createElement('span'); pwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       pwrap.innerHTML='<b>PAL</b>';
-      [['0','none'],['1','#B4C4CE'],['2','#C7D2D9'],['3','#D5DDE2'],['4','#DAE1E5'],['5','#E4E9EC'],['6','#ECF0F2'],['7','#D5DBE2'],['8','#D5DFE2'],['9','#C9B995']].forEach(([n,c])=>{
+      [['0','reset'],['1','#C7D2D9'],['2','#D5DDE2'],['3','#E4E9EC'],['4','#D5DBE2'],['5','#D9CDBA'],['6','#E8C4BC'],['7','#A8B89C'],['8','#C9B995'],['9','#D99A4E']].forEach(([n,c])=>{
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
-        if(n==='0'){a.textContent='none';a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(pcur==='0'?'background:#F4F1EA;color:#101114;font-weight:700;':'');}
-        else {a.title=c;a.style.cssText='width:18px;height:18px;border-radius:50%;background:'+c+';border:2px solid '+(pcur===n?'#F4F1EA':'transparent')+';';}
+        if(n==='0'){a.textContent='reset';a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
+          a.addEventListener('click',()=>{try{localStorage.removeItem('lw.acc');}catch(e){}});}
+        else {a.title=c;a.style.cssText='width:22px;height:22px;border-radius:50%;background:'+c+';box-sizing:border-box;'+
+          (pcur===n?'border:2px solid #0B0B0D;box-shadow:0 0 0 2px #F4F1EA;':'border:2px solid rgba(244,241,234,.25);');}
         pwrap.appendChild(a);
       });
       bar.appendChild(pwrap);
