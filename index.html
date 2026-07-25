@@ -835,7 +835,16 @@
   /* ?pal=1..5 — studio accent auditions (dev-only switcher below) */
   document.body.classList.add('pal');                       // studio amber is the default accent
   if (new URLSearchParams(location.search).get('stats') === 'cream') document.body.classList.add('stats-cream');
-  const PALETTES = {1:'#E9A13B', 2:'#B4402F', 3:'#4E8F7B', 4:'#D8F04F', 5:'#4353FF', 6:'#FF4A1F', 7:'#F2C230', 8:'#F07167', 9:'#9A7BF7'};
+  // accent candidates — light + desaturated (the premium register); all ≥6.5:1 on ink
+  const PALETTES = {1:'#C9B995',  // restrained gold — amber's grown-up cousin, keeps the warmth
+                    2:'#D9CDBA',  // oyster — undyed wool, near-neutral
+                    3:'#E8C4BC',  // blush — the Basic/Dept family
+                    4:'#A8B89C',  // sage
+                    5:'#B4C4CE',  // pale slate
+                    6:'#C08874',  // muted clay
+                    7:'#B6AEC4',  // lilac grey
+                    8:'#E6E1D6',  // chalk — effectively no accent
+                    9:'#D99A4E'}; // the current amber, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) {
     document.body.classList.add('pal');
@@ -1051,7 +1060,7 @@
       const pcur=q.get('pal')||'0';
       const pwrap=document.createElement('span'); pwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       pwrap.innerHTML='<b>PAL</b>';
-      [['0','none'],['1','#E9A13B'],['2','#B4402F'],['3','#4E8F7B'],['4','#D8F04F'],['5','#4353FF'],['6','#FF4A1F'],['7','#F2C230'],['8','#F07167'],['9','#9A7BF7']].forEach(([n,c])=>{
+      [['0','none'],['1','#C9B995'],['2','#D9CDBA'],['3','#E8C4BC'],['4','#A8B89C'],['5','#B4C4CE'],['6','#C08874'],['7','#B6AEC4'],['8','#E6E1D6'],['9','#D99A4E']].forEach(([n,c])=>{
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
