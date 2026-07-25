@@ -1073,7 +1073,7 @@
       if (i > 0) frames[i - 1].classList.remove('on');
       if (i < frames.length) {
         frames[i].classList.add('on'); i++;
-        setTimeout(step, 132);
+        setTimeout(step, 104);   // per-frame hold
       } else {
         // frame 18 IS the production mark — measure it and drop the real wordmark exactly on top,
         // so the handoff is invisible instead of a dissolve-and-snap.
