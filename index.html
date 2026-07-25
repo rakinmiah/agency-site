@@ -9,6 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Archivo:wght@400..900&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black&family=Bungee&family=Michroma&family=Monoton&family=Rampart+One&family=Rubik+Mono+One&family=Silkscreen:wght@400;700&family=Syne:wght@800&family=Titan+One&family=Yellowtail&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Case study prototype — JDH Gas</title>
+<script>
+  /* Arm the intro BEFORE first paint. The partner strip is visible by default (no-JS safe), so
+     without this it flashes on for ~250ms and then fades out as the reel takes over. Mirrors
+     runIntro's own condition exactly; runIntro disarms it when the subtext finishes typing. */
+  (function(){
+    var q = new URLSearchParams(location.search);
+    if (q.get('reel') !== '0' && !matchMedia('(prefers-reduced-motion:reduce)').matches)
+      document.documentElement.classList.add('reelarm');
+  })();
+</script>
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
   :root{
@@ -81,6 +91,29 @@
   .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78);
               max-width:30ch;margin:0 auto}
   .heroleft p b{color:#fff;font-weight:650}
+  /* partner strip — three boxes locked to the copy column. .trust carries the paragraph's OWN
+     font-size so its `ch` resolves identically: the row is exactly as wide as the subtext. */
+  .trust{font-size:clamp(1.05rem,1.5vw,1.35rem);max-width:30ch;margin:30px auto 0;
+         display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .tbox{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;
+        padding:13px 5px 12px;border:1px solid rgba(244,241,234,.15);border-radius:5px;
+        background:rgba(244,241,234,.04);text-align:center}
+  .tbox svg{width:19px;height:19px;display:block;flex:none}
+  /* Meta's mark is ~2:1 — squared into 19px it reads half the weight of the G and the grid.
+     Wider box, same 19px slot height, so the labels below stay on one line across all three. */
+  .tbox svg.meta{width:30px}
+  .tbox .tn{font-size:11px;font-weight:650;letter-spacing:-.005em;line-height:1;
+            color:rgba(244,241,234,.95)}
+  .tbox .tp{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;line-height:1;
+            color:rgba(244,241,234,.56);white-space:nowrap}
+  @media (max-width:359px){.tbox .tp{font-size:8.5px;letter-spacing:.03em}}   /* SE headroom */
+  /* spawned after the subtext finishes typing, left to right */
+  /* armed in <head> so the strip is never painted before the reel; disarmed after the type. */
+  html.reelarm .trust .tbox{opacity:0;transform:translateY(9px);transition:none}
+  .trust .tbox{transition:opacity .55s ease,transform .55s cubic-bezier(.22,.61,.24,1)}
+  .trust .tbox:nth-child(2){transition-delay:.10s}
+  .trust .tbox:nth-child(3){transition-delay:.20s}
+  @media (prefers-reduced-motion:reduce){.trust .tbox{transition:none}}
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
@@ -95,9 +128,13 @@
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
     .heroleft{top:17%}
     .heroleft p{font-size:1.15rem}
+    .trust{font-size:1.15rem;margin-top:24px;gap:7px}          /* stays locked to the copy column */
+    .tbox{padding:11px 4px 10px;gap:7px}
+    .tbox svg{width:17px;height:17px}
     /* ?hero=center — Monolog-style centered statement variant */
     .hero.centered .heroleft{left:24px;right:24px;top:31%;text-align:center}
     .hero.centered .heroleft p{max-width:26ch;margin:0 auto}
+    .hero.centered .trust{max-width:26ch}
   }
   :root{--acc:#83B7D8;--acc-dark:#4F6E82}   /* LOOMWORK accent + its light-ground sibling */
   .hero .mark{color:#F4F1EA}
@@ -489,6 +526,37 @@
   </div>
   <div class="heroleft">
     <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
+    <!-- ILLUSTRATIVE / UNVERIFIED: these three are EARNED programme statuses (Google Partner,
+         Microsoft Advertising Partner, Meta Business Partner), each with its own spend and
+         certification thresholds. Do NOT deploy this strip until the accreditations are actually
+         held — swap in the honest proof points instead. -->
+    <div class="trust" aria-label="Partner accreditations">
+      <div class="tbox">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+          <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
+          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+        </svg>
+        <span class="tn">Google</span><span class="tp">Ads Partner</span>
+      </div>
+      <div class="tbox">
+        <svg viewBox="0 0 23 23" aria-hidden="true">
+          <path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/>
+          <path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/>
+        </svg>
+        <span class="tn">Microsoft</span><span class="tp">Ads Partner</span>
+      </div>
+      <div class="tbox">
+        <svg class="meta" viewBox="0 0 40 22" fill="none" aria-hidden="true">
+          <defs><linearGradient id="metag" x1="4" y1="11" x2="36" y2="11" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#0064E0"/><stop offset="1" stop-color="#0082FB"/></linearGradient></defs>
+          <path d="M6.4 11c0-3.6 2-6 4.6-6 2.5 0 4.3 1.9 6.6 5.3 2.8 4.1 4.4 6.4 6.8 6.4 2.5 0 4.2-2.2 4.2-5.7 0-3.9-1.9-6.5-4.6-6.5-2.4 0-4.2 1.8-6.4 5.2-2.8 4.3-4.5 6.9-7 6.9C8 16.6 6.4 14.3 6.4 11z"
+                stroke="url(#metag)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="tn">Meta</span><span class="tp">Ads Partner</span>
+      </div>
+    </div>
   </div>
   <div class="scrollpill" aria-hidden="true"></div>
   <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
@@ -1155,10 +1223,12 @@
   function runIntro(){
     const hero = document.querySelector('.hero');
     const vid = document.querySelector('.heroimg video');
+    const disarm = () => document.documentElement.classList.remove('reelarm');
     const start = () => { if (vid) vid.play().catch(()=>{}); };
-    if (reduced || new URLSearchParams(location.search).get('reel') === '0') { start(); return; }
+    if (reduced || new URLSearchParams(location.search).get('reel') === '0') { disarm(); start(); return; }
     if (vid) vid.pause();
     prepMission();                                 // never show the copy whole
+    document.documentElement.classList.add('reelarm');   // re-arm, so ↻ replay hides the strip too
     hero.classList.add('intro');
     // lift the mark to the centre of the hero at logo scale
     const place = () => {
@@ -1179,7 +1249,7 @@
           setTimeout(() => {
             wm.classList.remove('travel');
             wm.style.transformOrigin = '';
-            typeMission(start);
+            typeMission(() => { disarm(); start(); });   // partner strip spawns after the copy
           }, 1250);
         }, 420);                                   // hold on the landed mark before it moves
       });
