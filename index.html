@@ -84,15 +84,6 @@
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
                       border-top:1.5px solid rgba(244,241,234,.9);border-right:1.5px solid rgba(244,241,234,.9)}
-  .heroright{position:absolute;z-index:2;right:28px;top:27%;text-align:right;display:flex;
-             flex-direction:column;align-items:flex-end;gap:34px}
-  .heroright .go{margin-top:0}
-  .mobgo{display:none}
-  .svclist{font-size:1.05rem;line-height:1.6;color:rgba(244,241,234,.9)}
-  .svclist i{font-style:normal;color:rgba(244,241,234,.5);margin-right:8px;font-size:.85em}
-  .copystrip{display:flex;align-items:center;gap:10px;
-             color:rgba(244,241,234,.55);font-size:.85rem}
-  .copystrip .ticks{letter-spacing:2px;font-size:.7rem;opacity:.7}
   .cross{position:absolute;z-index:2;color:rgba(244,241,234,.55);font-size:20px;font-weight:300;pointer-events:none}
   .scrollpill{position:absolute;z-index:2;left:50%;bottom:14px;transform:translateX(-50%);
               width:46px;height:9px;border-radius:999px;border:1.5px solid rgba(244,241,234,.5)}
@@ -104,17 +95,9 @@
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
     .heroleft{top:17%;max-width:26ch}
     .heroleft p{font-size:1.15rem}
-    .mobgo{display:inline-block;font-size:1.15rem;margin-top:34px}
-    .heroright .go{display:none}
-    .heroright{top:auto;bottom:16vh;right:auto;left:28px;text-align:left;align-items:flex-start;gap:14px}
-    .svclist{font-size:1.05rem;line-height:1.7}
-    .copystrip{margin-top:8px}
     /* ?hero=center — Monolog-style centered statement variant */
     .hero.centered .heroleft{left:24px;right:24px;top:31%;max-width:none;text-align:center}
     .hero.centered .heroleft p{max-width:26ch;margin:0 auto}
-    .hero.centered .mobgo{margin-top:38px}
-    .hero.centered .heroright{left:24px;right:24px;align-items:center;text-align:center}
-    .hero.centered .copystrip{justify-content:center}
   }
   :root{--acc:#83B7D8;--acc-dark:#4F6E82}   /* LOOMWORK accent + its light-ground sibling */
   .hero .mark{color:#F4F1EA}
@@ -132,7 +115,7 @@
   .pal .go:after{border-color:var(--acc)}
   .pal .go{border-bottom-color:var(--acc)}
   .pal .faqleft .eyebrow, .pal .close .eyebrow{color:var(--acc)}
-  .pal .copystrip .ticks, .pal .footbar .ticks{color:var(--acc);opacity:.9}
+  .pal .footbar .ticks{color:var(--acc);opacity:.9}
   .pal .iform input:focus, .pal .iform textarea:focus{border-color:var(--acc);outline:none}
   .pal .explorepill{border-color:var(--acc)}
   .pal .bigbook .sq{background:var(--acc);color:#101114}
@@ -274,8 +257,8 @@
   .wordmark .lw-cant{display:inline-flex;align-items:flex-end}
   .wordmark.reeling #wmtext{display:inline-block}
   /* ── intro choreography: nav + centred reel → mark travels down → text types → video starts ── */
-  .hero.intro .heroleft, .hero.intro .heroright, .hero.intro .scrollpill, .hero.intro .cross{opacity:0}
-  .hero .heroleft, .hero .heroright, .hero .scrollpill, .hero .cross{transition:opacity .5s ease}
+  .hero.intro .heroleft, .hero.intro .scrollpill, .hero.intro .cross{opacity:0}
+  .hero .heroleft, .hero .scrollpill, .hero .cross{transition:opacity .5s ease}
   .wordmark.travel{transition:transform 1250ms cubic-bezier(.22,.61,.24,1)}
   .heroleft .caret{display:inline-block;width:.5ch;background:currentColor;animation:cb .9s steps(1) infinite;
                    vertical-align:-.08em;height:1.05em;margin-left:.06em}
@@ -506,12 +489,6 @@
   </div>
   <div class="heroleft">
     <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
-    <a class="go mobgo" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call</a>
-  </div>
-  <div class="heroright">
-    <a class="go" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call</a>
-    <div class="svclist"><div>Websites</div><div>Search</div><div>Enquiries</div></div>
-    <div class="copystrip">&copy; 2026 <span class="ticks">||||||||||</span> BN1</div>
   </div>
   <span class="cross" style="left:46%;top:50%">+</span>
   <span class="cross" style="left:30%;top:66%">+</span>
