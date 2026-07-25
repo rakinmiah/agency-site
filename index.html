@@ -80,7 +80,6 @@
   .heroleft{position:absolute;z-index:2;left:0;right:0;top:29%;text-align:center}
   .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78);
               max-width:30ch;margin:0 auto}
-  .heromark{display:block;font-size:46px;line-height:1;margin:0 auto 26px}
   .heroleft p b{color:#fff;font-weight:650}
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
@@ -95,7 +94,6 @@
     .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
     .heroleft{top:17%}
-    .heromark{font-size:34px;margin-bottom:20px}
     .heroleft p{font-size:1.15rem}
     /* ?hero=center — Monolog-style centered statement variant */
     .hero.centered .heroleft{left:24px;right:24px;top:31%;text-align:center}
@@ -490,7 +488,6 @@
     <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
   </div>
   <div class="heroleft">
-    <span class="heromark"><span class="lw-lem up"></span></span>
     <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
   </div>
   <div class="scrollpill" aria-hidden="true"></div>
@@ -885,15 +882,16 @@
   // accent candidates — light + desaturated (the premium register); all ≥6.5:1 on ink
   // pale-slate ladder — same hue family (203°), stepping lighter
   // accent shortlist — the cool family with real presence on ink
-  const PALETTES = {1:'#A1BDCE',  // A1 saturate
-                    2:'#92BAD3',  // A2 saturate
-                    3:'#83B7D8',  // ★ LOCKED — the studio accent
-                    4:'#92AEBF',  // B1 deepen
-                    5:'#7AA0B8',  // B2 deepen
-                    6:'#6293B2',  // B3 deepen
-                    7:'#7A94AE',  // C2 steel
-                    8:'#6080A9',  // C3 steel
-                    9:'#D5DDE2'}; // the current pale slate, for comparison
+  // vibrant blue shortlist
+  const PALETTES = {1:'#70B5E1',  // V1a  softest lift
+                    2:'#5CB4EB',  // V1b
+                    3:'#47B2F5',  // V1c
+                    4:'#42B6F0',  // V2a
+                    5:'#36A4F2',  // V2b
+                    6:'#3D99F5',  // V3a  true azure
+                    7:'#29B8FF',  // V4a  electric
+                    8:'#39CBEF',  // V5a  cyan-lean
+                    9:'#83B7D8'}; // previous accent, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) { document.body.classList.add('pal'); applyAcc(PALETTES[palN], true); }
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
@@ -1124,15 +1122,22 @@
     step();
   }
   /* type the mission paragraph, preserving its markup */
-  function typeMission(done){
+  let MISSION = null;
+  function prepMission(){                       // capture and blank BEFORE anything is revealed
     const host = document.querySelector('.heroleft p');
-    if (!host) { done && done(); return; }
+    if (!host || MISSION) return;
     const parts = [];
     (function walk(n){ [].forEach.call(n.childNodes, c => {
       if (c.nodeType === 3) parts.push({ node: c, text: c.nodeValue });
       else walk(c);
     }); })(host);
     parts.forEach(p => p.node.nodeValue = '');
+    MISSION = { host, parts };
+  }
+  function typeMission(done){
+    prepMission();
+    if (!MISSION) { done && done(); return; }
+    const host = MISSION.host, parts = MISSION.parts;
     const caret = document.createElement('i'); caret.className = 'caret';
     host.appendChild(caret);
     let pi = 0, ci = 0;
@@ -1153,6 +1158,7 @@
     const start = () => { if (vid) vid.play().catch(()=>{}); };
     if (reduced || new URLSearchParams(location.search).get('reel') === '0') { start(); return; }
     if (vid) vid.pause();
+    prepMission();                                 // never show the copy whole
     hero.classList.add('intro');
     // lift the mark to the centre of the hero at logo scale
     const place = () => {
@@ -1213,7 +1219,7 @@
       const pcur=q.get('pal')||'0';
       const pwrap=document.createElement('span'); pwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       pwrap.innerHTML='<b>PAL</b>';
-      [['0','reset'],['1','#A1BDCE'],['2','#92BAD3'],['3','#83B7D8'],['4','#92AEBF'],['5','#7AA0B8'],['6','#6293B2'],['7','#7A94AE'],['8','#6080A9'],['9','#D5DDE2']].forEach(([n,c])=>{
+      [['0','reset'],['1','#70B5E1'],['2','#5CB4EB'],['3','#47B2F5'],['4','#42B6F0'],['5','#36A4F2'],['6','#3D99F5'],['7','#29B8FF'],['8','#39CBEF'],['9','#83B7D8']].forEach(([n,c])=>{
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
