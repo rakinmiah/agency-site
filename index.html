@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Bodoni+Moda:wght@700..900&family=Stardos+Stencil:wght@700&family=Space+Mono:wght@700&family=Caveat:wght@700&family=Alfa+Slab+One&family=Rye&family=Poiret+One&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Bodoni+Moda:wght@700..900&family=Stardos+Stencil:wght@700&family=Space+Mono:wght@700&family=Caveat:wght@700&family=Alfa+Slab+One&family=Rye&family=Cinzel:wght@700..900&family=Special+Elite&family=Bungee&display=block" rel="stylesheet">
 <title>Case study prototype — JDH Gas</title>
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
@@ -169,20 +169,32 @@
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
             color:transparent;animation:sheen 9s ease-in-out infinite}
   /* ── hero logo reel: the wordmark flips through treatments on load, lands on the real mark ── */
-  .wordmark.r1 #wmtext{font-family:'UnifrakturMaguntia',serif;letter-spacing:0}           /* 1155 guild blackletter */
-  .wordmark.r2 #wmtext{font-family:'Bodoni Moda',serif;font-weight:900;letter-spacing:-.01em}/* mill signage */
-  .wordmark.r3 #wmtext{font-family:'Rye',serif;letter-spacing:-.01em}                      /* victorian wood type */
-  .wordmark.r4 #wmtext{font-family:'Stardos Stencil',sans-serif;font-weight:700;letter-spacing:.01em}/* crate stencil */
-  .hero.hasimg .wordmark.r5 #wmtext{-webkit-text-fill-color:transparent;                   /* woven warp threads */
+  .wordmark.r1 #wmtext{font-family:'UnifrakturMaguntia',serif;letter-spacing:0}            /* 1155 guild blackletter */
+  .wordmark.r2 #wmtext{transform:scaleX(1.32);letter-spacing:-.05em}                       /* extended */
+  .wordmark.r3 #wmtext{font-family:'Bodoni Moda',serif;font-weight:900;letter-spacing:-.01em}/* mill signage */
+  .hero.hasimg .wordmark.r4 #wmtext{-webkit-text-fill-color:transparent;                    /* warp — horizontal threads */
     background-image:repeating-linear-gradient(0deg,#F4F1EA 0 7px,transparent 7px 12px);
     -webkit-background-clip:text;background-clip:text}
-  .wordmark.r6 #wmtext{font-family:'Space Mono',monospace;font-weight:700;letter-spacing:-.04em}/* jacquard punch card */
-  .wordmark.r7 #wmtext{font-family:'Poiret One',sans-serif;letter-spacing:.02em}           /* deco */
-  .wordmark.r8 #wmtext{font-family:'Caveat',cursive;font-weight:700;letter-spacing:0}      /* signwriter's hand */
-  .wordmark.r9 #wmtext{text-shadow:7px 6px 0 #F6CACB}                                      /* off-register print */
-  .wordmark.r10 #wmtext{font-family:'Alfa Slab One',serif;letter-spacing:-.02em}           /* victorian slab */
-  .wordmark.r11 #wmtext{transform:scaleX(1.32);letter-spacing:-.05em}                      /* extended */
-  .hero.hasimg .wordmark.r12 #wmtext{-webkit-text-fill-color:transparent;-webkit-text-stroke:2px #F4F1EA}/* blueprint outline */
+  .wordmark.r5 #wmtext{font-family:'Rye',serif;letter-spacing:-.01em}                       /* victorian wood type */
+  .hero.hasimg .wordmark.r6 #wmtext{-webkit-text-fill-color:transparent;-webkit-text-stroke:2px #F4F1EA}/* blueprint outline */
+  .wordmark.r7 #wmtext{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.01em}     /* carved stone */
+  .wordmark.r8 #wmtext{text-shadow:7px 6px 0 #F6CACB}                                       /* off-register print */
+  .wordmark.r9 #wmtext{font-family:'Stardos Stencil',sans-serif;font-weight:700;letter-spacing:.01em}/* crate stencil */
+  .wordmark.r10 #wmtext{transform:scaleX(.72);letter-spacing:.01em}                         /* condensed */
+  .wordmark.r11 #wmtext{font-family:'Space Mono',monospace;font-weight:700;letter-spacing:-.04em}/* jacquard punch card */
+  .hero.hasimg .wordmark.r12 #wmtext{background:#F4F1EA;-webkit-text-fill-color:#0B0B0D;color:#0B0B0D;padding:0 .05em}/* knockout */
+  .wordmark.r13 #wmtext{font-family:'Special Elite',cursive;letter-spacing:-.01em}          /* typewriter docket */
+  .hero.hasimg .wordmark.r14 #wmtext{-webkit-text-fill-color:transparent;                   /* weft — vertical threads */
+    background-image:repeating-linear-gradient(90deg,#F4F1EA 0 9px,transparent 9px 15px);
+    -webkit-background-clip:text;background-clip:text}
+  .wordmark.r15 #wmtext{font-family:'Caveat',cursive;font-weight:700;letter-spacing:0}      /* signwriter's hand */
+  .wordmark.r16 #wmtext{text-shadow:5px 5px 0 #C79596,10px 10px 0 #8C6768,15px 15px 0 #55393A}/* extrude */
+  .wordmark.r17 #wmtext{font-family:'Alfa Slab One',serif;letter-spacing:-.02em}            /* victorian slab */
+  .hero.hasimg .wordmark.r18 #wmtext{-webkit-text-fill-color:transparent;                   /* duotone split */
+    background-image:linear-gradient(90deg,#F4F1EA 0 47%,#F6CACB 47% 100%);
+    -webkit-background-clip:text;background-clip:text}
+  .wordmark.r19 #wmtext{font-family:'Bungee',sans-serif;letter-spacing:-.01em}              /* signage */
+  .hero.hasimg .wordmark.r20 #wmtext{-webkit-text-fill-color:transparent;text-shadow:0 0 26px rgba(244,241,234,.9)}/* ghost */
   .wordmark.reeling #wmtext{display:inline-block}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
@@ -884,11 +896,12 @@
   /* ── logo reel: flip the wordmark through treatments, land on the real mark, stay ──
      Runs once per page load (refresh replays it). Skipped for reduced-motion. */
   const REEL_FONTS = ['400 100px UnifrakturMaguntia','900 100px "Bodoni Moda"','400 100px Rye',
-                      '700 100px "Stardos Stencil"','700 100px "Space Mono"','400 100px "Poiret One"',
-                      '700 100px Caveat','400 100px "Alfa Slab One"'];
-  // guild → mill → wood type → stencil → woven → punch card → deco → signwriter → off-register → slab → extended → blueprint
-  const REEL = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11','r12'];
-  const REEL_MS = 235;
+                      '900 100px Cinzel','700 100px "Stardos Stencil"','700 100px "Space Mono"',
+                      '400 100px "Special Elite"','700 100px Caveat','400 100px "Alfa Slab One"','400 100px Bungee'];
+  // 20 treatments, alternating typeface / CSS-built so no two consecutive frames feel alike
+  const REEL = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10',
+                'r11','r12','r13','r14','r15','r16','r17','r18','r19','r20'];
+  const REEL_MS = 115;
   function runReel(){
     if (reduced || new URLSearchParams(location.search).get('reel') === '0') return;
     wm.classList.add('reeling');
