@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Bodoni+Moda:wght@700..900&family=Stardos+Stencil:wght@700&family=Space+Mono:wght@700&family=Caveat:wght@700&family=Alfa+Slab+One&family=Rye&family=Cinzel:wght@700..900&family=Special+Elite&family=Bungee&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..900&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet">
 <title>Case study prototype — JDH Gas</title>
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
@@ -164,37 +164,42 @@
   .wordmark{position:relative;z-index:2;margin-top:auto;padding:6vh 0 0;
             font-family:'Anton',-apple-system,sans-serif;font-weight:400;
             letter-spacing:-.02em;line-height:.82;white-space:nowrap;user-select:none;text-align:center;
-            transform-origin:left bottom;margin-bottom:.04em;
+            transform-origin:left bottom;margin-bottom:.17em;
             background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
             color:transparent;animation:sheen 9s ease-in-out infinite}
   /* ── hero logo reel: the wordmark flips through treatments on load, lands on the real mark ── */
-  .wordmark.r1 #wmtext{font-family:'UnifrakturMaguntia',serif;letter-spacing:0}            /* 1155 guild blackletter */
-  .wordmark.r2 #wmtext{transform:scaleX(1.32);letter-spacing:-.05em}                       /* extended */
-  .wordmark.r3 #wmtext{font-family:'Bodoni Moda',serif;font-weight:900;letter-spacing:-.01em}/* mill signage */
-  .hero.hasimg .wordmark.r4 #wmtext{-webkit-text-fill-color:transparent;                    /* warp — horizontal threads */
-    background-image:repeating-linear-gradient(0deg,#F4F1EA 0 7px,transparent 7px 12px);
-    -webkit-background-clip:text;background-clip:text}
-  .wordmark.r5 #wmtext{font-family:'Rye',serif;letter-spacing:-.01em}                       /* victorian wood type */
-  .hero.hasimg .wordmark.r6 #wmtext{-webkit-text-fill-color:transparent;-webkit-text-stroke:2px #F4F1EA}/* blueprint outline */
-  .wordmark.r7 #wmtext{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.01em}     /* carved stone */
-  .wordmark.r8 #wmtext{text-shadow:7px 6px 0 #F6CACB}                                       /* off-register print */
-  .wordmark.r9 #wmtext{font-family:'Stardos Stencil',sans-serif;font-weight:700;letter-spacing:.01em}/* crate stencil */
-  .wordmark.r10 #wmtext{transform:scaleX(.72);letter-spacing:.01em}                         /* condensed */
-  .wordmark.r11 #wmtext{font-family:'Space Mono',monospace;font-weight:700;letter-spacing:-.04em}/* jacquard punch card */
-  .hero.hasimg .wordmark.r12 #wmtext{background:#F4F1EA;-webkit-text-fill-color:#0B0B0D;color:#0B0B0D;padding:0 .05em}/* knockout */
-  .wordmark.r13 #wmtext{font-family:'Special Elite',cursive;letter-spacing:-.01em}          /* typewriter docket */
-  .hero.hasimg .wordmark.r14 #wmtext{-webkit-text-fill-color:transparent;                   /* weft — vertical threads */
-    background-image:repeating-linear-gradient(90deg,#F4F1EA 0 9px,transparent 9px 15px);
-    -webkit-background-clip:text;background-clip:text}
-  .wordmark.r15 #wmtext{font-family:'Caveat',cursive;font-weight:700;letter-spacing:0}      /* signwriter's hand */
-  .wordmark.r16 #wmtext{text-shadow:5px 5px 0 #C79596,10px 10px 0 #8C6768,15px 15px 0 #55393A}/* extrude */
-  .wordmark.r17 #wmtext{font-family:'Alfa Slab One',serif;letter-spacing:-.02em}            /* victorian slab */
-  .hero.hasimg .wordmark.r18 #wmtext{-webkit-text-fill-color:transparent;                   /* duotone split */
-    background-image:linear-gradient(90deg,#F4F1EA 0 47%,#F6CACB 47% 100%);
-    -webkit-background-clip:text;background-clip:text}
-  .wordmark.r19 #wmtext{font-family:'Bungee',sans-serif;letter-spacing:-.01em}              /* signage */
-  .hero.hasimg .wordmark.r20 #wmtext{-webkit-text-fill-color:transparent;text-shadow:0 0 26px rgba(244,241,234,.9)}/* ghost */
+  /* ── LOOMWORK marks: treatments from the wordmark study (brand/) ── */
+  #wmtext{display:inline-flex;align-items:center}
+  .lw-loop{display:inline-block;width:1.23em;height:.686em;border:.128em solid currentColor;
+           border-radius:.34em;margin:0 .055em;box-sizing:border-box}
+  .lw-ring{display:inline-flex;margin:0 .04em}
+  .lw-ring i{width:.44em;height:.44em;border:.128em solid currentColor;border-radius:50%;box-sizing:border-box}
+  .lw-ring i+i{margin-left:-.215em}
+  .lw-bob{display:inline-flex;gap:.05em;margin:0 .04em}
+  .lw-bob i{width:.7em;height:.7em;border:.1em solid currentColor;border-radius:50%;box-sizing:border-box;
+            display:inline-grid;place-items:center}
+  .lw-bob i:after{content:"";width:.13em;height:.13em;border:.072em solid currentColor;border-radius:50%}
+  .wordmark.w1  #wmtext{-webkit-text-fill-color:transparent;background-image:repeating-linear-gradient(90deg,#F1ECE2 0 .07em,transparent .07em .125em);-webkit-background-clip:text;background-clip:text}   /* warp */
+  .wordmark.w2  #wmtext{-webkit-text-fill-color:transparent;background-image:repeating-linear-gradient(0deg,#F1ECE2 0 .055em,transparent .055em .1em);-webkit-background-clip:text;background-clip:text}    /* weft */
+  .wordmark.w3  #wmtext{-webkit-text-fill-color:transparent;background-image:repeating-conic-gradient(#F1ECE2 0 25%,transparent 0 50%);background-size:.11em .11em;-webkit-background-clip:text;background-clip:text} /* plain weave */
+  .wordmark.w4  #wmtext{font-family:'Instrument Serif',serif;font-style:italic;letter-spacing:0;text-transform:none} /* handloom */
+  .wordmark.w5  #wmtext{letter-spacing:.14em;border-left:.045em solid currentColor;border-right:.045em solid currentColor;padding:0 .12em} /* tension */
+  .wordmark.w6  #wmtext{font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:-.02em;text-transform:lowercase} /* underscore */
+  .wordmark.w7  #wmtext{-webkit-mask-image:linear-gradient(#000 62%,transparent 96%),repeating-linear-gradient(90deg,#000 0 .05em,transparent .05em .09em);-webkit-mask-composite:source-over;mask-composite:add} /* fray */
+  .wordmark.w8  #wmtext{transform:skewX(-12deg);-webkit-text-fill-color:transparent;background-image:repeating-linear-gradient(45deg,#F1ECE2 0 .06em,transparent .06em .12em);-webkit-background-clip:text;background-clip:text} /* bias / twill */
+  .wordmark.w9  #wmtext{letter-spacing:.2em}                                                       /* thread count */
+  .wordmark.w10 #wmtext{-webkit-text-fill-color:transparent;background-image:radial-gradient(circle at 50% 50%,transparent .028em,#F1ECE2 .029em);background-size:.1em .1em;-webkit-background-clip:text;background-clip:text} /* jacquard */
+  .wordmark.w11 #wmtext{-webkit-text-fill-color:transparent;background-image:linear-gradient(90deg,#F1ECE2 0 47%,#D99A4E 47% 100%);-webkit-background-clip:text;background-clip:text} /* overprint */
+  .wordmark.w12 #wmtext{text-shadow:.055em .05em 0 rgba(241,236,226,.28)}                          /* double cloth */
+  .wordmark.w13 #wmtext{font-family:'Bebas Neue',sans-serif;letter-spacing:.02em}                  /* bebas cut */
+  .wordmark.w14 #wmtext{position:relative;border-top:.035em solid currentColor;border-bottom:.035em solid currentColor;padding:.04em 0} /* selvedge */
+  .wordmark.w14 #wmtext:after{content:"";position:absolute;left:0;right:0;top:100%;height:.12em;
+    background-image:repeating-linear-gradient(90deg,currentColor 0 .014em,transparent .014em .04em)}
+  .wordmark.w15 #wmtext{position:relative}                                                         /* thrums */
+  .wordmark.w15 #wmtext:before{content:"";position:absolute;left:2%;right:2%;bottom:100%;height:.16em;
+    background-image:repeating-linear-gradient(90deg,currentColor 0 .016em,transparent .016em .11em)}
+  .wordmark.w16 #wmtext{font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.045em}   /* swiss */
   .wordmark.reeling #wmtext{display:inline-block}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
@@ -202,6 +207,7 @@
   /* top bar */
   .bar{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
   .mark{font-weight:800;letter-spacing:-.02em}
+  .mark .lw-loop{width:1.16em;height:.62em;border-width:.15em;border-radius:.31em;margin:0 .04em;vertical-align:-.03em}
   .mark span{color:var(--dim);font-weight:500}
   .cta{border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;font-weight:650;font-size:14px;
        text-decoration:none;color:var(--ink);transition:background .15s,color .15s}
@@ -397,7 +403,7 @@
 <header class="hero centered">
   <div class="texture" aria-hidden="true"><canvas class="fx"></canvas><div class="grain"></div></div>
   <div class="bar">
-    <div class="mark"><span id="markname">Placeholder</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
+    <div class="mark"><span id="markname">Loomwork</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
     <nav class="navnums">
       <a href="#work">Work</a><a href="#">Services</a><a href="#">About</a><a href="#contact">Contact</a>
     </nav>
@@ -416,7 +422,7 @@
   <span class="cross" style="left:30%;top:66%">+</span>
   <span class="cross" style="right:9%;top:52%">+</span>
   <div class="scrollpill" aria-hidden="true"></div>
-  <div class="wordmark" id="wordmark"><span id="wmtext" style="display:inline-block">PLACEHOLDER</span></div>
+  <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
 </header>
 
 
@@ -555,7 +561,7 @@
 <footer>
   <div class="footgrid">
     <div>
-      <div class="mark"><span id="footname">Placeholder</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
+      <div class="mark"><span id="footname">Loomwork</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
       <p class="tag">Websites for local businesses that earn their keep — Brighton &amp; Sussex.</p>
     </div>
     <nav class="footnav">
@@ -564,7 +570,7 @@
     <a class="cta2" style="align-self:start" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a call <span class="sq">&#8599;</span></a>
   </div>
   <div class="footbar">
-    <span>&copy; 2026 <span id="footcopy">Placeholder Studio</span> · Brighton &amp; Sussex</span>
+    <span>&copy; 2026 <span id="footcopy">Loomwork</span> · Brighton &amp; Sussex</span>
     <span class="ticks">||||||||||</span>
     <span>BN1 · Built the way we build yours.</span>
   </div>
@@ -841,9 +847,9 @@
   if (nm) {
     const clean = nm.replace(/[^\w &'’.-]/g, '').slice(0, 18).toUpperCase();
     if (clean) { const t = clean[0] + clean.slice(1).toLowerCase();
-      document.getElementById('wmtext').textContent = clean;
-      document.getElementById('markname').textContent = t;
-      const fn = document.getElementById('footname'); if (fn) fn.textContent = t;
+      const wt = document.getElementById('wmtext'); wt.dataset.name = clean; wt.innerHTML = markHTML(clean);
+      document.getElementById('markname').innerHTML = markHTML(clean, null, true);
+      const fn = document.getElementById('footname'); if (fn) fn.innerHTML = document.getElementById('markname').innerHTML;
       const fc = document.getElementById('footcopy'); if (fc) fc.textContent = t;
     }
   }
@@ -890,31 +896,62 @@
     const heightCap = innerHeight * 0.42;   // short names: stop at a designed scale, don't swallow the hero
     wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap)) + 'px';
   }
+  (function paintMarks(){
+    const wt = document.getElementById('wmtext');
+    const nm = wt.dataset.name || wt.textContent.trim();
+    wt.innerHTML = markHTML(nm);
+    const small = markHTML(nm, null, true);
+    const mn = document.getElementById('markname'); if (mn) mn.innerHTML = small;
+    const fn = document.getElementById('footname'); if (fn) fn.innerHTML = small;
+  })();
   fitWordmark();
   addEventListener('resize', fitWordmark, { passive: true });
 
+  /* the resting mark: CONTINUOUS — one thread through the name (wordmark study #16) */
+  function markHTML(name, variant, small){
+    const n = (name || 'LOOMWORK').toUpperCase();
+    const i = n.indexOf('OO');
+    const cap = t => small ? (t.charAt(0) + t.slice(1).toLowerCase()) : t;
+    if (i < 0 || new URLSearchParams(location.search).get('mark') === 'plain') return cap(n);
+    const a = cap(n.slice(0, i)), b = small ? n.slice(i + 2).toLowerCase() : n.slice(i + 2);
+    if (variant === 'ring') return a + '<span class="lw-ring"><i></i><i></i></span>' + b;
+    if (variant === 'bob')  return a + '<span class="lw-bob"><i></i><i></i></span>' + b;
+    if (variant === 'flat') return cap(n);
+    return a + '<span class="lw-loop"></span>' + b;
+  }
+
   /* ── logo reel: flip the wordmark through treatments, land on the real mark, stay ──
      Runs once per page load (refresh replays it). Skipped for reduced-motion. */
-  const REEL_FONTS = ['400 100px UnifrakturMaguntia','900 100px "Bodoni Moda"','400 100px Rye',
-                      '900 100px Cinzel','700 100px "Stardos Stencil"','700 100px "Space Mono"',
-                      '400 100px "Special Elite"','700 100px Caveat','400 100px "Alfa Slab One"','400 100px Bungee'];
-  // 20 treatments, alternating typeface / CSS-built so no two consecutive frames feel alike
-  const REEL = ['r1','r2','r3','r4','r5','r6','r7','r8','r9','r10',
-                'r11','r12','r13','r14','r15','r16','r17','r18','r19','r20'];
-  const REEL_MS = 115;
+  const REEL_FONTS = ['900 100px Archivo','400 100px "Bebas Neue"','400 100px "Instrument Serif"',
+                      '500 100px "JetBrains Mono"'];
+  // 16 loom-native treatments from the wordmark study; 'v' swaps the mark's DOM where needed
+  const REEL = [
+    {c:'w1'},  {c:'w4'},  {c:'w2'},  {c:'w5'},
+    {c:'w3'},  {c:'w6'},  {c:'w7'},  {c:'', v:'bob'},
+    {c:'w8'},  {c:'w9'},  {c:'w10'}, {c:'w11'},
+    {c:'w15'}, {c:'', v:'ring'}, {c:'w12'}, {c:'w14'}
+  ];
+  const REEL_CLASSES = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15','w16'];
+  const REEL_MS = 125;
   function runReel(){
     if (reduced || new URLSearchParams(location.search).get('reel') === '0') return;
     wm.classList.add('reeling');
+    const txt = document.getElementById('wmtext');
+    const nm = txt.dataset.name || txt.textContent.trim();
+    txt.dataset.name = nm;
     let i = 0;
     const step = () => {
-      REEL.forEach(c => wm.classList.remove(c));
+      REEL_CLASSES.forEach(c => wm.classList.remove(c));
       if (i < REEL.length) {
-        wm.classList.add(REEL[i]);
+        const f = REEL[i];
+        if (f.c) wm.classList.add(f.c);
+        txt.innerHTML = markHTML(nm, f.v || 'flat');
         fitWordmark();
         i++;
         setTimeout(step, REEL_MS);
       } else {
-        fitWordmark();                                  // landed: the real mark
+        txt.innerHTML = markHTML(nm);                   // landed: CONTINUOUS
+        fitWordmark();
         wm.classList.remove('reeling');
       }
     };
