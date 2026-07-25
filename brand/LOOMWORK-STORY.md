@@ -113,3 +113,10 @@ stage and never refitted — the old reel resized the wordmark per frame, which 
   long eased move to its resting place (1250ms, cubic-bezier(.22,.61,.24,1)).
 - Fonts: +11 display families for the reel (197KB total).
 - Reduced motion: no stage, straight to the final mark.
+
+## ACCENT — LOCKED 2026-07-25
+**`#83B7D8`** (hue 203°, sat 52%, light 68%) — the cool slate family with real presence.
+Light-ground sibling **`#4F6E82`** (4.62:1 on paper). On ink 9.11:1; against cream 1.83:1,
+which is the range where the mark reads as a separate element without fighting the wordmark.
+Rejected: amber #D99A4E (65% sat mid-tone read as "highlighter"); pale slate #D5DDE2
+(only 1.17:1 against cream — the mark vanished into the type). See brand/accent-candidates.jpg.
