@@ -60,3 +60,23 @@ the weaving — it is a tool metaphor, not a spiritual one. British, direct, uns
   (light-ground sibling `#8B6332`). The loop currently carries the amber.
 - **Register:** premium, restrained, editorial. No mysticism, no cottage-craft whimsy,
   no gradients, no mascots.
+
+---
+
+## FINAL MARK — decided 2026-07-25
+
+**CHAIN.** The two O's overlap by exactly one stem width, so they share a stroke and read as
+*interlock* rather than repetition. Meaning: the website and the search holding each other in
+place — warp and weft, the two threads that only become cloth together.
+
+Chosen over the designer's own recommendation (10 · THE PROPOSAL) on the favicon evidence:
+at 16px the bare loop reads as a generic capsule, while CHAIN's interlocked form is instantly
+distinctive and ownable. See brand/favicon-comparison.jpg — all ten devices at true scale.
+
+- Geometry: each link `.566em × .745em`, stroke `.17em`, radius `.283em`, second link
+  `margin-left:-.17em` (overlap = exactly one stroke).
+- Colour: amber `#D99A4E` on ink · dark amber `#8B6332` on paper · mono below 420px.
+- One colour, one stroke weight — reproduces anywhere.
+- Runner-up: 04 PUNCHCARD (square counters, the Jacquard/computer lineage) if the story ever
+  needs to lead with the loom-invented-the-computer angle.
+- `?mark=loop` still renders the previous CONTINUOUS mark for comparison.
