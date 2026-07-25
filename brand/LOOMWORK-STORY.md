@@ -80,3 +80,23 @@ distinctive and ownable. See brand/favicon-comparison.jpg — all ten devices at
 - Runner-up: 04 PUNCHCARD (square counters, the Jacquard/computer lineage) if the story ever
   needs to lead with the loom-invented-the-computer angle.
 - `?mark=loop` still renders the previous CONTINUOUS mark for comparison.
+
+
+---
+
+## FINAL MARK v2 — INTERLACE (decided 2026-07-25, supersedes CHAIN)
+
+**The double-o drawn as one lemniscate, broken once at the crossing** — so the thread passes
+over and under itself. That over-under is what makes cloth: the loop stops being a symbol and
+becomes the weave. The break also keeps it from reading as a generic infinity sign, which a
+closed lemniscate would.
+
+- Chosen from brand/loomwork-infinity-study.html (concept 02, the study's own recommendation).
+- Typeface moves **Anton → Jost** (300/400/500). A real register change: from heavy condensed
+  display to refined geometric. The hero is lighter and more editorial as a result.
+- **Case split:** UPPERCASE for the hero title (cap-height mark, `--lemI10` stroke),
+  lowercase for nav/footer/signature (x-height mark, `--lemI14`; `--lemI22` below 14px).
+- Geometry: uppercase `1.65em x .75em`, lowercase `1.19em x .54em`, rendered as a CSS mask so
+  the mark takes `--acc` (and `--acc-dark` on light grounds, mono under 420px).
+- Paths live in brand/lem-vars.txt and are embedded as :root vars in index.html.
+- Superseded: CHAIN (`?mark=chain`) and CONTINUOUS (`?mark=loop`) both still render for comparison.

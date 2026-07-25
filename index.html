@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..900&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Archivo:wght@400..900&family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=block" rel="stylesheet">
 <title>Case study prototype — JDH Gas</title>
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
@@ -191,14 +191,24 @@
   /* ── hero logo reel: the wordmark flips through treatments on load, lands on the real mark ── */
   /* ── LOOMWORK marks: treatments from the wordmark study (brand/) ── */
   #wmtext{display:inline-flex;align-items:center}
-  /* CHAIN — the two O's overlap by exactly one stem, so they share a stroke:
-     website and search holding each other in place. Amber on ink, dark amber on paper. */
-  .lw-chain{display:inline-block;white-space:nowrap}
-  .lw-chain i{display:inline-block;width:.566em;height:.745em;border:.17em solid var(--acc);
-              border-radius:.283em;box-sizing:border-box;vertical-align:-.012em}
-  .lw-chain i+i{margin-left:-.17em}
-  body.lit .lw-chain i{border-color:var(--acc-dark)}
-  .lw-chain.mono i{border-color:currentColor}
+  /* ── INTERLACE — the double-o drawn as one lemniscate, broken once at the crossing so the
+     thread passes over and under itself. That over-under is the weave. One colour, no
+     background needed. Geometry from brand/loomwork-infinity-study.html. ── */
+  :root{
+    --lemI10:url(data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22220%22%20height=%22100%22%20viewBox=%220%200%20220%20100%22%3E%3Cpath%20fill=%22none%22%20stroke=%22black%22%20stroke-width=%2210%22%20stroke-linecap=%22round%22%20d=%22M110%2050C113%2054%20122%2065%20129%2072C136%2078%20144%2086%20153%2090C161%2093%20173%2097%20183%2094C192%2091%20206%2082%20210%2071C215%2060%20215%2040%20210%2029C206%2018%20192%209%20183%206C173%203%20161%207%20153%2010C144%2014%20136%2022%20129%2028C122%2035%20113%2046%20110%2050M100%2038C97%2035%2089%2025%2082%2020C75%2015%2067%209%2059%207C51%205%2040%204%2031%208C23%2012%2012%2021%209%2031C5%2041%205%2059%209%2069C12%2079%2023%2088%2031%2092C40%2096%2051%2095%2059%2093C67%2091%2075%2085%2082%2080C89%2075%2097%2065%20100%2062%22/%3E%3C/svg%3E);
+    --lemI14:url(data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22220%22%20height=%22100%22%20viewBox=%220%200%20220%20100%22%3E%3Cpath%20fill=%22none%22%20stroke=%22black%22%20stroke-width=%2214%22%20stroke-linecap=%22round%22%20d=%22M110%2050C113%2053%20122%2064%20129%2071C136%2077%20143%2084%20152%2088C160%2091%20172%2095%20181%2092C191%2089%20204%2081%20208%2070C213%2060%20213%2040%20208%2030C204%2019%20191%2011%20181%208C172%205%20160%209%20152%2012C143%2016%20136%2023%20129%2029C122%2036%20113%2047%20110%2050M98%2037C96%2034%2087%2025%2081%2020C74%2015%2067%2010%2059%209C50%207%2040%206%2032%2010C24%2014%2014%2023%2010%2032C7%2042%207%2058%2010%2068C14%2077%2024%2086%2032%2090C40%2094%2050%2093%2059%2091C67%2090%2074%2085%2081%2080C87%2075%2096%2066%2098%2063%22/%3E%3C/svg%3E);
+    --lemI22:url(data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22220%22%20height=%22100%22%20viewBox=%220%200%20220%20100%22%3E%3Cpath%20fill=%22none%22%20stroke=%22black%22%20stroke-width=%2222%22%20stroke-linecap=%22round%22%20d=%22M110%2050C113%2053%20121%2063%20128%2069C135%2075%20142%2081%20150%2084C159%2088%20169%2091%20179%2088C188%2086%20200%2078%20205%2068C209%2059%20209%2041%20205%2032C200%2022%20188%2014%20179%2012C169%209%20159%2012%20150%2016C142%2019%20135%2025%20128%2031C121%2037%20113%2047%20110%2050M95%2034C92%2031%2084%2024%2078%2020C72%2016%2065%2013%2057%2012C49%2011%2040%2011%2033%2015C26%2018%2017%2026%2014%2035C11%2043%2011%2057%2014%2065C17%2074%2026%2082%2033%2085C40%2089%2049%2089%2057%2088C65%2087%2072%2084%2078%2080C84%2076%2092%2069%2095%2066%22/%3E%3C/svg%3E);
+  }
+  .lw-lem{display:inline-block;background:var(--acc);
+          -webkit-mask:var(--lemI14) center/contain no-repeat;mask:var(--lemI14) center/contain no-repeat}
+  .lw-lem.up{width:1.65em;height:.75em;margin:0 .02em;
+             -webkit-mask-image:var(--lemI10);mask-image:var(--lemI10)}      /* cap-height */
+  .lw-lem.lo{width:1.19em;height:.54em;margin:0 .03em}                        /* x-height */
+  body.lit .lw-lem{background:var(--acc-dark)}
+  .lw-lem.mono{background:currentColor}
+  /* small sizes want the heavier stroke */
+  .mark .lw-lem.up{-webkit-mask-image:var(--lemI14);mask-image:var(--lemI14)}
+  @media (max-width:420px){.mark .lw-lem{background:currentColor}}
   /* previous mark, kept for ?mark=loop comparison */
   .lw-loop{display:inline-block;width:1.23em;height:.686em;border:.128em solid var(--acc);
            border-radius:.34em;margin:0 .055em;box-sizing:border-box}
@@ -270,12 +280,13 @@
                    vertical-align:-.08em;height:1.05em;margin-left:.06em}
   @keyframes cb{0%,50%{opacity:1}51%,100%{opacity:0}}
   @media (prefers-reduced-motion:reduce){.heroleft .caret{animation:none}}
+  .wordmark.rest #wmtext{font-family:'Jost',sans-serif;font-weight:400;letter-spacing:-.01em}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
 
   /* top bar */
   .bar{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
-  .mark{font-weight:800;letter-spacing:-.02em}
+  .mark{font-family:'Jost',sans-serif;font-weight:400;letter-spacing:-.01em}
   .mark .lw-loop{width:1.16em;height:.62em;border-width:.15em;border-radius:.31em;margin:0 .04em;vertical-align:-.03em}
   .mark .lw-chain i{width:.54em;height:.7em;border-width:.15em;border-radius:.27em;vertical-align:-.04em}
   .mark .lw-chain i+i{margin-left:-.15em}
@@ -999,6 +1010,7 @@
     const wt = document.getElementById('wmtext');
     const nm = wt.dataset.name || wt.textContent.trim();
     wt.innerHTML = markHTML(nm);
+    document.getElementById('wordmark').classList.add('rest');
     const small = markHTML(nm, null, true);
     const mn = document.getElementById('markname'); if (mn) mn.innerHTML = small;
     const fn = document.getElementById('footname'); if (fn) fn.innerHTML = small;
@@ -1026,7 +1038,11 @@
     if (variant === 'flat') return cap(n);
     if (variant === 'loop' || new URLSearchParams(location.search).get('mark') === 'loop')
       return a + '<span class="lw-loop"></span>' + b;
-    return a + '<span class="lw-chain"><i></i><i></i></span>' + b;   // CHAIN — the final mark
+    if (variant === 'chain') return a + '<span class="lw-chain"><i></i><i></i></span>' + b;
+    // INTERLACE — the final mark. Hero sets uppercase; nav/footer set lowercase.
+    return small
+      ? a.toLowerCase() + '<span class="lw-lem lo"></span>' + b.toLowerCase()
+      : a + '<span class="lw-lem up"></span>' + b;
   }
 
   window.__markHTML = markHTML;
@@ -1065,6 +1081,7 @@
         setTimeout(step, REEL_MS);
       } else {
         txt.innerHTML = markHTML(nm);                   // landed: the final mark
+        wm.classList.add('rest');
         fitWordmark();
         wm.classList.remove('reeling');
         if (typeof done === 'function') done();
