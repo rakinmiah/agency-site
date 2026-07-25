@@ -100,3 +100,16 @@ closed lemniscate would.
   the mark takes `--acc` (and `--acc-dark` on light grounds, mono under 420px).
 - Paths live in brand/lem-vars.txt and are embedded as :root vars in index.html.
 - Superseded: CHAIN (`?mark=chain`) and CONTINUOUS (`?mark=loop`) both still render for comparison.
+
+## OPENING REEL — 32 identities (2026-07-25)
+Source: brand/loomwork-logo-reel.html. Each frame is a complete design system — different face,
+format and construction (bitmap, signwriter, disc monogram, roundel, barcode, punchcard, guild
+blackletter, poster stack…). Differing heights are the point, so frames are centred on a fixed
+stage and never refitted — the old reel resized the wordmark per frame, which is what read as jitter.
+- Stage: 1360x440 centred, scaled to min(86vw, 48vh); frames absolutely stacked in one grid cell.
+- Cut, not crossfade: 32 wildly different marks double-expose if they overlap. Hard cut at 108ms
+  per frame (~3.4s), then the stage dissolves over 360ms.
+- Landing: the interlace mark fades up where the reel just was, holds a 220ms beat, then makes ONE
+  long eased move to its resting place (1250ms, cubic-bezier(.22,.61,.24,1)).
+- Fonts: +11 display families for the reel (197KB total).
+- Reduced motion: no stage, straight to the final mark.
