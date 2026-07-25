@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@400..900&amp;family=Bebas+Neue&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" />
+<style>
+  body { margin: 0; background: #0B0B0A; }
+  a { color: #D99A4E; text-decoration: none; }
+  a:hover { color: #F1ECE2; }
+  @keyframes lwblink { 0%, 55% { opacity: 1 } 56%, 100% { opacity: 0 } }
+</style>
+</helmet>
+<div style="width:1456px; padding:48px; box-sizing:border-box; background:#0B0B0A; font-family:'Archivo',sans-serif; {{ invertCss }}">
+
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; padding-bottom:22px; border-bottom:1px solid rgba(241,236,226,.13); margin-bottom:28px">
+    <div>
+      <div style="font:400 12px/1 'JetBrains Mono',monospace; letter-spacing:.24em; color:#D99A4E">LOOMWORK · WORDMARK STUDY · BN1</div>
+      <div style="font-family:'Anton',sans-serif; font-size:54px; line-height:.98; letter-spacing:-.01em; color:#F1ECE2; margin-top:14px">FORTY-FOUR WAYS TO WEAVE THE NAME</div>
+      <div style="font:400 12px/1.7 'JetBrains Mono',monospace; letter-spacing:.04em; color:rgba(241,236,226,.5); margin-top:12px; max-width:640px">Full-name lockups built for the hero band. Hit REEL to flip through the set, or click any mark to start the reel there.</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px; flex:0 0 auto">
+      <div style="font:500 10px/1 'JetBrains Mono',monospace; letter-spacing:.18em; color:rgba(241,236,226,.4); margin-right:4px">VIEW</div>
+      <div onClick="{{ showGrid }}" style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.14em; padding:9px 13px; border-radius:7px; border:1px solid rgba(241,236,226,.22); color:rgba(241,236,226,.65); cursor:pointer; {{ gridBtnCss }}">GRID</div>
+      <div onClick="{{ showReel }}" style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.14em; padding:9px 13px; border-radius:7px; border:1px solid rgba(241,236,226,.22); color:rgba(241,236,226,.65); cursor:pointer; {{ reelBtnCss }}">REEL</div>
+      <div style="display:flex; align-items:center; gap:8px; margin-left:8px; {{ navCss }}">
+        <div onClick="{{ prev }}" style="font:500 12px/1 'JetBrains Mono',monospace; padding:9px 12px; border-radius:7px; border:1px solid rgba(241,236,226,.22); color:#F1ECE2; cursor:pointer">‹</div>
+        <div onClick="{{ next }}" style="font:500 12px/1 'JetBrains Mono',monospace; padding:9px 12px; border-radius:7px; border:1px solid rgba(241,236,226,.22); color:#F1ECE2; cursor:pointer">›</div>
+        <div style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.14em; color:#D99A4E; min-width:56px">{{ counter }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:relative; {{ viewportCss }}">
+  <div style="display:flex; flex-flow:row wrap; gap:16px; align-items:flex-start; {{ stripCss }}">
+
+    <div style="flex:0 0 100%; display:flex; align-items:center; gap:14px; padding:2px 0 0; {{ divCss }}">
+      <div style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.2em; color:#D99A4E">ROUND 03 — ONE LINE, ONE BOX · 400 × 78 · ONE TYPE SIZE</div>
+      <div style="flex:1; height:1px; background:rgba(241,236,226,.13)"></div>
+    </div>
+
+    <div onClick="{{ go33 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">33 — SOLID</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go34 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">34 — HAIRLINE WARP</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+        <div style="position:absolute; inset:0; background:repeating-linear-gradient(90deg,#121211 0 1px,transparent 1px 5px)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go35 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">35 — CUT</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+        <div style="position:absolute; left:-40px; right:-40px; top:50%; height:9px; margin-top:-4px; background:#121211"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go36 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">36 — DRAW</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; white-space:nowrap; color:transparent; -webkit-text-fill-color:transparent; background-image:linear-gradient(90deg,#F1ECE2 0%,#F1ECE2 52%,#D99A4E 100%); -webkit-background-clip:text; background-clip:text">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go37 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">37 — KNOCKOUT</div>
+      <div style="position:relative; width:428px; height:78px; display:flex; align-items:center; justify-content:center; background:#F1ECE2; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#121211; white-space:nowrap">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go38 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">38 — SPLIT TONE</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; white-space:nowrap; color:transparent; -webkit-text-fill-color:transparent; background-image:linear-gradient(180deg,#F1ECE2 0%,#F1ECE2 52%,#D99A4E 52%,#D99A4E 100%); -webkit-background-clip:text; background-clip:text">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go39 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">39 — OUTLINE</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; white-space:nowrap; color:transparent; -webkit-text-stroke:1.6px #F1ECE2">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go40 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">40 — HALF &amp; HALF</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; white-space:nowrap; color:#F1ECE2; clip-path:inset(0 50% 0 0)">LOOMWORK</div>
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center"><div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; white-space:nowrap; color:transparent; -webkit-text-stroke:1.6px #F1ECE2; clip-path:inset(0 0 0 50%)">LOOMWORK</div></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go41 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">41 — DOT MATRIX</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+        <div style="position:absolute; inset:0; background-image:radial-gradient(circle at center,#121211 1.9px,transparent 2.1px); background-size:7px 7px"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go42 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">42 — OFFSET</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transform:translate(7px,7px)"><div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#D99A4E; white-space:nowrap">LOOMWORK</div></div>
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap; position:relative">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go43 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">43 — RULED</div>
+      <div style="position:relative; width:400px; height:78px; display:flex; align-items:center; justify-content:center; {{ boxCss }}">
+        <div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+        <div style="position:absolute; left:0; right:0; bottom:0; height:4px; background:#F1ECE2"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go44 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">44 — THIRDS</div>
+      <div style="position:relative; width:400px; height:78px; overflow:hidden; {{ boxCss }}">
+        <div style="height:26px; overflow:hidden"><div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap; transform:translateX(11px)">LOOMWORK</div></div>
+        <div style="height:26px; overflow:hidden"><div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap; margin-top:-26px">LOOMWORK</div></div>
+        <div style="height:26px; overflow:hidden"><div style="font-family:'Anton',sans-serif; font-size:95.5px; line-height:.82; letter-spacing:-.01em; color:#F1ECE2; white-space:nowrap; margin-top:-52px; transform:translateX(11px)">LOOMWORK</div></div>
+      </div>
+    </div>
+
+    <div style="flex:0 0 100%; display:flex; align-items:center; gap:14px; padding:14px 0 0; {{ divCss }}">
+      <div style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.2em; color:rgba(241,236,226,.4)">ROUND 02 — TWELVE MORE</div>
+      <div style="flex:1; height:1px; background:rgba(241,236,226,.13)"></div>
+    </div>
+
+    <div onClick="{{ go21 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">21 — MIRROR</div>
+      <div>
+        <div style="font-family:'Anton',sans-serif; font-size:66px; line-height:.9; letter-spacing:-.005em; color:#F1ECE2">LOOMWORK</div>
+        <div style="font-family:'Anton',sans-serif; font-size:66px; line-height:.9; letter-spacing:-.005em; color:#F1ECE2; transform:scaleY(-1); -webkit-mask-image:linear-gradient(0deg,#000,rgba(0,0,0,.08)); mask-image:linear-gradient(0deg,#000,rgba(0,0,0,.08))">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go22 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">22 — GRID SET</div>
+      <div style="display:flex; gap:4px; font:700 24px/1 'Archivo',sans-serif; color:#F1ECE2">
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55)">L</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55)">O</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55)">O</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55)">M</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55); background:#F1ECE2; color:#121211">W</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55); background:#F1ECE2; color:#121211">O</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55); background:#F1ECE2; color:#121211">R</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:42px; height:54px; border:1.5px solid rgba(241,236,226,.55); background:#F1ECE2; color:#121211">K</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go23 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">23 — CORD</div>
+      <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; letter-spacing:.01em; color:transparent; -webkit-text-stroke:2px #F1ECE2">LOOMWORK</div>
+    </div>
+
+    <div onClick="{{ go24 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">24 — SPLICE</div>
+      <div>
+        <div style="height:33px; overflow:hidden"><div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; color:#F1ECE2; transform:translateX(14px)">LOOMWORK</div></div>
+        <div style="height:33px; overflow:hidden"><div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; color:#F1ECE2; margin-top:-33px">LOOMWORK</div></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go25 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">25 — TAPE</div>
+      <div style="background:#F1ECE2; padding:10px 26px"><div style="font-family:'Anton',sans-serif; font-size:64px; line-height:.94; letter-spacing:-.005em; color:#121211">LOOMWORK</div></div>
+    </div>
+
+    <div onClick="{{ go26 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">26 — REGISTERED</div>
+      <div>
+        <div style="display:flex; align-items:flex-start; font:800 58px/1 'Archivo',sans-serif; letter-spacing:-.045em; color:#F1ECE2">LOOMWORK<span style="font-size:16px; letter-spacing:0; padding-left:6px; padding-top:4px; color:#D99A4E">®</span></div>
+        <div style="height:2px; background:#F1ECE2; margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go27 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">27 — LONG STITCH</div>
+      <div style="position:relative">
+        <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; top:47%; left:-56px; right:-56px; height:4px; background:#D99A4E"></div>
+        <div style="position:absolute; top:calc(47% - 8px); left:-58px; width:4px; height:20px; background:#D99A4E"></div>
+        <div style="position:absolute; top:calc(47% - 8px); right:-58px; width:4px; height:20px; background:#D99A4E"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go28 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">28 — HALF TONE</div>
+      <div style="display:flex; align-items:center; font-family:'Anton',sans-serif; font-size:70px; line-height:1; color:#F1ECE2">
+        <span>L</span>
+        <span style="width:34px; height:34px; border:8px solid #F1ECE2; border-radius:50%; background:linear-gradient(90deg,#F1ECE2 50%,transparent 50%); margin:0 3px"></span>
+        <span style="width:34px; height:34px; border:8px solid #F1ECE2; border-radius:50%; background:linear-gradient(270deg,#F1ECE2 50%,transparent 50%); margin:0 3px"></span>
+        <span>MWORK</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go29 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">29 — AIRY</div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:16px">
+        <div style="width:5px; height:5px; border-radius:50%; background:#D99A4E"></div>
+        <div style="font:300 28px/1 'Archivo',sans-serif; letter-spacing:.46em; text-indent:.46em; color:#F1ECE2">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go30 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">30 — CANTILEVER</div>
+      <div style="display:flex; align-items:flex-end; gap:6px">
+        <div style="font-family:'Anton',sans-serif; font-size:140px; line-height:.74; color:#F1ECE2">L</div>
+        <div style="font:800 40px/.9 'Archivo',sans-serif; letter-spacing:-.035em; color:#F1ECE2; padding-bottom:4px">OOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go31 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">31 — TWO VOICES</div>
+      <div style="display:flex; align-items:baseline; gap:2px">
+        <div style="font:italic 400 86px/1 'Instrument Serif',serif; color:#F1ECE2">Loom</div>
+        <div style="font-family:'Anton',sans-serif; font-size:62px; line-height:1; color:#F1ECE2">WORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go32 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">32 — KEYLINE</div>
+      <div style="position:relative; width:360px; height:104px; border:1.5px solid rgba(241,236,226,.5)">
+        <div style="position:absolute; top:-22px; left:50%; transform:translateX(-50%); background:#121211; padding:0 14px; font-family:'Anton',sans-serif; font-size:44px; line-height:1; letter-spacing:.005em; color:#F1ECE2; white-space:nowrap">LOOMWORK</div>
+        <div style="position:absolute; bottom:12px; left:0; right:0; text-align:center; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.3em; color:rgba(241,236,226,.45)">MARKETING · BRIGHTON</div>
+      </div>
+    </div>
+
+    <div style="flex:0 0 100%; display:flex; align-items:center; gap:14px; padding:14px 0 0; {{ divCss }}">
+      <div style="font:500 11px/1 'JetBrains Mono',monospace; letter-spacing:.2em; color:rgba(241,236,226,.4)">ROUND 01 — THE FIRST TWENTY</div>
+      <div style="flex:1; height:1px; background:rgba(241,236,226,.13)"></div>
+    </div>
+
+    <div onClick="{{ go01 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">01 — WARP</div>
+      <div style="position:relative">
+        <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; letter-spacing:-.005em; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; inset:-6px -2px; background:repeating-linear-gradient(90deg,#121211 0 1.5px,transparent 1.5px 8px)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go02 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">02 — WEFT</div>
+      <div style="position:relative">
+        <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; letter-spacing:-.005em; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; top:-6px; bottom:-6px; left:-700px; right:-700px; background:repeating-linear-gradient(0deg,#121211 0 3px,transparent 3px 11px)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go03 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">03 — PLAIN WEAVE</div>
+      <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; letter-spacing:-.005em; color:transparent; -webkit-text-stroke:1px rgba(241,236,226,.55); background-image:repeating-linear-gradient(90deg,#F1ECE2 0 5px,rgba(241,236,226,.28) 5px 10px),repeating-linear-gradient(0deg,#F1ECE2 0 5px,rgba(241,236,226,.28) 5px 10px); background-blend-mode:multiply; -webkit-background-clip:text; background-clip:text">LOOMWORK</div>
+    </div>
+
+    <div onClick="{{ go04 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">04 — STACK</div>
+      <div style="display:flex; flex-direction:column">
+        <div style="display:flex; justify-content:space-between; width:290px; font-family:'Anton',sans-serif; font-size:92px; line-height:.78; color:#F1ECE2"><span>L</span><span>O</span><span>O</span><span>M</span></div>
+        <div style="display:flex; justify-content:space-between; width:290px; font-family:'Anton',sans-serif; font-size:92px; line-height:.78; color:#F1ECE2"><span>W</span><span>O</span><span>R</span><span>K</span></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go05 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">05 — INTERLOCK</div>
+      <div style="display:flex; align-items:center; font-family:'Anton',sans-serif; font-size:70px; line-height:1; color:#F1ECE2">
+        <span>L</span>
+        <span style="display:flex; margin:0 3px"><span style="width:30px; height:30px; border:9px solid #F1ECE2; border-radius:50%"></span><span style="width:30px; height:30px; border:9px solid #F1ECE2; border-radius:50%; margin-left:-15px"></span></span>
+        <span>MWORK</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go06 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">06 — SHUTTLE</div>
+      <div style="width:340px">
+        <div style="display:flex; justify-content:space-between; font-family:'Anton',sans-serif; font-size:66px; line-height:.9; color:#F1ECE2"><span>LOOM</span><span>WORK</span></div>
+        <div style="position:relative; height:14px; margin-top:12px">
+          <div style="position:absolute; top:6px; left:0; right:0; height:1.5px; background:rgba(241,236,226,.38)"></div>
+          <div style="position:absolute; top:0; left:56%; width:36px; height:14px; background:#D99A4E; transform:skewX(-24deg)"></div>
+        </div>
+      </div>
+    </div>
+
+    <div onClick="{{ go07 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">07 — SELVEDGE</div>
+      <div>
+        <div style="height:2px; background:#F1ECE2"></div>
+        <div style="font-family:'Anton',sans-serif; font-size:64px; line-height:1.05; letter-spacing:.015em; color:#F1ECE2">LOOMWORK</div>
+        <div style="height:2px; background:#F1ECE2"></div>
+        <div style="height:11px; background:repeating-linear-gradient(90deg,rgba(241,236,226,.5) 0 1.5px,transparent 1.5px 6px)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go08 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">08 — BOBBIN</div>
+      <div style="display:flex; align-items:center; font-family:'Anton',sans-serif; font-size:70px; line-height:1; color:#F1ECE2">
+        <span>L</span>
+        <span style="display:flex; align-items:center; justify-content:center; width:48px; height:48px; border:7px solid #F1ECE2; border-radius:50%; margin:0 3px"><span style="width:10px; height:10px; border:5px solid #F1ECE2; border-radius:50%"></span></span>
+        <span style="display:flex; align-items:center; justify-content:center; width:48px; height:48px; border:7px solid #F1ECE2; border-radius:50%; margin:0 3px"><span style="width:10px; height:10px; border:5px solid #F1ECE2; border-radius:50%"></span></span>
+        <span>MWORK</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go09 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">09 — THREAD COUNT</div>
+      <div>
+        <div style="font:700 34px/1 'JetBrains Mono',monospace; letter-spacing:.3em; color:#F1ECE2">LOOMWORK</div>
+        <div style="display:flex; gap:16px; margin-top:14px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.2em; color:rgba(241,236,226,.45)"><span>WARP 08</span><span>WEFT 04</span><span>EST 2026</span></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go10 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">10 — FRAY</div>
+      <div style="position:relative">
+        <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; left:-2px; right:-2px; bottom:0; height:62%; background:repeating-linear-gradient(90deg,#121211 0 2px,transparent 2px 5px); -webkit-mask-image:linear-gradient(180deg,transparent,#000 88%); mask-image:linear-gradient(180deg,transparent,#000 88%)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go11 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">11 — BIAS / TWILL</div>
+      <div style="position:relative; transform:skewX(-11deg)">
+        <div style="font-family:'Anton',sans-serif; font-size:68px; line-height:.94; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; inset:-6px -4px; background:repeating-linear-gradient(45deg,#121211 0 2px,transparent 2px 9px)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go12 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">12 — TENSION</div>
+      <div style="display:flex; align-items:stretch; gap:18px; height:58px">
+        <div style="width:1.5px; background:rgba(241,236,226,.35)"></div>
+        <div style="display:flex; align-items:center; width:352px; overflow:visible"><div style="font:900 34px/1 'Archivo',sans-serif; letter-spacing:-.03em; color:#F1ECE2; transform:scaleX(1.62); transform-origin:left center">LOOMWORK</div></div>
+        <div style="width:1.5px; background:rgba(241,236,226,.35)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go13 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">13 — HANDLOOM</div>
+      <div style="position:relative; padding-bottom:16px">
+        <div style="font:italic 400 82px/1 'Instrument Serif',serif; letter-spacing:-.01em; color:#F1ECE2">Loomwork</div>
+        <div style="position:absolute; left:-90px; right:-90px; bottom:0; height:1px; background:rgba(241,236,226,.4)"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go14 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">14 — DOUBLE CLOTH</div>
+      <div style="position:relative">
+        <div style="position:absolute; top:10px; left:10px; font-family:'Anton',sans-serif; font-size:68px; line-height:.94; color:transparent; -webkit-text-stroke:1.2px rgba(241,236,226,.45)">LOOMWORK</div>
+        <div style="position:relative; font-family:'Anton',sans-serif; font-size:68px; line-height:.94; color:#F1ECE2">LOOMWORK</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go15 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">15 — JACQUARD</div>
+      <div style="position:relative">
+        <div style="font-family:'Anton',sans-serif; font-size:70px; line-height:.94; color:#F1ECE2">LOOMWORK</div>
+        <div style="position:absolute; inset:-6px -3px; background-image:radial-gradient(circle at center,#121211 2.4px,transparent 2.6px); background-size:11px 11px"></div>
+      </div>
+    </div>
+
+    <div onClick="{{ go16 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">16 — CONTINUOUS</div>
+      <div style="display:flex; align-items:center; font-family:'Anton',sans-serif; font-size:70px; line-height:1; color:#F1ECE2">
+        <span>L</span>
+        <span style="width:86px; height:48px; border:9px solid #F1ECE2; border-radius:24px; margin:0 4px"></span>
+        <span>MWORK</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go17 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">17 — UNDERSCORE</div>
+      <div style="display:flex; align-items:center; font:500 44px/1 'JetBrains Mono',monospace; letter-spacing:-.02em; color:#F1ECE2">
+        <span>loom</span><span style="color:#D99A4E">_</span><span>work</span>
+        <span style="width:20px; height:34px; background:#F1ECE2; margin-left:10px; animation:lwblink 1.1s steps(1,end) infinite"></span>
+      </div>
+    </div>
+
+    <div onClick="{{ go18 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">18 — OVERPRINT</div>
+      <div style="display:flex; font-family:'Anton',sans-serif; font-size:74px; line-height:.94">
+        <span style="color:#F1ECE2">LOOM</span>
+        <span style="color:#D99A4E; margin-left:-9px">WORK</span>
+      </div>
+    </div>
+
+    <div onClick="{{ go19 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">19 — SWISS BLOCK</div>
+      <div style="display:flex; align-items:flex-start; gap:14px">
+        <div style="font:800 56px/.86 'Archivo',sans-serif; letter-spacing:-.04em; color:#F1ECE2">LOOM<br />WORK</div>
+        <div style="width:1.5px; height:96px; background:rgba(241,236,226,.26)"></div>
+        <div style="font:500 11px/1.6 'JetBrains Mono',monospace; letter-spacing:.15em; color:rgba(241,236,226,.5); padding-top:3px">MARKETING<br />&amp; MAKING<br />BRIGHTON</div>
+      </div>
+    </div>
+
+    <div onClick="{{ go20 }}" style="position:relative; flex:0 0 440px; height:250px; display:flex; align-items:center; justify-content:center; background:#121211; border:1px solid rgba(241,236,226,.08); overflow:hidden; cursor:pointer; {{ itemCss }}">
+      <div style="position:absolute; top:14px; left:16px; font:400 10px/1 'JetBrains Mono',monospace; letter-spacing:.16em; color:rgba(241,236,226,.4); {{ capCss }}">20 — THRUMS</div>
+      <div style="display:flex; align-items:flex-end; gap:2px; height:120px; font:400 84px/1 'Bebas Neue',sans-serif; color:#F1ECE2">
+        <span style="position:relative; transform:translateY(-20px)">L<span style="position:absolute; left:50%; bottom:100%; width:1px; height:30px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-2px)">O<span style="position:absolute; left:50%; bottom:100%; width:1px; height:12px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-12px)">O<span style="position:absolute; left:50%; bottom:100%; width:1px; height:22px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-26px)">M<span style="position:absolute; left:50%; bottom:100%; width:1px; height:36px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-6px)">W<span style="position:absolute; left:50%; bottom:100%; width:1px; height:16px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-18px)">O<span style="position:absolute; left:50%; bottom:100%; width:1px; height:28px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-2px)">R<span style="position:absolute; left:50%; bottom:100%; width:1px; height:12px; background:rgba(241,236,226,.34)"></span></span>
+        <span style="position:relative; transform:translateY(-14px)">K<span style="position:absolute; left:50%; bottom:100%; width:1px; height:24px; background:rgba(241,236,226,.34)"></span></span>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; gap:24px; margin-top:28px; padding-top:18px; border-top:1px solid rgba(241,236,226,.13); font:400 10px/1.6 'JetBrains Mono',monospace; letter-spacing:.14em; color:rgba(241,236,226,.35)">
+    <span>WOVEN FROM: WARP · WEFT · SELVEDGE · THRUMS · JACQUARD</span>
+    <span>ANTON · ARCHIVO · INSTRUMENT SERIF · JETBRAINS MONO · BEBAS NEUE</span>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grid&quot;,&quot;reel&quot;],&quot;default&quot;:&quot;grid&quot;,&quot;tsType&quot;:&quot;'grid' | 'reel'&quot;},&quot;flipSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1100,&quot;min&quot;:300,&quot;max&quot;:2500,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Reel&quot;},&quot;showCaptions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;invert&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { mode: null, i: 0, playing: true };
+  N = 44;
+
+  order() {
+    if (this._order) return this._order;
+    const o = [];
+    for (let n = 33; n <= 44; n++) o.push(String(n));
+    for (let n = 21; n <= 32; n++) o.push(String(n));
+    for (let n = 1; n <= 20; n++) o.push(String(n).padStart(2, '0'));
+    this._order = o;
+    return o;
+  }
+
+  mode() { return this.state.mode ?? this.props.mode ?? 'grid'; }
+  speed() { return Number(this.props.flipSpeed ?? 1100); }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if (this.mode() === 'reel' && this.state.playing) {
+        this.setState(s => ({ i: (s.i + 1) % this.N }));
+      }
+    }, this.speed());
+    this.onKey = (e) => {
+      if (this.mode() !== 'reel') return;
+      if (e.key === 'ArrowRight') this.step(1);
+      if (e.key === 'ArrowLeft') this.step(-1);
+      if (e.key === 'Escape') this.setState({ mode: 'grid' });
+    };
+    window.addEventListener('keydown', this.onKey);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.flipSpeed !== this.props.flipSpeed) {
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        if (this.mode() === 'reel' && this.state.playing) {
+          this.setState(s => ({ i: (s.i + 1) % this.N }));
+        }
+      }, this.speed());
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    window.removeEventListener('keydown', this.onKey);
+  }
+
+  step(d) { this.setState(s => ({ i: (s.i + d + this.N) % this.N, playing: false })); }
+
+  renderVals() {
+    const reel = this.mode() === 'reel';
+    const on = 'background:#F1ECE2; border-color:#F1ECE2; color:#0B0B0A';
+    const vals = {
+      showGrid: () => this.setState({ mode: 'grid', playing: true }),
+      showReel: () => this.setState({ mode: 'reel', playing: true }),
+      prev: () => this.step(-1),
+      next: () => this.step(1),
+      counter: 'MARK ' + this.order()[this.state.i],
+      invertCss: this.props.invert ? 'filter:invert(1) hue-rotate(180deg)' : '',
+      gridBtnCss: reel ? '' : on,
+      reelBtnCss: reel ? on : '',
+      navCss: reel ? '' : 'display:none',
+      viewportCss: reel ? 'height:420px; overflow:hidden; border:1px solid rgba(241,236,226,.1); background:#121211' : '',
+      stripCss: reel
+        ? 'flex-flow:column nowrap; gap:0; align-items:center; zoom:2.1; transform:translateY(-' + (this.state.i * 200) + 'px); transition:transform .5s cubic-bezier(.66,0,.24,1)'
+        : '',
+      itemCss: reel
+        ? 'flex:0 0 200px; width:640px; height:200px; background:transparent; border-color:transparent; cursor:default'
+        : '',
+      capCss: reel || this.props.showCaptions === false ? 'display:none' : '',
+      divCss: reel ? 'display:none' : '',
+      boxCss: reel ? '' : 'outline:1px dashed rgba(241,236,226,.12); outline-offset:6px'
+    };
+    this.order().forEach((n, idx) => {
+      vals['go' + n] = () => {
+        if (this.mode() === 'reel') return;
+        this.setState({ mode: 'reel', i: idx, playing: false });
+      };
+    });
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

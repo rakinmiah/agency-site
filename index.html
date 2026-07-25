@@ -200,6 +200,37 @@
   .wordmark.w15 #wmtext:before{content:"";position:absolute;left:2%;right:2%;bottom:100%;height:.16em;
     background-image:repeating-linear-gradient(90deg,currentColor 0 .016em,transparent .016em .11em)}
   .wordmark.w16 #wmtext{font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.045em}   /* swiss */
+  /* ── round 02/03 additions (brand/loomwork-wordmark-study-r2.html) ── */
+  #wmtext{position:relative}
+  .wordmark.w17 #wmtext:after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(90deg,var(--gnd,#0B0B0D) 0 .012em,transparent .012em .055em)} /* hairline warp */
+  .wordmark.w18 #wmtext:after{content:"";position:absolute;left:-3%;right:-3%;top:50%;height:.09em;
+    transform:translateY(-50%);background:var(--gnd,#0B0B0D)}                                          /* cut */
+  .wordmark.w19 #wmtext{background:#F1ECE2;-webkit-text-fill-color:#121211;color:#121211;padding:0 .09em} /* tape */
+  .wordmark.w20 #wmtext{-webkit-text-fill-color:transparent;
+    background-image:linear-gradient(90deg,#F1ECE2 18%,#E7C89B 55%,#D99A4E 100%);
+    -webkit-background-clip:text;background-clip:text}                                                 /* draw */
+  .wordmark.w21 #wmtext:after{content:"";position:absolute;left:-5%;right:-5%;top:50%;height:.022em;
+    transform:translateY(-50%);background:#D99A4E;
+    border-left:.022em solid #D99A4E;border-right:.022em solid #D99A4E;box-sizing:content-box}         /* long stitch */
+  /* composite marks */
+  .lw-cell{display:inline-flex;align-items:center;justify-content:center;width:.78em;height:1em;
+    border:.028em solid rgba(241,236,226,.55);margin-right:.07em;font-size:.62em;font-weight:700;
+    font-family:'Archivo',sans-serif;box-sizing:border-box}
+  .lw-serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.36em;
+    letter-spacing:0;margin-right:.03em}
+  .lw-big{font-size:2.1em;line-height:.62;margin-right:.06em}
+  .lw-small{font-family:'Archivo',sans-serif;font-weight:800;font-size:.62em;letter-spacing:-.035em;
+    align-self:flex-end;padding-bottom:.06em}
+  .lw-ht{display:inline-flex;margin:0 .04em}
+  .lw-ht i{width:.48em;height:.48em;border:.114em solid currentColor;border-radius:50%;box-sizing:border-box}
+  .lw-ht i:first-child{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .lw-ht i:last-child{background:linear-gradient(270deg,currentColor 50%,transparent 50%);margin-left:.06em}
+  .lw-half{position:relative;display:inline-block}
+  .lw-half .b{position:absolute;left:0;top:0;-webkit-text-fill-color:transparent;
+    -webkit-text-stroke:.022em #F1ECE2;clip-path:inset(0 0 0 50%)}
+  .lw-half .a{clip-path:inset(0 50% 0 0)}
+  .wordmark .lw-cant{display:inline-flex;align-items:flex-end}
   .wordmark.reeling #wmtext{display:inline-block}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
@@ -916,9 +947,19 @@
     const a = cap(n.slice(0, i)), b = small ? n.slice(i + 2).toLowerCase() : n.slice(i + 2);
     if (variant === 'ring') return a + '<span class="lw-ring"><i></i><i></i></span>' + b;
     if (variant === 'bob')  return a + '<span class="lw-bob"><i></i><i></i></span>' + b;
+    if (variant === 'ht')   return a + '<span class="lw-ht"><i></i><i></i></span>' + b;
+    if (variant === 'grid') return [].map.call(n, c => '<span class="lw-cell">' + c + '</span>').join('');
+    if (variant === 'voices') return '<span class="lw-serif">' + n.slice(0, i + 3).charAt(0) +
+                                     n.slice(1, i + 3).toLowerCase() + '</span>' + n.slice(i + 3);
+    if (variant === 'cant') return '<span class="lw-cant"><span class="lw-big">' + n.charAt(0) +
+                                   '</span><span class="lw-small">' + n.slice(1) + '</span></span>';
+    if (variant === 'half') return '<span class="lw-half"><span class="a">' + n +
+                                   '</span><span class="b">' + n + '</span></span>';
     if (variant === 'flat') return cap(n);
     return a + '<span class="lw-loop"></span>' + b;
   }
+
+  window.__markHTML = markHTML;
 
   /* ── logo reel: flip the wordmark through treatments, land on the real mark, stay ──
      Runs once per page load (refresh replays it). Skipped for reduced-motion. */
@@ -926,13 +967,16 @@
                       '500 100px "JetBrains Mono"'];
   // 16 loom-native treatments from the wordmark study; 'v' swaps the mark's DOM where needed
   const REEL = [
-    {c:'w1'},  {c:'w4'},  {c:'w2'},  {c:'w5'},
-    {c:'w3'},  {c:'w6'},  {c:'w7'},  {c:'', v:'bob'},
-    {c:'w8'},  {c:'w9'},  {c:'w10'}, {c:'w11'},
-    {c:'w15'}, {c:'', v:'ring'}, {c:'w12'}, {c:'w14'}
+    {c:'w1'},          {c:'', v:'voices'}, {c:'w17'},        {c:'w5'},
+    {c:'w2'},          {c:'', v:'grid'},   {c:'w18'},        {c:'w4'},
+    {c:'w3'},          {c:'', v:'bob'},    {c:'w19'},        {c:'w9'},
+    {c:'', v:'cant'},  {c:'w8'},           {c:'w20'},        {c:'', v:'ht'},
+    {c:'w21'},         {c:'w6'},           {c:'', v:'half'}, {c:'w11'},
+    {c:'w15'},         {c:'', v:'ring'},   {c:'w12'},        {c:'w14'}
   ];
-  const REEL_CLASSES = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15','w16'];
-  const REEL_MS = 125;
+  const REEL_CLASSES = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15','w16',
+                        'w17','w18','w19','w20','w21'];
+  const REEL_MS = 105;
   function runReel(){
     if (reduced || new URLSearchParams(location.search).get('reel') === '0') return;
     wm.classList.add('reeling');
