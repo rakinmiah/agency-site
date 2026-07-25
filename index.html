@@ -1165,12 +1165,22 @@
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
-        if(n==='0'){a.textContent='reset';a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
-          a.addEventListener('click',()=>{try{localStorage.removeItem('lw.acc');}catch(e){}});}
+        if(n==='0'){a.textContent='reset';a.href='#';
+          a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
+          a.addEventListener('click',e=>{e.preventDefault();
+            try{localStorage.removeItem('lw.acc');}catch(err){}
+            const p=new URLSearchParams(location.search);
+            ['pal','acc','ink','paper','world'].forEach(k=>p.delete(k));
+            location.search=p.toString();});}
         else {a.title=c;a.style.cssText='width:22px;height:22px;border-radius:50%;background:'+c+';box-sizing:border-box;'+
           (pcur===n?'border:2px solid #0B0B0D;box-shadow:0 0 0 2px #F4F1EA;':'border:2px solid rgba(244,241,234,.25);');}
         pwrap.appendChild(a);
       });
+      const swatchNow=document.createElement('span');
+      swatchNow.style.cssText='font-size:10.5px;opacity:.75;margin-left:6px;font-variant-numeric:tabular-nums';
+      const showAcc=()=>{swatchNow.textContent=(getComputedStyle(document.documentElement).getPropertyValue('--acc').trim()||'?').toUpperCase();};
+      showAcc(); setInterval(showAcc, 400);
+      pwrap.appendChild(swatchNow);
       bar.appendChild(pwrap);
       // hero background switcher
       const icur=q.get('img')||'11';
@@ -1213,7 +1223,7 @@
       // palette lab: paste any hex from any tool, see it on the real page instantly
       const lab=document.createElement('span'); lab.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       lab.innerHTML='<b>LAB</b>';
-      const labc={ink:q.get('ink')||'0B0B0D', paper:q.get('paper')||'F4F1EA', acc:q.get('acc')||'E9A13B'};
+      const labc={ink:q.get('ink')||'0B0B0D', paper:q.get('paper')||'F4F1EA', acc:q.get('acc')||getComputedStyle(document.documentElement).getPropertyValue('--acc').trim().replace('#','')||'D5DDE2'};
       ['ink','paper','acc'].forEach(k=>{
         const i=document.createElement('input'); i.type='color'; i.value='#'+labc[k].replace('#','');
         i.title=k; i.style.cssText='width:22px;height:22px;border:1px solid rgba(244,241,234,.35);border-radius:6px;background:none;padding:0;cursor:pointer';
