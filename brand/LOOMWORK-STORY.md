@@ -132,3 +132,16 @@ Correct sources (brand/logo-variety-refs.jpg):
 - Brand New (underconsideration.com/brandnew) — before/after identity case studies.
 - Still valid from the first pass: Mother Design's own reel; Pentagram's Public Theater
   badge family (many constructions, one house).
+
+## OPENING REEL v2 — 18 frames (2026-07-25, supersedes the 32)
+Source: brand/loomwork-opening-reel-v2.html. Measured against the 1100x300 spec:
+width variance 4.6x (was 12.7x) · height variance 1.3x (was 4.9x) · zero frames overflowing
+the box (was 1, at +109px off-centre) · zero frames off-centre.
+- Frame 18 IS the production mark, so the reel hands off with no dissolve: the real wordmark is
+  measured onto frame 18's lemniscate, revealed underneath it, and the stage is then removed —
+  an invisible swap. Alignment is done on the lemniscate, not the text box, because the two use
+  different line-heights (matching boxes misplaced the glyphs by ~60px). The target must also be
+  measured AFTER the wordmark is restored to full size, since that reflow moves the stage.
+- Pacing: 132ms per frame (~2.4s), 420ms hold on the landed mark, then one 1250ms eased travel.
+- NOTE: heights are now very uniform (1.3x). If more height drama is wanted, the brief's
+  90-190px band can be widened.
