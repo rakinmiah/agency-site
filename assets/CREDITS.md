@@ -24,3 +24,11 @@ Source masters not committed; re-download from videos.pexels.com/video-files/<id
 ## Hero decision (2026-07-24)
 CHOSEN: hero-10.mp4 ("blacktexture", Pexels 15690300) — permanent hero mount.
 Candidates 1-9 removed from the repo; re-download via the Pexels IDs above if ever needed.
+
+## Hero — woven cloth (2026-07-25)
+- hero-11.mp4 / hero-11-poster.jpg — "Grey Blue Fabric" (Pexels video 6278961), Pexels licence,
+  free for commercial use. Source: 2732x1440 UHD. Graded: cropped to 16:9, saturation 0.72,
+  contrast 1.04, curves lifted mid/highlights, 1920x1080, ping-pong to a seamless 24s loop.
+  Chosen on measurement: mean luminance 24% (target 15-32%; the previous hero-10 measured 1%,
+  i.e. effectively a black rectangle). Cream type holds 4.65:1 against the brightest 10% of frame.
+  On-brand: literally woven cloth, and already in the slate hue family of the studio accent.
