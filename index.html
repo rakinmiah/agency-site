@@ -907,15 +907,16 @@
   })();
   // accent candidates — light + desaturated (the premium register); all ≥6.5:1 on ink
   // pale-slate ladder — same hue family (203°), stepping lighter
-  const PALETTES = {1:'#C7D2D9',  // slate, lighter
-                    2:'#D5DDE2',  // slate  ← current default
-                    3:'#E4E9EC',  // slate, lightest
-                    4:'#D5DBE2',  // bluer slate
-                    5:'#D9CDBA',  // oyster / undyed wool
-                    6:'#E8C4BC',  // blush
-                    7:'#A8B89C',  // sage
-                    8:'#C9B995',  // restrained gold
-                    9:'#D99A4E'}; // the original amber, for comparison
+  // accent shortlist — the cool family with real presence on ink
+  const PALETTES = {1:'#A1BDCE',  // A1 saturate
+                    2:'#92BAD3',  // A2 saturate
+                    3:'#83B7D8',  // A3 saturate
+                    4:'#92AEBF',  // B1 deepen
+                    5:'#7AA0B8',  // B2 deepen
+                    6:'#6293B2',  // B3 deepen
+                    7:'#7A94AE',  // C2 steel
+                    8:'#6080A9',  // C3 steel
+                    9:'#D5DDE2'}; // the current pale slate, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) { document.body.classList.add('pal'); applyAcc(PALETTES[palN], true); }
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
@@ -1202,7 +1203,7 @@
       const pcur=q.get('pal')||'0';
       const pwrap=document.createElement('span'); pwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       pwrap.innerHTML='<b>PAL</b>';
-      [['0','reset'],['1','#C7D2D9'],['2','#D5DDE2'],['3','#E4E9EC'],['4','#D5DBE2'],['5','#D9CDBA'],['6','#E8C4BC'],['7','#A8B89C'],['8','#C9B995'],['9','#D99A4E']].forEach(([n,c])=>{
+      [['0','reset'],['1','#A1BDCE'],['2','#92BAD3'],['3','#83B7D8'],['4','#92AEBF'],['5','#7AA0B8'],['6','#6293B2'],['7','#7A94AE'],['8','#6080A9'],['9','#D5DDE2']].forEach(([n,c])=>{
         const a=document.createElement('a');
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
