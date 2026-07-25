@@ -243,6 +243,14 @@
   .lw-half .a{clip-path:inset(0 50% 0 0)}
   .wordmark .lw-cant{display:inline-flex;align-items:flex-end}
   .wordmark.reeling #wmtext{display:inline-block}
+  /* ── intro choreography: nav + centred reel → mark travels down → text types → video starts ── */
+  .hero.intro .heroleft, .hero.intro .heroright, .hero.intro .scrollpill, .hero.intro .cross{opacity:0}
+  .hero .heroleft, .hero .heroright, .hero .scrollpill, .hero .cross{transition:opacity .5s ease}
+  .wordmark.travel{transition:transform 900ms cubic-bezier(.4,0,.15,1)}
+  .heroleft .caret{display:inline-block;width:.5ch;background:currentColor;animation:cb .9s steps(1) infinite;
+                   vertical-align:-.08em;height:1.05em;margin-left:.06em}
+  @keyframes cb{0%,50%{opacity:1}51%,100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.heroleft .caret{animation:none}}
   @keyframes sheen{0%,18%{background-position:120% 0}62%,100%{background-position:-40% 0}}
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
 
@@ -946,7 +954,7 @@
 
   function fitWordmark(){
     wm.style.fontSize = '100px';
-    const tw = document.getElementById('wmtext').getBoundingClientRect().width; // true text width
+    const tw = document.getElementById('wmtext').offsetWidth;   // LAYOUT width — unaffected by the intro transform
     if (!tw) return;
     const widthFit = 100 * (document.documentElement.clientWidth / tw) * 0.994; // edge-to-edge, Monolog scale
     const heightCap = innerHeight * 0.42;   // short names: stop at a designed scale, don't swallow the hero
@@ -1004,7 +1012,7 @@
   const REEL_CLASSES = ['w1','w2','w3','w4','w5','w6','w7','w8','w9','w10','w11','w12','w13','w14','w15','w16',
                         'w17','w18','w19','w20','w21'];
   const REEL_MS = 105;
-  function runReel(){
+  function runReel(done){
     if (reduced || new URLSearchParams(location.search).get('reel') === '0') return;
     wm.classList.add('reeling');
     const txt = document.getElementById('wmtext');
@@ -1021,20 +1029,77 @@
         i++;
         setTimeout(step, REEL_MS);
       } else {
-        txt.innerHTML = markHTML(nm);                   // landed: CONTINUOUS
+        txt.innerHTML = markHTML(nm);                   // landed: the final mark
         fitWordmark();
         wm.classList.remove('reeling');
+        if (typeof done === 'function') done();
       }
     };
     step();
   }
-  window.__replayReel = runReel;
+  /* type the mission paragraph, preserving its markup */
+  function typeMission(done){
+    const host = document.querySelector('.heroleft p');
+    if (!host) { done && done(); return; }
+    const parts = [];
+    (function walk(n){ [].forEach.call(n.childNodes, c => {
+      if (c.nodeType === 3) parts.push({ node: c, text: c.nodeValue });
+      else walk(c);
+    }); })(host);
+    parts.forEach(p => p.node.nodeValue = '');
+    const caret = document.createElement('i'); caret.className = 'caret';
+    host.appendChild(caret);
+    let pi = 0, ci = 0;
+    const tick = () => {
+      if (pi >= parts.length) { caret.remove(); done && done(); return; }
+      const p = parts[pi];
+      p.node.nodeValue += p.text.charAt(ci++);
+      if (ci >= p.text.length) { pi++; ci = 0; }
+      setTimeout(tick, 16);
+    };
+    tick();
+  }
+
+  /* the hero opens on the reel alone; everything else arrives after it lands */
+  function runIntro(){
+    const hero = document.querySelector('.hero');
+    const vid = document.querySelector('.heroimg video');
+    const start = () => { if (vid) vid.play().catch(()=>{}); };
+    if (reduced || new URLSearchParams(location.search).get('reel') === '0') { start(); return; }
+    if (vid) vid.pause();
+    hero.classList.add('intro');
+    // lift the mark to the centre of the hero at logo scale
+    const place = () => {
+      const wr = wm.getBoundingClientRect(), hr = hero.getBoundingClientRect();
+      const sc = 0.42;
+      const dx = (hr.width / 2) - (wr.left + wr.width / 2);
+      const dy = (hr.height * 0.47) - (wr.top + wr.height / 2);
+      wm.style.transformOrigin = 'center center';
+      wm.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
+    };
+    place();
+    runReel(() => {
+      place();                                     // re-anchor: the final mark's width differs
+      requestAnimationFrame(() => {
+        wm.classList.add('travel');
+        wm.style.transform = 'none';               // ── travels down to its resting place
+        setTimeout(() => {
+          hero.classList.remove('intro');          // ── nav furniture fades in
+          wm.classList.remove('travel');
+          wm.style.transformOrigin = '';
+          typeMission(start);                      // ── text types, then the video starts
+        }, 900);
+      });
+    });
+  }
+
+  window.__replayReel = runIntro;
   if (document.fonts) {
     let started = false;
-    const go = () => { if (!started) { started = true; runReel(); } };
+    const go = () => { if (!started) { started = true; runIntro(); } };
     Promise.all(REEL_FONTS.map(f => document.fonts.load(f))).then(go).catch(go);
     setTimeout(go, 1200);                                // never let a slow font block the hero
-  } else { runReel(); }
+  } else { runIntro(); }
   if (document.fonts) {
     document.fonts.load('400 100px Anton').then(fitWordmark).catch(()=>{});
     document.fonts.ready.then(fitWordmark);
