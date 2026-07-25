@@ -66,7 +66,7 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
     animation:grain .9s steps(3) infinite}
   @keyframes grain{0%{transform:translate(0,0)}33%{transform:translate(-60px,40px)}66%{transform:translate(40px,-70px)}100%{transform:translate(0,0)}}
-  .hero .bar{position:relative;z-index:3;margin:0 28px;border-bottom:0}
+  .hero .bar{position:absolute;top:0;left:28px;right:28px;z-index:6;margin:0;border-bottom:0}
   .navnums{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:44px}
   .navnums a{color:rgba(244,241,234,.92);text-decoration:none;font-size:15px;font-weight:600}
   .navnums a:hover{color:#fff}
@@ -77,26 +77,28 @@
   .cta2 .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;color:#F4F1EA;
             border-radius:5px;font-size:14px}
   .cta2:hover .sq{transform:translate(1px,-1px)}
-  .heroleft{position:absolute;z-index:2;left:28px;top:29%;max-width:24ch}
-  .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78)}
+  .heroleft{position:absolute;z-index:2;left:0;right:0;top:29%;text-align:center}
+  .heroleft p{font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.5;color:rgba(244,241,234,.78);
+              max-width:30ch;margin:0 auto}
+  .heromark{display:block;font-size:46px;line-height:1;margin:0 auto 26px}
   .heroleft p b{color:#fff;font-weight:650}
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
                       border-top:1.5px solid rgba(244,241,234,.9);border-right:1.5px solid rgba(244,241,234,.9)}
-  .cross{position:absolute;z-index:2;color:rgba(244,241,234,.55);font-size:20px;font-weight:300;pointer-events:none}
   .scrollpill{position:absolute;z-index:2;left:50%;bottom:14px;transform:translateX(-50%);
               width:46px;height:9px;border-radius:999px;border:1.5px solid rgba(244,241,234,.5)}
   /* mobile hero: Fuel-style single left column — copy, CTA, services, (c) strip, wordmark.
      Monolog keeps its Start-a-project button in the nav, so we keep ours (compact). */
   @media (max-width:760px){
-    .navnums,.cross,.scrollpill{display:none}
+    .navnums,.scrollpill{display:none}
     .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
-    .heroleft{top:17%;max-width:26ch}
+    .heroleft{top:17%}
+    .heromark{font-size:34px;margin-bottom:20px}
     .heroleft p{font-size:1.15rem}
     /* ?hero=center — Monolog-style centered statement variant */
-    .hero.centered .heroleft{left:24px;right:24px;top:31%;max-width:none;text-align:center}
+    .hero.centered .heroleft{left:24px;right:24px;top:31%;text-align:center}
     .hero.centered .heroleft p{max-width:26ch;margin:0 auto}
   }
   :root{--acc:#83B7D8;--acc-dark:#4F6E82}   /* LOOMWORK accent + its light-ground sibling */
@@ -257,8 +259,8 @@
   .wordmark .lw-cant{display:inline-flex;align-items:flex-end}
   .wordmark.reeling #wmtext{display:inline-block}
   /* ── intro choreography: nav + centred reel → mark travels down → text types → video starts ── */
-  .hero.intro .heroleft, .hero.intro .scrollpill, .hero.intro .cross{opacity:0}
-  .hero .heroleft, .hero .scrollpill, .hero .cross{transition:opacity .5s ease}
+  .hero.intro .heroleft, .hero.intro .scrollpill{opacity:0}
+  .hero .heroleft, .hero .scrollpill{transition:opacity .5s ease}
   .wordmark.travel{transition:transform 1250ms cubic-bezier(.22,.61,.24,1)}
   .heroleft .caret{display:inline-block;width:.5ch;background:currentColor;animation:cb .9s steps(1) infinite;
                    vertical-align:-.08em;height:1.05em;margin-left:.06em}
@@ -488,11 +490,9 @@
     <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
   </div>
   <div class="heroleft">
+    <span class="heromark"><span class="lw-lem up"></span></span>
     <p>We build websites for local businesses that <b>earn their keep</b> — found on Google, built to bring in work.</p>
   </div>
-  <span class="cross" style="left:46%;top:50%">+</span>
-  <span class="cross" style="left:30%;top:66%">+</span>
-  <span class="cross" style="right:9%;top:52%">+</span>
   <div class="scrollpill" aria-hidden="true"></div>
   <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
 </header>
