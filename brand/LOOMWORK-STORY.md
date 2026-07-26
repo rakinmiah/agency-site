@@ -207,5 +207,11 @@ scroll. Three acts: **ink** (hero + case studies) -> **paper** (services + FAQ) 
   when the accent did — as large type on paper the live accent was 2.05:1, under even the 3:1
   large-text bar. `applyAcc()` now derives the sibling by walking the accent down until it clears
   4.5:1 on paper (#47B2F5 -> #2D729D). Full alpha-composited audit of the chapter: all pass.
-- Deliberately left at parity with the dark ground (design device, not a flip regression): the
-  dimmed `.svcs li` rows, their leading numerals, and `.sechead .secn`.
+- **Everything reads ink on paper, the accent is the only blue.** Owner's rule. The dimmed
+  `.svcs li` rows were 1.33:1 on paper — a ghost — so they are solid ink now and the
+  hovered/active row is the only coloured thing in the list. Section counters and the leading
+  numerals darkened too. `.close`'s counter and rule had never been crossed over at all: still
+  cream, 1.01:1, invisible.
+- **Proof band removed 2026-07-25** (owner). `.count` ("03 — The count so far") repeated three
+  numbers already shown on the case cards above it, and sat between services and the FAQ, so it
+  also broke the paper run with a stranded black band. Spine renumbered 01–04.

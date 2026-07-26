@@ -192,20 +192,13 @@
      Ground, type and borders crossfade TOGETHER — recolouring the text instantly while the
      background eased would leave ~300ms of dark-on-dark. Universal inside the flipping
      sections; the four elements that carry their own transitions keep them (below). ── */
-  .svc,.faq,.count,.close,.svc *,.faq *,.count *,.close *{
+  .svc,.faq,.close,.svc *,.faq *,.close *{
     transition:background-color .55s ease,color .55s ease,border-color .55s ease}
   @media (prefers-reduced-motion:reduce){
-    .svc,.faq,.count,.close,.svc *,.faq *,.count *,.close *,
+    .svc,.faq,.close,.svc *,.faq *,.close *,
     .svcs li,.svcs li .d,.qa .q,.qa .a{transition-duration:0s}}
   /* ── ground schemes: scroll-driven by default; ?ground= pins one and disables the flip ── */
-  /* .count sits BETWEEN services and the FAQ — left out of the chapter it read as a black
-     band stranded between two white ones. The paper run has to be continuous. */
-  body.g-ex .svc, body.g-ex .faq, body.g-ex .count{background:#F3EFE7;color:#15161A}
-  body.g-ex .count .c .w{color:rgba(21,22,26,.66)}
-  body.g-ex.pal .count .c .n{color:var(--acc-dark)}
-  body.g-ex .count .sechead{border-top-color:rgba(21,22,26,.2)}
-  body.g-ex .count .sechead .eyebrow{color:rgba(21,22,26,.66)}
-  body.g-ex .count .sechead .secn{color:rgba(21,22,26,.72)}
+  body.g-ex .svc, body.g-ex .faq{background:#F3EFE7;color:#15161A}
   body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.66)}
   body.g-ex .svcleft p{color:rgba(21,22,26,.62)}
   body.g-ex .svcs li{color:#15161A}      /* on paper the .14 ghost was 1.33:1 — read as blank */
@@ -482,17 +475,6 @@
   .svcs li.active .d{max-height:3.2em;opacity:1;margin-top:2px;margin-bottom:10px}
   @media (max-width:900px){.svcgrid{grid-template-columns:1fr;gap:30px}.svcs li{width:auto}}
 
-  /* ── proof band: the agency beat — real numbers, one strip ── */
-  .count{background:#0B0B0D;color:#F4F1EA;padding:10vh 24px 12vh}
-  body[data-world] .count{background:var(--wg)}
-  .countgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
-  .count .c .n{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(2.6rem,5.4vw,4.6rem);
-               letter-spacing:.01em;line-height:1}
-  .count .c .l{margin-top:10px;font-weight:650}
-  .count .c .w{margin-top:2px;color:rgba(244,241,234,.5);font-size:.9rem}
-  .count .c .n{color:var(--acc)}
-  body.stats-cream .count .c .n{color:#F4F1EA}
-  @media (max-width:900px){.countgrid{grid-template-columns:1fr;gap:28px}.count{padding:8vh 24px}}
   /* ── FAQ: dimmed accordion, lit active row (Monolog pattern), book prompt in the left rail ── */
   .faq{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px}
   .faqgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:8fr minmax(240px,4fr);gap:56px;align-items:start}
@@ -617,7 +599,7 @@
      its numbers on arrival. NOTE: the Explore links point at per-client case-study pages that
      have NOT been built yet — they 404 until case/<slug>/index.html exists. -->
 <section id="work">
-  <div class="worktitle"><h2>Case Studies</h2><span class="secn">01 / 05</span></div>
+  <div class="worktitle"><h2>Case Studies</h2><span class="secn">01 / 04</span></div>
   <p class="worklede"><span>Three real businesses, three live sites. The numbers under each one are
      what the site did after it went up — not what we hope it will do.</span></p>
 
@@ -677,7 +659,7 @@
 </section>
 
 <section class="svc" id="services">
-  <div class="sechead"><span class="eyebrow">02 — What we do</span><span class="secn">02 / 05</span></div>
+  <div class="sechead"><span class="eyebrow">02 — What we do</span><span class="secn">02 / 04</span></div>
   <div class="svcgrid">
     <div class="svcleft">
       <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
@@ -694,17 +676,8 @@
 
 
 
-<section class="count" aria-label="Results so far">
-  <div class="sechead"><span class="eyebrow">03 — The count so far</span><span class="secn">03 / 05</span></div>
-  <div class="countgrid">
-    <div class="c"><div class="n">1,818+</div><div class="l">passengers booked online</div><div class="w">National Taxi — from zero</div></div>
-    <div class="c"><div class="n">16</div><div class="l">enquiries in month one</div><div class="w">JDH Gas — a site five weeks old</div></div>
-    <div class="c"><div class="n">40,000+</div><div class="l">search impressions a quarter</div><div class="w">Deen Relief — grant-funded ads</div></div>
-  </div>
-</section>
-
 <section class="faq" id="faq">
-  <div class="sechead"><span class="eyebrow">04 — Questions</span><span class="secn">04 / 05</span></div>
+  <div class="sechead"><span class="eyebrow">03 — Questions</span><span class="secn">03 / 04</span></div>
   <div class="faqgrid">
     <div class="faqleft">
       <div class="faqask">
@@ -731,7 +704,7 @@
 </section>
 
 <section class="close" id="contact">
-  <div class="sechead"><span class="eyebrow">05 — Start</span><span class="secn">05 / 05</span></div>
+  <div class="sechead"><span class="eyebrow">04 — Start</span><span class="secn">04 / 04</span></div>
   <div class="closegrid">
     <h2>READY WHEN YOU ARE.</h2>
     <div class="closecols">
