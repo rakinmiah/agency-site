@@ -114,6 +114,7 @@
             transition:opacity .34s ease,transform .38s cubic-bezier(.22,.61,.24,1)}
   .swap .sw.on{opacity:1;transform:none}
   .swap .sw.out{opacity:0;transform:translateY(-.16em)}
+  .swap .sw i{font-style:normal;color:#F4F1EA}   /* the stop is the sentence's, not the service's */
   @media (prefers-reduced-motion:reduce){.swap .sw{transition:none}}
   .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
       clip:rect(0 0 0 0);white-space:nowrap;border:0}
@@ -166,7 +167,7 @@
     .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
     .heroleft{top:13%;padding:0 22px}
-    .heroleft h1{font-size:clamp(2rem,8.4vw,2.7rem);max-width:15ch}
+    .heroleft h1{font-size:clamp(1.85rem,7.8vw,2.6rem);max-width:19ch}
     .hsub{font-size:1.02rem;margin-top:16px;max-width:34ch}
     .hcta{margin-top:24px;gap:10px}
     .btn1,.btn2{width:100%;justify-content:center}                /* thumb-width primary action */
@@ -594,16 +595,16 @@
   </div>
   <div class="heroleft">
     <h1>
-      <span class="vh">Websites, rankings and ads that bring in the work.</span>
+      <span class="vh">More work from your website, your Google listing and your ads.</span>
+      <span aria-hidden="true">More work from your</span>
       <span class="swap" aria-hidden="true"
-            ><span class="sw on">Websites</span
-            ><span class="sw">Rankings</span
-            ><span class="sw">Ads</span
+            ><span class="sw on">website<i>.</i></span
+            ><span class="sw">Google listing<i>.</i></span
+            ><span class="sw">ads<i>.</i></span
       ></span>
-      <span aria-hidden="true">that bring in the work.</span>
     </h1>
-    <p class="hsub">Site, search and paid ads, run as one job — they only bring in work when they
-       work together.</p>
+    <p class="hsub">One team on the site, the search and the ads — they only bring work in when
+       they work together.</p>
     <div class="hcta">
       <a class="btn1" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a 15-minute intro <span class="sq" aria-hidden="true">&#8599;</span></a>
       <a class="btn2" href="#work">See the work</a>

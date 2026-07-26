@@ -158,10 +158,16 @@ Measured after the change: h1 fully painted at 563ms, stat count-up finished at 
 ## HOME HERO — conversion build, 2026-07-25
 Order is the argument: outcome headline -> how it works -> one primary action -> friction-killer
 -> counted proof. The giant wordmark stays as the bottom signature.
-- H1 rotates the service word: **[Websites | Rankings | Ads] / that bring in the work.** One
-  headline had to say we do three things — the swap carries the stack, the fixed line under it
-  carries the promise. Owner's brief: the hero was reading website-only when the business is
-  site + search + paid.
+- H1 rotates the service word: **More work from your / [website | Google listing | ads].**
+  One headline had to say we do three things. Owner's brief: the hero was reading website-only
+  when the business is site + search + paid.
+- v1 was "[Websites | Rankings | Ads] that bring in the work." Killed because **Rankings is an
+  outcome and the other two are deliverables** — three things in one slot have to be the same
+  KIND of thing or the odd one reads as jargon. Rebuilt so every variant is an asset the client
+  already owns, which also puts the outcome ("More work") first and drops the relative clause
+  that forced every word to be plural.
+- The full stop lives inside each swap word (so it travels with it) but stays cream: it belongs
+  to the sentence, not the service.
 - The swap word gets its OWN line and all three sit in one grid cell, so the box is as wide as
   the longest word and the fixed line never moves (measured: one top position over 7s).
 - Reference is helloseed.co.uk ("Your Most [Ambitious|Proactive|Relentless] Growth Partner").
