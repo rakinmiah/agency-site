@@ -242,3 +242,18 @@ scroll. Three acts: **ink** (hero + case studies) -> **paper** (services + FAQ) 
 - **Proof band removed 2026-07-25** (owner). `.count` ("03 — The count so far") repeated three
   numbers already shown on the case cards above it, and sat between services and the FAQ, so it
   also broke the paper run with a stranded black band. Spine renumbered 01–04.
+
+## CASE FACTS — sharpened 2026-07-26
+Each card now carries a `.casenote` under its headline: one line of scope and timeframe, so the
+numbers below it are never read out of context.
+- **National Taxi** — "1,818+ passengers carried" retired (a client-side metric, and the weakest
+  claim on the page). Replaced with **3 systems built from scratch**: booking front end, dispatch
+  back end, driver app. That is the real differentiator — it says "not a template shop" in a way
+  no traffic number can. The £10,000+ stat stays but reads "taken online, from £0" — the count-up
+  animating 0 -> £10,000 IS the story, so the label just names it.
+- **JDH Gas** — ⚠ the old copy claimed the enquiries came "from a site that didn't exist five
+  weeks earlier". **False**: Jamie had built his own site; we rebuilt it. Corrected, and every
+  label now ends "month one" so the timeframe cannot be missed. Headline is the frame:
+  "Rebuilt and ranking, inside one month." Rebuild + SEO ran together in that month.
+- **Deen Relief** — PENDING. Owner is sourcing stronger figures; the three originals stand and
+  are marked in the markup. It is now clearly the weakest of the three cards.

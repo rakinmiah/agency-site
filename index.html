@@ -421,6 +421,10 @@
   .casehead .eyebrow{color:rgba(244,241,234,.55)}
   .casehead h3{color:#F4F1EA;font-weight:800;letter-spacing:-.02em;
                font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.15;margin-top:8px;max-width:20ch}
+  /* scope + timeframe. Without it the numbers float free and a reader has to guess what they
+     cover — and "in one month" is the whole point of the JDH card. */
+  .casenote{margin-top:12px;font-size:.92rem;line-height:1.5;color:rgba(244,241,234,.62);max-width:52ch}
+  .casenote b{color:#F4F1EA;font-weight:650}
   .casegrid{display:grid;grid-template-columns:334px 1fr;gap:52px;align-items:center;
             max-width:1200px;margin:0 auto}
   .case.flip .casegrid{grid-template-columns:1fr 334px}
@@ -636,12 +640,14 @@
      what the site did after it went up — not what we hope it will do.</span></p>
 
   <article class="case">
-    <div class="casehead"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>Fixed fares, booked online.</h3></div>
+    <div class="casehead"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>The whole booking platform, built from zero.</h3>
+      <p class="casenote">Not a brochure site. The booking front end, the dispatch back end and the
+         driver app — <b>all built from scratch</b>, none of it off the shelf.</p></div>
     <div class="casegrid">
       <div class="stats">
-        <div class="stat" data-count="1818" data-suffix="+"><div class="num">0</div><div class="lab">passengers carried</div><div class="ctx">Long-distance airport runs across the South East — booked online at a fixed price.</div></div>
+        <div class="stat" data-count="3"><div class="num">0</div><div class="lab">systems built from scratch</div><div class="ctx">Booking site, dispatch back end, driver app — jobs taken, assigned and tracked in software we wrote.</div></div>
         <div class="stat" data-count="5" data-decimals="1" data-suffix=" ★"><div class="num">0</div><div class="lab">from 80 Google reviews</div><div class="ctx">Rated by the passengers it drives — every review public.</div></div>
-        <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">revenue — from zero</div><div class="ctx">Zero to five figures — every fare booked and paid through the site.</div></div>
+        <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">taken online, from &pound;0</div><div class="ctx">The firm had never taken a booking online. Every fare is now quoted, booked and paid on the site.</div></div>
       </div>
       <div class="caseview">
         <div class="browser">
@@ -654,12 +660,14 @@
   </article>
 
   <article class="case flip">
-    <div class="casehead"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>From invisible to 16 enquiries a month.</h3></div>
+    <div class="casehead"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>Rebuilt and ranking, inside one month.</h3>
+      <p class="casenote">Jamie had built his own site. We rebuilt it and started the search work
+         together — <b>every number below is from that first month</b>.</p></div>
     <div class="casegrid">
       <div class="stats">
-        <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries in month one</div><div class="ctx">Calls, WhatsApps and quote requests — from a site that didn't exist five weeks earlier.</div></div>
-        <div class="stat" data-count="2" data-suffix="×"><div class="num">0×</div><div class="lab">Google clicks</div><div class="ctx">Doubled against launch week — same trade, same town, better site.</div></div>
-        <div class="stat" data-count="5" data-suffix="×"><div class="num">0×</div><div class="lab">search visibility</div><div class="ctx">Shows up five times more often when Burgess Hill searches for a gas engineer.</div></div>
+        <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries, month one</div><div class="ctx">Calls, WhatsApps and quote requests, in the first month the rebuilt site was live.</div></div>
+        <div class="stat" data-count="2" data-suffix="×"><div class="num">0×</div><div class="lab">Google clicks, month one</div><div class="ctx">Doubled against his old site. Same trade, same town, same man — different site.</div></div>
+        <div class="stat" data-count="5" data-suffix="×"><div class="num">0×</div><div class="lab">search visibility, month one</div><div class="ctx">Shows up five times more often when Burgess Hill searches for a gas engineer.</div></div>
       </div>
       <div class="caseview">
         <div class="browser">
@@ -672,6 +680,8 @@
   </article>
 
   <article class="case">
+    <!-- PENDING: owner is sourcing stronger figures for this card (2026-07-26). The three
+         below are the originals and are the weakest of the three case studies. -->
     <div class="casehead"><div class="eyebrow">DEEN RELIEF — UK REGISTERED CHARITY</div><h3>Giving, made effortless.</h3></div>
     <div class="casegrid">
       <div class="stats">
