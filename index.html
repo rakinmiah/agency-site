@@ -1026,13 +1026,25 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(drawFx); });
   }
 
+  /* ?wm=full (default) edge-to-edge · half = signature scale · none = gone.
+     An audition switch: the wordmark is the most distinctive thing on the page AND the least
+     useful thing to a stranger, so it is worth judging the trade at real size. */
+  const WM_MODE = new URLSearchParams(location.search).get('wm') || 'full';
   function fitWordmark(){
+    if (WM_MODE === 'none') { wm.style.display = 'none'; return; }
     wm.style.fontSize = '100px';
     const tw = document.getElementById('wmtext').offsetWidth;   // LAYOUT width — unaffected by the intro transform
     if (!tw) return;
-    const widthFit = 100 * (document.documentElement.clientWidth / tw) * 0.994; // edge-to-edge, Monolog scale
-    const heightCap = innerHeight * 0.42;   // short names: stop at a designed scale, don't swallow the hero
-    wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap)) + 'px';
+    const bleed = WM_MODE === 'half' ? 0.52 : 0.994;            // signature vs edge-to-edge
+    const widthFit = 100 * (document.documentElement.clientWidth / tw) * bleed;
+    const heightCap = innerHeight * (WM_MODE === 'half' ? 0.22 : 0.42);
+    // ...and never grow into the hero content above it. 42% of the fold was safe when the
+    // headline was one line; the rotating word made it two and the mark started eating the
+    // stat rail on 720-780px-tall laptops. Cap on the real gap, not a guessed fraction.
+    const rail = document.querySelector('.hstats');
+    const free = rail ? innerHeight - rail.getBoundingClientRect().bottom - 14 : innerHeight;
+    const fitCap = Math.max(48, free / 0.99);                   // line-height .82 + .17em margin
+    wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap, fitCap)) + 'px';
   }
   (function paintMarks(){
     const wt = document.getElementById('wmtext');
