@@ -267,7 +267,8 @@
   .wordmark{position:relative;z-index:2;margin-top:auto;padding:6vh 0 0;
             font-family:'Anton',-apple-system,sans-serif;font-weight:400;
             letter-spacing:-.02em;line-height:.82;white-space:nowrap;user-select:none;text-align:center;
-            transform-origin:left bottom;margin-bottom:.17em;
+            transform-origin:left bottom;margin-bottom:max(.17em,34px);   /* clears the scroll pill:
+            at signature scale .17em is only ~22px and the pill sits 14-23px off the bottom */
             background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
             color:transparent;animation:sheen 9s ease-in-out infinite}
@@ -1030,18 +1031,17 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(drawFx); });
   }
 
-  /* ?wm=full (default) edge-to-edge · half = signature scale · none = gone.
-     An audition switch: the wordmark is the most distinctive thing on the page AND the least
-     useful thing to a stranger, so it is worth judging the trade at real size. */
-  const WM_MODE = new URLSearchParams(location.search).get('wm') || 'full';
+  /* SIGNATURE SCALE (owner's call, 2026-07-25). The mark used to run edge-to-edge because the
+     opening logo reel landed on it — that reel is on the About page now, so full bleed was a
+     payoff with no setup, spending ~a third of the fold on a name the visitor already knows.
+     At 52% width it still anchors the composition and shows the interlace mark at size, and
+     the ~100px it gives back goes to the headline and the proof rail. */
   function fitWordmark(){
-    if (WM_MODE === 'none') { wm.style.display = 'none'; return; }
     wm.style.fontSize = '100px';
     const tw = document.getElementById('wmtext').offsetWidth;   // LAYOUT width — unaffected by the intro transform
     if (!tw) return;
-    const bleed = WM_MODE === 'half' ? 0.52 : 0.994;            // signature vs edge-to-edge
-    const widthFit = 100 * (document.documentElement.clientWidth / tw) * bleed;
-    const heightCap = innerHeight * (WM_MODE === 'half' ? 0.22 : 0.42);
+    const widthFit = 100 * (document.documentElement.clientWidth / tw) * 0.52;
+    const heightCap = innerHeight * 0.22;
     // ...and never grow into the hero content above it. 42% of the fold was safe when the
     // headline was one line; the rotating word made it two and the mark started eating the
     // stat rail on 720-780px-tall laptops. Cap on the real gap, not a guessed fraction.
@@ -1050,7 +1050,12 @@
     // room has to scale with the fold, not be a constant.
     const gap = Math.max(34, innerHeight * 0.055);
     const free = rail ? innerHeight - rail.getBoundingClientRect().bottom - gap : innerHeight;
-    const fitCap = Math.max(48, free / 0.99);                   // line-height .82 + .17em margin
+    // the mark's footprint is the ink block (~.99em at line-height .82) PLUS its bottom margin,
+    // which is max(.17em, 34px) — raising that floor to clear the scroll pill also pushed the
+    // mark up into the rail, so solve for both cases instead of assuming the em one.
+    const byFloor = (free - 34) / 0.99;      // 34px margin dominates (fs under ~200px)
+    const byEm    = free / 1.16;             // .17em margin dominates
+    const fitCap  = Math.max(40, byFloor <= 200 ? byFloor : byEm);
     wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap, fitCap)) + 'px';
   }
   (function paintMarks(){
