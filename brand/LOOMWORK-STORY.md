@@ -284,5 +284,6 @@ numbers below it are never read out of context.
   "search advertising" / "ad budget". Do not reintroduce the term.
   **Kept in $, not converted.** The figure originates in USD; converting to £ would give an odd
   number like £94,000 and make a real figure look invented.
-  The 4 sits BETWEEN the two six-figure stats: 120,000 and 125,000 side by side read as almost
-  the same number and cancel each other out.
+  Order (owner, 2026-07-26): $120,000 · 125,000 · 4. The two six-figure numbers now sit side by
+  side — worth knowing they read as almost the same figure at a glance; the labels are what
+  separate them.
