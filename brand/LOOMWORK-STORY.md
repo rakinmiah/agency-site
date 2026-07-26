@@ -260,5 +260,13 @@ numbers below it are never read out of context.
   weeks earlier". **False**: Jamie had built his own site; we rebuilt it. Corrected, and every
   label now ends "month one" so the timeframe cannot be missed. Headline is the frame:
   "Rebuilt and ranking, inside one month." Rebuild + SEO ran together in that month.
-- **Deen Relief** — PENDING. Owner is sourcing stronger figures; the three originals stand and
-  are marked in the markup. It is now clearly the weakest of the three cards.
+- **Deen Relief** — rebuilt 2026-07-26 on owner-supplied figures. $120,000 Google Ad Grant a
+  year (managed end to end) · 4 systems behind every donation (donation platform, CMS,
+  sponsorship portal, admin app) · 125,000 search impressions in the first 90 days. Retired:
+  "6 live campaigns" and the vague "6-figure ad grant" — the real number is stronger than the
+  euphemism, and the old "40,000+ a quarter" is superseded by the 90-day figure.
+  **Kept in $, not converted.** The Google Ad Grant is denominated in USD ($10k/month) — that is
+  the programme's own unit and a reader who knows the scheme recognises it. Converting to £
+  would make it look like an invented number.
+  The 4 sits BETWEEN the two six-figure stats: 120,000 and 125,000 side by side read as almost
+  the same number and cancel each other out.
