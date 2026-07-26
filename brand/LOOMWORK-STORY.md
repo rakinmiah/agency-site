@@ -253,14 +253,18 @@ numbers below it are never read out of context.
   0 -> £10,000 IS the story, so the label just names it.
   **Order (2026-07-26): £10,000+ leads, the 3 goes last.** A small integer cannot carry the first
   slot in a stat rail — the eye skims it.
-  **THE SMALL-NUMBER RULE (settled after three attempts).** 3 and 4 cannot be inflated honestly,
-  and no label about US ("systems built from scratch") or about the client ("systems running the
-  whole firm") makes them land. What works is a BENCHMARK: the reader has no idea whether 3 is a
-  lot, so supply the comparison in the label itself.
-    NT   3 — "systems, not one brochure site"   / "Most taxi firms get a page with a phone number."
-    Deen 4 — "systems, not one donate button"   / "Most charities get a form that emails someone."
-  Contrast is what makes a small number feel big. The two benchmarks are deliberately different
-  so the pattern does not read as a template across the cards.
+  **WHAT THE SYSTEMS STAT IS ACTUALLY ABOUT (owner, 2026-07-26).** Not the customer's journey —
+  the CLIENT'S OPERATION. These are internal platforms that automate a business's processes and
+  replace software they would otherwise licence for thousands. It is a distinct USP: coding
+  capability on top of marketing, and the reason a build is worth more than a website.
+    NT   3 — "systems automating the operation"   (dispatch, driver assignment, job tracking)
+    Deen 4 — "systems automating the back office" (donations, CMS, sponsorships, admin app)
+  Three earlier attempts failed by describing the wrong thing: "built from scratch" was about us,
+  "running the whole firm" was about the client but vague, and "not one brochure site" framed it
+  against a customer-facing benchmark. The value is **automation and cost avoided**, so the copy
+  has to name the manual work removed and the licence not paid ("Built for them, not licensed to
+  them"). The NT headline moved off "booking platform" for the same reason — booking is the
+  customer-facing half, the operation is the whole of it.
 - **JDH Gas** — ⚠ the old copy claimed the enquiries came "from a site that didn't exist five
   weeks earlier". **False**: Jamie had built his own site; we rebuilt it. Corrected, and every
   label now ends "month one" so the timeframe cannot be missed. Headline is the frame:
