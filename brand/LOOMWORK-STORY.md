@@ -249,8 +249,13 @@ numbers below it are never read out of context.
 - **National Taxi** — "1,818+ passengers carried" retired (a client-side metric, and the weakest
   claim on the page). Replaced with **3 systems built from scratch**: booking front end, dispatch
   back end, driver app. That is the real differentiator — it says "not a template shop" in a way
-  no traffic number can. The £10,000+ stat stays but reads "taken online, from £0" — the count-up
-  animating 0 -> £10,000 IS the story, so the label just names it.
+  no traffic number can. The £10,000+ stat reads "taken online, from £0" — the count-up animating
+  0 -> £10,000 IS the story, so the label just names it.
+  **Order (2026-07-26): £10,000+ leads, the 3 goes last.** A small integer cannot carry the first
+  slot in a stat rail — the eye skims it. The number is fixed at 3 and cannot honestly be
+  inflated, so the LABEL does the work: "systems running the whole firm" (not "systems built from
+  scratch", which is about us). Copy rule that falls out of it: when the figure is small, the
+  label has to state the consequence, not the deliverable.
 - **JDH Gas** — ⚠ the old copy claimed the enquiries came "from a site that didn't exist five
   weeks earlier". **False**: Jamie had built his own site; we rebuilt it. Corrected, and every
   label now ends "month one" so the timeframe cannot be missed. Headline is the frame:
