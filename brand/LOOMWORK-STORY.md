@@ -158,7 +158,22 @@ Measured after the change: h1 fully painted at 563ms, stat count-up finished at 
 ## HOME HERO — conversion build, 2026-07-25
 Order is the argument: outcome headline -> how it works -> one primary action -> friction-killer
 -> counted proof. The giant wordmark stays as the bottom signature.
-- H1 "Websites that bring in work." — one line on desktop (34ch cap), 2 lines under 760px.
+- H1 rotates the service word: **[Websites | Rankings | Ads] / that bring in the work.** One
+  headline had to say we do three things — the swap carries the stack, the fixed line under it
+  carries the promise. Owner's brief: the hero was reading website-only when the business is
+  site + search + paid.
+- The swap word gets its OWN line and all three sit in one grid cell, so the box is as wide as
+  the longest word and the fixed line never moves (measured: one top position over 7s).
+- Reference is helloseed.co.uk ("Your Most [Ambitious|Proactive|Relentless] Growth Partner").
+  Measured off their capture: ~2.0s hold, then **~0.48s with the line completely empty** before
+  the next word. That hole reads as a glitch, so ours crossfades with a short overlap —
+  2.2s hold, 340ms out / 380ms in, never blank (verified 0 frames with all words invisible).
+- a11y: the animated word is `aria-hidden`, with a visually-hidden full sentence carrying the
+  accessible name ("Websites, rankings and ads that bring in the work." — confirmed off the
+  a11y tree, not innerText, which ignores aria-hidden). Reduced motion parks it on word one.
+- Sub-line names all three explicitly, so a visitor who catches only one rotation still gets
+  the whole offer: "Site, search and paid ads, run as one job — they only bring in work when
+  they work together." (the warp/weft argument in plain words).
 - Primary CTA books the real cal.com intro; secondary jumps to the case studies.
 - Proof rail counts £2,000,000+ ad spend managed and 30+ clients managed, in the accent, with
   the same ease-out as the case-study stats. Widths lock to the final string AFTER Anton loads
