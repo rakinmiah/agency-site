@@ -139,25 +139,6 @@
   .heroleft > *:nth-child(5){transition-delay:.24s}
   @media (prefers-reduced-motion:reduce){.heroleft > *{transition:none}}
 
-  /* ── partner strip: moved out of the hero and under it, the way the reference bars it
-     along the bottom edge. The hero's own slot went to the counted proof. ── */
-  .trustbar{background:#0B0B0D;padding:26px 24px;border-bottom:1px solid rgba(244,241,234,.08)}
-  .trust{display:flex;justify-content:center;gap:10px;max-width:620px;margin:0 auto}
-  .tbox{flex:1 1 0;max-width:196px;
-        display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;
-        padding:13px 5px 12px;border:1px solid rgba(244,241,234,.15);border-radius:5px;
-        background:rgba(244,241,234,.04);text-align:center}
-  .tbox svg{width:19px;height:19px;display:block;flex:none}
-  /* Meta's mark is ~2:1 — squared into 19px it reads half the weight of the G and the grid.
-     Wider box, same 19px slot height, so the labels below stay on one line across all three. */
-  .tbox svg.meta{width:30px}
-  .tbox .tn{font-size:11px;font-weight:650;letter-spacing:-.005em;line-height:1;
-            color:rgba(244,241,234,.95)}
-  .tbox .tp{font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;line-height:1;
-            color:rgba(244,241,234,.56);white-space:nowrap}
-  @media (max-width:359px){.tbox .tp{font-size:8.5px;letter-spacing:.03em}}   /* SE headroom */
-  /* the boxes no longer spawn — that beat belonged to the hero subtext they sat under.
-     Below the fold they are a standing credential, so they are simply always there. */
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
                 font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
@@ -181,10 +162,6 @@
     .hstat{padding:2px 18px}
     .hstat .hn{font-size:1.65rem}
     .hstat .hl{font-size:.72rem;margin-top:6px}
-    .trustbar{padding:20px 18px}
-    .trust{gap:7px}
-    .tbox{padding:11px 4px 10px;gap:7px}
-    .tbox svg{width:17px;height:17px}
     /* ?hero=center — Monolog-style centered statement variant */
     .hero.centered .heroleft{left:24px;right:24px;text-align:center}
   }
@@ -206,7 +183,7 @@
   .pal .faqleft .eyebrow, .pal .close .eyebrow{color:var(--acc)}
   .pal .footbar .ticks{color:var(--acc);opacity:.9}
   .pal .iform input:focus, .pal .iform textarea:focus{border-color:var(--acc);outline:none}
-  .pal .explorepill{border-color:var(--acc)}
+  .pal .explore{border-color:var(--acc)}
   .pal .bigbook .sq{background:var(--acc);color:#101114}
   .pal .svcleft .eyebrow{color:var(--acc)}
   .pal .svcs li.active{color:var(--acc)}
@@ -237,7 +214,7 @@
   body.g-all .iform input, body.g-all .iform textarea{border-bottom-color:rgba(21,22,26,.35);color:#15161A}
   /* ── colour worlds (?world=): temperature lives in the GROUND, not in stickers ── */
   body[data-world]{background:var(--wp)}
-  body[data-world] .hero, body[data-world] .story, body[data-world] .svc,
+  body[data-world] .hero, body[data-world] .case, body[data-world] .svc,
   body[data-world] .faq, body[data-world] .close, body[data-world] footer{background:var(--wg)}
   body[data-world] #work{background:var(--wg)}
   body[data-world] .cta2, body[data-world] .bigbook, body[data-world] .qa.open .q{background:var(--wp)}
@@ -245,8 +222,7 @@
   body[data-world] .wordmark, body[data-world].pal .wordmark{color:var(--wp)}
   body[data-world] .hero.hasimg .wordmark{color:var(--wp);-webkit-text-fill-color:var(--wp)}
   body[data-world] .wordmark.struck .ll:after{background:var(--wg)}
-  body[data-world] .progress i{background:var(--wp)}
-  body[data-world] .explorepill{background:color-mix(in srgb, var(--wg) 85%, transparent)}
+  body[data-world] .explore{background:color-mix(in srgb, var(--wg) 85%, transparent);color:var(--wp)}
   body[data-world].pal .cta2 .sq, body[data-world].pal .bigbook .sq{background:var(--acc);color:var(--wg)}
   body[data-world].pal .qa.open .q{background:var(--acc);color:var(--wg)}
   .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
@@ -388,21 +364,33 @@
   h1{font-size:clamp(2.4rem,5.2vw,4.4rem);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:14px 0 18px;max-width:18ch}
   .sub{color:var(--dim);font-size:1.05rem;max-width:52ch}
 
-  /* ── case deck: black full-screen cards, each sliding over the last (Fuel transition);
-        inside each, the site pans and the real numbers count as you scroll ── */
-  .story{height:320vh;position:relative;background:#0B0B0D}
-  #work{padding-top:11vh}
-  .story ~ .story{margin-top:-100vh}   /* the overlap that makes the next card slide OVER */
-  .story .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:334px 1fr;
-              gap:40px;align-items:center;max-width:1440px;margin:0 auto;padding:0 24px;
-              will-change:transform;transition:transform .2s ease-out,filter .2s ease-out}
-  .caselabel{position:absolute;top:30px;left:24px;right:24px}
-  .caselabel .eyebrow{color:rgba(244,241,234,.55)}
-  .caselabel h3{color:#F4F1EA;font-weight:800;letter-spacing:-.02em;font-size:1.25rem;margin-top:6px}
+  /* ── case studies: three static cards. Each shows the client site's real hero in a browser
+     frame and counts its numbers on arrival. The sticky pan deck is gone — visitors no longer
+     scroll through three entire websites to reach the services section. ── */
+  #work{background:#0B0B0D;padding:13vh 24px 4vh}
+  .worktitle{max-width:1200px;margin:0 auto 12px;display:flex;justify-content:space-between;
+             align-items:baseline;border-top:1px solid rgba(244,241,234,.16);padding-top:16px}
+  .worktitle h2{font-family:'Anton',-apple-system,sans-serif;font-weight:400;letter-spacing:.005em;
+                font-size:clamp(2.4rem,5.6vw,4.6rem);line-height:1;color:#F4F1EA}
+  .worktitle .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;
+                   font-variant-numeric:tabular-nums}
+  .worklede{max-width:1200px;margin:0 auto 74px;color:rgba(244,241,234,.6);font-size:1.02rem;
+            line-height:1.6}
+  .worklede span{display:block;max-width:56ch}
+  .case{background:#0B0B0D;padding:0 0 13vh}
+  .case:last-of-type{padding-bottom:4vh}
+  .casehead{max-width:1200px;margin:0 auto 26px}
+  .casehead .eyebrow{color:rgba(244,241,234,.55)}
+  .casehead h3{color:#F4F1EA;font-weight:800;letter-spacing:-.02em;
+               font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.15;margin-top:8px;max-width:20ch}
+  .casegrid{display:grid;grid-template-columns:334px 1fr;gap:52px;align-items:center;
+            max-width:1200px;margin:0 auto}
+  .case.flip .casegrid{grid-template-columns:1fr 334px}
+  .case.flip .stats{order:2}
   .stats{display:flex;flex-direction:column;gap:34px}
   .stat{opacity:.22;transform:translateY(6px);transition:opacity .5s,transform .5s}
   .stat.on{opacity:1;transform:none}
-  .stat .num{font-size:clamp(3rem,5vw,4.4rem);font-weight:800;letter-spacing:-.04em;line-height:1;
+  .stat .num{font-size:clamp(2.4rem,3.7vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1;
              color:#F4F1EA;font-variant-numeric:tabular-nums}
   .stat .lab{font-weight:700;margin-top:6px;color:#F4F1EA}
   .stat .ctx{color:rgba(244,241,234,.6);font-size:.95rem;max-width:34ch}
@@ -411,34 +399,25 @@
   .chrome{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid rgba(244,241,234,.12);background:#17181d}
   .dot{width:10px;height:10px;border-radius:50%;background:rgba(244,241,234,.18)}
   .url{flex:1;margin-left:10px;background:rgba(244,241,234,.08);border-radius:7px;padding:5px 12px;font-size:12.5px;color:rgba(244,241,234,.55)}
-  .window{height:64vh;overflow:hidden;position:relative}
-  .window img{width:100%;display:block;will-change:transform}
+  /* one desktop viewport of the real capture — the site's own hero, held still */
+  .window{aspect-ratio:16/10;overflow:hidden;position:relative}
+  .window img{width:100%;display:block}
   .window picture{display:block}
-  .progress{height:3px;background:rgba(244,241,234,.12)}
   .url a{color:inherit;text-decoration:none}
   .url a:hover{text-decoration:underline}
   .browser{position:relative}
-  .window iframe{width:100%;height:100%;border:0;display:block;background:#fff;opacity:0;transition:opacity .35s ease}
-  .window.live{overflow:hidden}
-  /* shimmer while the live site loads — no white flash */
-  .window.loading::after{content:"";position:absolute;inset:0;z-index:2;
-    background:linear-gradient(100deg,#141519 40%,#20222a 50%,#141519 60%);
-    background-size:200% 100%;animation:shimmer 1.2s linear infinite}
-  @keyframes shimmer{to{background-position:-200% 0}}
-  @media (prefers-reduced-motion:reduce){.window.loading::after{animation:none}}
-  .pillrow{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
-  .explorepill{background:rgba(11,11,13,.85);color:#F4F1EA;border:1px solid rgba(244,241,234,.35);
-               border-radius:999px;padding:8px 16px;font-size:.85rem;font-weight:600;backdrop-filter:blur(4px);cursor:pointer}
-  @media (min-width:901px){.explorepill.capture{display:none}} /* desktop pan owns the frame — capture scroll is mobile-only */
-  .progress i{display:block;height:100%;width:0;background:#F4F1EA}
-  /* flipped cards: site LEFT, numbers RIGHT (deck rhythm: standard / flip / flip) */
-  .story.flip .pin{grid-template-columns:1fr 334px}
-  .story.flip .pin .stats{order:2}
-  /* stat numbers in each client's brand colour (lightened where needed for black-ground contrast) */
+  .explore{display:inline-flex;align-items:center;gap:11px;margin-top:22px;
+           background:rgba(244,241,234,.06);color:#F4F1EA;border:1px solid rgba(244,241,234,.28);
+           border-radius:7px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:.98rem;
+           transition:background .18s ease,border-color .18s ease}
+  .explore:hover{background:rgba(244,241,234,.12);border-color:rgba(244,241,234,.6)}
+  .explore .arw{display:grid;place-items:center;width:22px;height:22px;border-radius:5px;
+                background:rgba(244,241,234,.12);font-size:12px;transition:transform .18s ease}
+  .explore:hover .arw{transform:translate(1px,-1px)}
+  .pal .explore .arw{background:var(--acc);color:#0B0B0D}
   /* client colours retired: each card already shows the client's real site in full colour,
      and the numbers are OUR claim. One studio accent instead of three borrowed ones. */
   .stat .num{color:var(--acc)}
-  .progress i{background:var(--acc)}
   body.stats-cream .stat .num{color:#F4F1EA}
 
   /* ── editorial section heads: the agency spine ── */
@@ -543,16 +522,22 @@
   @media (max-width:760px){.footgrid{grid-template-columns:1fr;gap:30px}}
 
   @media (max-width:900px){
-    .story{height:210vh}   /* mobile: enough dwell that the next card doesn't bury the stats */
-    .story .pin,.story.flip .pin{grid-template-columns:1fr;gap:18px;align-content:start;padding-top:140px;padding-left:14px;padding-right:14px} /* room for two-line labels */
-    .stats,.story.flip .pin .stats{flex-direction:row;gap:14px;order:0} /* above the frame — next card covers bottom-first */
-    .stat .num{font-size:1.65rem}
+    #work{padding:9vh 18px 2vh}
+    .worklede{margin-bottom:48px}
+    .case{padding-bottom:9vh}
+    .casegrid,.case.flip .casegrid{grid-template-columns:1fr;gap:22px}
+    /* flatten the viewer so the frame, the numbers and the button can be ordered independently:
+       site -> its numbers -> the next step. Nested, the button split the site from its proof. */
+    .caseview{display:contents}
+    .browser{order:1}
+    .stats,.case.flip .stats{flex-direction:row;gap:12px;order:2}
+    .stat{flex:1 1 0;min-width:0}
+    /* £10,000+ is the widest string here and it overflowed its third of the row at a fixed size */
+    .stat .num{font-size:clamp(1.1rem,5.2vw,1.7rem)}
     .stat .lab{font-size:.78rem;margin-top:3px}
     .stat .ctx{display:none}
-    .window{height:56vh;scrollbar-width:none}            /* page scroll passes straight through */
-    .window.explore{overflow-y:auto;overscroll-behavior:contain}
-    .window::-webkit-scrollbar{display:none}
-    .story.deen{height:140vh}                            /* last card: no successor, release quickly */
+    .window{aspect-ratio:4/5}                             /* the mobile capture's own hero */
+    .explore{order:3;width:100%;justify-content:center;margin-top:0}
     .svc{padding:8vh 24px 9vh}                           /* mobile: desktop's 16-18vh stacks into dead screens */
     .faq{padding:9vh 24px}
     .close{padding:10vh 24px 12vh}
@@ -598,101 +583,71 @@
   <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
 </header>
 
-<!-- ILLUSTRATIVE / UNVERIFIED: these three are EARNED programme statuses (Google Partner,
-     Microsoft Advertising Partner, Meta Business Partner), each with its own spend and
-     certification thresholds. Do NOT deploy this strip until the accreditations are actually
-     held — swap in the honest proof points instead. -->
-<section class="trustbar">
-    <div class="trust" aria-label="Partner accreditations">
-      <div class="tbox">
-        <svg viewBox="0 0 48 48" aria-hidden="true">
-          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
-          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
-          <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
-          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
-        </svg>
-        <span class="tn">Google</span><span class="tp">Ads Partner</span>
+<!-- Case studies: static. Each card shows the client site's own hero, held still, and counts
+     its numbers on arrival. NOTE: the Explore links point at per-client case-study pages that
+     have NOT been built yet — they 404 until case/<slug>/index.html exists. -->
+<section id="work">
+  <div class="worktitle"><h2>Case Studies</h2><span class="secn">01 / 05</span></div>
+  <p class="worklede"><span>Three real businesses, three live sites. The numbers under each one are
+     what the site did after it went up — not what we hope it will do.</span></p>
+
+  <article class="case">
+    <div class="casehead"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>Fixed fares, booked online.</h3></div>
+    <div class="casegrid">
+      <div class="stats">
+        <div class="stat" data-count="1818" data-suffix="+"><div class="num">0</div><div class="lab">passengers carried</div><div class="ctx">Long-distance airport runs across the South East — booked online at a fixed price.</div></div>
+        <div class="stat" data-count="5" data-decimals="1" data-suffix=" ★"><div class="num">0</div><div class="lab">from 80 Google reviews</div><div class="ctx">Rated by the passengers it drives — every review public.</div></div>
+        <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">revenue — from zero</div><div class="ctx">Zero to five figures — every fare booked and paid through the site.</div></div>
       </div>
-      <div class="tbox">
-        <svg viewBox="0 0 23 23" aria-hidden="true">
-          <path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/>
-          <path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/>
-        </svg>
-        <span class="tn">Microsoft</span><span class="tp">Ads Partner</span>
-      </div>
-      <div class="tbox">
-        <svg class="meta" viewBox="0 0 40 22" fill="none" aria-hidden="true">
-          <defs><linearGradient id="metag" x1="4" y1="11" x2="36" y2="11" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#0064E0"/><stop offset="1" stop-color="#0082FB"/></linearGradient></defs>
-          <path d="M6.4 11c0-3.6 2-6 4.6-6 2.5 0 4.3 1.9 6.6 5.3 2.8 4.1 4.4 6.4 6.8 6.4 2.5 0 4.2-2.2 4.2-5.7 0-3.9-1.9-6.5-4.6-6.5-2.4 0-4.2 1.8-6.4 5.2-2.8 4.3-4.5 6.9-7 6.9C8 16.6 6.4 14.3 6.4 11z"
-                stroke="url(#metag)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="tn">Meta</span><span class="tp">Ads Partner</span>
+      <div class="caseview">
+        <div class="browser">
+          <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://nationaltaxi.co.uk" target="_blank" rel="noopener">nationaltaxi.co.uk</a></span></div>
+          <div class="window"><picture><source media="(max-width:900px)" srcset="assets/taxi-mobile.jpg"><img src="assets/taxi-desktop.jpg" alt="The National Taxi website — fixed-fare airport transfers, booked online"></picture></div>
+        </div>
+        <a class="explore" href="case/national-taxi/">Explore the site <span class="arw" aria-hidden="true">&#8599;</span></a>
       </div>
     </div>
-</section>
+  </article>
 
-
-
-
-
-<!-- sticky scroll-story: stats activate while the REAL site pans in the frame -->
-<section class="story" id="work">
-  <div class="pin">
-    <div class="caselabel"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>Fixed fares, booked online.</h3></div>
-    <div class="stats">
-      <div class="stat" data-count="1818" data-suffix="+"><div class="num">0</div><div class="lab">passengers carried</div><div class="ctx">Long-distance airport runs across the South East — booked online at a fixed price.</div></div>
-      <div class="stat" data-count="5" data-decimals="1" data-suffix=" ★"><div class="num">0</div><div class="lab">from 80 Google reviews</div><div class="ctx">Rated by the passengers it drives — every review public.</div></div>
-      <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">revenue — from zero</div><div class="ctx">Zero to five figures — every fare booked and paid through the site.</div></div>
-    </div>
-    <div>
-      <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://nationaltaxi.co.uk" target="_blank" rel="noopener">nationaltaxi.co.uk</a></span></div>
-        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/taxi-mobile.jpg"><img class="pan" src="assets/taxi-desktop.jpg" alt="The National Taxi website, panning through the full page"></picture></div>
-        <div class="progress"><i></i></div>
+  <article class="case flip">
+    <div class="casehead"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>From invisible to 16 enquiries a month.</h3></div>
+    <div class="casegrid">
+      <div class="stats">
+        <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries in month one</div><div class="ctx">Calls, WhatsApps and quote requests — from a site that didn't exist five weeks earlier.</div></div>
+        <div class="stat" data-count="2" data-suffix="×"><div class="num">0×</div><div class="lab">Google clicks</div><div class="ctx">Doubled against launch week — same trade, same town, better site.</div></div>
+        <div class="stat" data-count="5" data-suffix="×"><div class="num">0×</div><div class="lab">search visibility</div><div class="ctx">Shows up five times more often when Burgess Hill searches for a gas engineer.</div></div>
+      </div>
+      <div class="caseview">
+        <div class="browser">
+          <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://jdhgas.co.uk" target="_blank" rel="noopener">jdhgas.co.uk</a></span></div>
+          <div class="window"><picture><source media="(max-width:900px)" srcset="assets/jdh-mobile.jpg"><img src="assets/jdh-desktop.jpg" alt="The JDH Gas website — Gas Safe heating engineer in Burgess Hill"></picture></div>
+        </div>
+        <a class="explore" href="case/jdh-gas/">Explore the site <span class="arw" aria-hidden="true">&#8599;</span></a>
       </div>
     </div>
-  </div>
-</section>
+  </article>
 
-<section class="story flip">
-  <div class="pin">
-    <div class="caselabel"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>From invisible to 16 enquiries a month.</h3></div>
-    <div class="stats">
-      <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries in month one</div><div class="ctx">Calls, WhatsApps and quote requests — from a site that didn't exist five weeks earlier.</div></div>
-      <div class="stat" data-count="2" data-suffix="×"><div class="num">0×</div><div class="lab">Google clicks</div><div class="ctx">Doubled against launch week — same trade, same town, better site.</div></div>
-      <div class="stat" data-count="5" data-suffix="×"><div class="num">0×</div><div class="lab">search visibility</div><div class="ctx">Shows up five times more often when Burgess Hill searches for a gas engineer.</div></div>
-    </div>
-    <div>
-      <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://jdhgas.co.uk" target="_blank" rel="noopener">jdhgas.co.uk</a></span></div>
-        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/jdh-mobile.jpg"><img class="pan" src="assets/jdh-desktop.jpg" alt="The JDH Gas website, panning through the full page"></picture></div>
-        <div class="progress"><i></i></div>
+  <article class="case">
+    <div class="casehead"><div class="eyebrow">DEEN RELIEF — UK REGISTERED CHARITY</div><h3>Giving, made effortless.</h3></div>
+    <div class="casegrid">
+      <div class="stats">
+        <div class="stat" data-count="6"><div class="num">0</div><div class="lab">live campaigns</div><div class="ctx">From emergency relief to orphan sponsorship — donations flow straight through the site.</div></div>
+        <div class="stat" data-count="6" data-suffix="-figure"><div class="num">0</div><div class="lab">ad grant, managed</div><div class="ctx">A six-figure Google Ad Grant run and optimised by us — charity search ads on, year-round.</div></div>
+        <div class="stat" data-count="40000" data-suffix="+"><div class="num">0</div><div class="lab">search impressions a quarter</div><div class="ctx">Seen in Google 40,000+ times every quarter through the grant-funded campaigns.</div></div>
+      </div>
+      <div class="caseview">
+        <div class="browser">
+          <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://deenrelief.org" target="_blank" rel="noopener">deenrelief.org</a></span></div>
+          <div class="window"><picture><source media="(max-width:900px)" srcset="assets/deen-mobile.jpg"><img src="assets/deen-desktop.jpg" alt="The Deen Relief website — UK registered charity, donations taken online"></picture></div>
+        </div>
+        <a class="explore" href="case/deen-relief/">Explore the site <span class="arw" aria-hidden="true">&#8599;</span></a>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="story deen">
-  <div class="pin">
-    <div class="caselabel"><div class="eyebrow">DEEN RELIEF — UK REGISTERED CHARITY</div><h3>Giving, made effortless.</h3></div>
-    <div class="stats">
-      <div class="stat" data-count="6"><div class="num">0</div><div class="lab">live campaigns</div><div class="ctx">From emergency relief to orphan sponsorship — donations flow straight through the site.</div></div>
-      <div class="stat" data-count="6" data-suffix="-figure"><div class="num">0</div><div class="lab">ad grant, managed</div><div class="ctx">A six-figure Google Ad Grant run and optimised by us — charity search ads on, year-round.</div></div>
-      <div class="stat" data-count="40000" data-suffix="+"><div class="num">0</div><div class="lab">search impressions a quarter</div><div class="ctx">Seen in Google 40,000+ times every quarter through the grant-funded campaigns.</div></div>
-    </div>
-    <div>
-      <div class="browser">
-        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url"><a href="https://deenrelief.org" target="_blank" rel="noopener">deenrelief.org</a></span></div>
-        <div class="window"><picture><source media="(max-width:900px)" srcset="assets/deen-mobile.jpg"><img class="pan" src="assets/deen-desktop.jpg" alt="The Deen Relief website, panning through the full page"></picture></div>
-        <div class="progress"><i></i></div>
-      </div>
-    </div>
-  </div>
+  </article>
 </section>
 
 <section class="svc" id="services">
-  <div class="sechead"><span class="eyebrow">01 — What we do</span><span class="secn">01 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">02 — What we do</span><span class="secn">02 / 05</span></div>
   <div class="svcgrid">
     <div class="svcleft">
       <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
@@ -710,7 +665,7 @@
 
 
 <section class="count" aria-label="Results so far">
-  <div class="sechead"><span class="eyebrow">02 — The count so far</span><span class="secn">02 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">03 — The count so far</span><span class="secn">03 / 05</span></div>
   <div class="countgrid">
     <div class="c"><div class="n">1,818+</div><div class="l">passengers booked online</div><div class="w">National Taxi — from zero</div></div>
     <div class="c"><div class="n">16</div><div class="l">enquiries in month one</div><div class="w">JDH Gas — a site five weeks old</div></div>
@@ -719,7 +674,7 @@
 </section>
 
 <section class="faq" id="faq">
-  <div class="sechead"><span class="eyebrow">03 — Questions</span><span class="secn">03 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">04 — Questions</span><span class="secn">04 / 05</span></div>
   <div class="faqgrid">
     <div class="faqleft">
       <div class="faqask">
@@ -746,7 +701,7 @@
 </section>
 
 <section class="close" id="contact">
-  <div class="sechead"><span class="eyebrow">04 — Start</span><span class="secn">04 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">05 — Start</span><span class="secn">05 / 05</span></div>
   <div class="closegrid">
     <h2>READY WHEN YOU ARE.</h2>
     <div class="closecols">
@@ -787,164 +742,41 @@
 (function(){
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* one engine, every story: pan the real site by section progress, light stats at thresholds */
-  const stories = [...document.querySelectorAll('.story')].map(sec => {
-    const img = sec.querySelector('.pan');
-    return {
-      sec, img,
-      win: sec.querySelector('.window'),
-      bar: sec.querySelector('.progress i'),
-      pin: sec.querySelector('.pin'),
-      stats: [...sec.querySelectorAll('.stat')].map((el, i) => ({ el, at: [0.08, 0.28, 0.45][i] || 0.4 })),
-    };
-  });
-  let ticking = false;
-  function update(){
-    ticking = false;
-    for (let si = 0; si < stories.length; si++) {
-      const st = stories[si];
-      // Fuel recede: as the NEXT card slides over, this pinned card sinks back and dims
-      const nxt = stories[si + 1];
-      if (nxt && !reduced) {
-        const nr = nxt.sec.getBoundingClientRect();
-        const cover = Math.min(1, Math.max(0, 1 - nr.top / innerHeight));
-        st.pin.style.transform = 'scale(' + (1 - cover * 0.05) + ')';
-        st.pin.style.filter = 'brightness(' + (1 - cover * 0.35) + ')';
-      }
-      const r = st.sec.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > innerHeight + 200) continue;
-      const total = r.height - innerHeight;
-      const p = Math.min(1, Math.max(0, -r.top / total));
-      const overflow = st.img.offsetHeight - st.win.offsetHeight;
-      // last card has no successor sliding over its tail — pan the full length so motion
-      // continues right up to release instead of 20% dead scroll
-      const end = (si === stories.length - 1) ? 1 : 0.8;
-      if (overflow > 0 && !reduced && !autoPanMq.matches && !st.iframed) st.img.style.transform = 'translate3d(0,' + (-Math.min(1, p / end) * overflow) + 'px,0)';
-      st.bar.style.width = (Math.min(1, p / end) * 100) + '%';
-      if (!(autoPanMq.matches && !reduced)) st.stats.forEach(x => x.el.classList.toggle('on', p >= x.at));
-    }
+  /* ── case studies: static cards. No pan, no auto-scroll, no sticky deck — the visitor
+     never has to scroll through three whole websites to reach the services section.
+     Each card's numbers count once, when the card first comes into view. ── */
+  function animateCount(el, n){
+    const target = +el.dataset.count, dec = +(el.dataset.decimals || 0);
+    const pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    const fmt = v => pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-GB')) + suf;
+    // digits growing mid-count reflow the row, so pin the box at its FINAL width first
+    n.textContent = fmt(target);
+    n.style.minWidth = Math.ceil(n.getBoundingClientRect().width) + 'px';
+    if (reduced) return;
+    n.textContent = fmt(0);
+    const t0 = performance.now(), dur = 1000;
+    (function tick(t){
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      n.textContent = fmt(e * target);
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
   }
-  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
-
-  /* mobile: the site frames are plain touch-scrollable containers — no auto-drift.
-     On card arrival (≥60% truly visible, not yet buried by the next card): frame resets
-     to the site's hero and the stats step out. Page scroll never has to pass through
-     the sites themselves. Desktop keeps the scroll-linked pan. */
-  /* explore controls: the chrome URL opens the real site in a new tab; the pill explores
-     IN-frame — a live iframe where the client site permits embedding (JDH), the full-page
-     capture otherwise (Taxi/Deen send X-Frame-Options). */
-  const FRAMEABLE = { 'jdhgas.co.uk': true };
-  const exploreCtl = new Map();
-  stories.forEach(st => {
-    const domain = st.sec.querySelector('.url').textContent.trim();
-    const canFrame = !!FRAMEABLE[domain];
-    st.iframed = false;
-    const row = document.createElement('div'); row.className = 'pillrow';
-    st.win.parentElement.appendChild(row);
-    const mk = (label, cls) => { const b = document.createElement('button');
-      b.className = 'explorepill' + (cls ? ' ' + cls : ''); b.type = 'button'; b.textContent = label;
-      row.appendChild(b); return b; };
-    if (canFrame) {
-      const pill = mk('Explore the live site');
-      pill.addEventListener('click', () => {
-        row.style.display = 'none';
-        const f = document.createElement('iframe');
-        f.src = 'https://' + domain; f.title = domain;
-        f.addEventListener('load', () => { st.win.classList.remove('loading'); f.style.opacity = '1'; }, { once: true });
-        const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = 'none';
-        st.win.classList.add('live', 'loading'); st.win.appendChild(f); st.iframed = true;
-      });
-    } else {
-      // XFO-blocked: scroll the capture in place (mobile), or the real site in a new tab
-      const cap = mk('Explore the site', 'capture');
-      cap.addEventListener('click', () => { st.win.classList.add('explore'); row.style.display = 'none'; });
-      const live = mk('Live site \u2197');
-      live.addEventListener('click', () => window.open('https://' + domain, '_blank', 'noopener'));
+  document.querySelectorAll('.case').forEach(card => {
+    const stats = [...card.querySelectorAll('.stat')];
+    if (!stats.length) return;
+    if (reduced || !('IntersectionObserver' in window)) {
+      stats.forEach(el => { el.classList.add('on'); animateCount(el, el.querySelector('.num')); });
+      return;
     }
-    const reset = () => {
-      const f = st.win.querySelector('iframe'); if (f) f.remove();
-      const pic = st.win.querySelector('picture, img'); if (pic) pic.style.display = '';
-      st.iframed = false; st.win.classList.remove('explore', 'live', 'loading'); row.style.display = '';
-    };
-    exploreCtl.set(st, { reset });
+    const io = new IntersectionObserver(es => {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      stats.forEach((el, i) => setTimeout(() => {
+        el.classList.add('on'); animateCount(el, el.querySelector('.num'));
+      }, 130 * i));
+    }, { threshold: 0.3 });
+    io.observe(card);
   });
-
-  const autoPanMq = matchMedia('(max-width:900px)');
-  const cardWatchers = new Map();
-  function setupCardArrival(){
-    stories.forEach((st, idx) => {
-      const prev = cardWatchers.get(st);
-      if (prev) { prev.stop(); cardWatchers.delete(st); }
-      if (!autoPanMq.matches || reduced) return;
-      const nextSec = stories[idx + 1] && stories[idx + 1].sec;
-      let running = false, active = false, raf = 0;
-      // count-up stays — but digits growing mid-count reflowed the row. Lock each number's
-      // box at its FINAL width first, so the count runs inside a fixed footprint.
-      const lockWidth = (x) => {
-        if (x.locked || x.el.dataset.static != null) return; x.locked = true;
-        const n = x.el.querySelector('.num');
-        const target = +x.el.dataset.count, dec = +(x.el.dataset.decimals || 0);
-        const final = (x.el.dataset.prefix || '') +
-          (dec ? target.toFixed(dec) : Math.round(target).toLocaleString('en-GB')) + (x.el.dataset.suffix || '');
-        const prev = n.textContent; n.textContent = final;
-        const w = Math.ceil(n.getBoundingClientRect().width);
-        n.textContent = prev; n.style.minWidth = w + 'px';
-      };
-
-      const seenFrac = () => {
-        const wr = st.win.getBoundingClientRect();
-        if (!wr.height) return 0;
-        let top = Math.max(wr.top, 0), bottom = Math.min(wr.bottom, innerHeight);
-        if (nextSec) bottom = Math.min(bottom, nextSec.getBoundingClientRect().top);
-        return Math.max(0, bottom - top) / wr.height;
-      };
-      const step = () => {
-        raf = 0;
-        if (!running) return;
-        const f = seenFrac();
-        const nowActive = active ? f >= 0.35 : f >= 0.6;
-        if (nowActive && !active) {
-          st.win.scrollTop = 0; exploreCtl.get(st).reset();                          // fresh from the hero
-          st.stats.forEach((x, i) => { lockWidth(x); setTimeout(() => x.el.classList.add('on'), 120 * i); });
-        }
-        active = nowActive;
-        raf = requestAnimationFrame(step);
-      };
-      const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
-      const io = new IntersectionObserver(es => { running = es[0].isIntersecting; if (running) kick(); });
-      io.observe(st.win);
-      cardWatchers.set(st, { stop(){ io.disconnect(); if (raf) cancelAnimationFrame(raf); } });
-    });
-  }
-  setupCardArrival();
-  autoPanMq.addEventListener('change', setupCardArrival);
-
-  /* count-up on first activation; data-static stats just appear */
-  const allStats = stories.flatMap(s => s.stats);
-  const obs = new MutationObserver(() => {
-    allStats.forEach(x => {
-      if (x.done || !x.el.classList.contains('on')) return;
-      x.done = true;
-      if (x.el.dataset.static != null) return;                       // shown as written
-      const n = x.el.querySelector('.num');
-      const target = +x.el.dataset.count, dec = +(x.el.dataset.decimals || 0);
-      const pre = x.el.dataset.prefix || '', suf = x.el.dataset.suffix || '';
-      const fmt = v => pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-GB')) + suf;
-      if (reduced) { n.textContent = fmt(target); return; }
-      const t0 = performance.now(), dur = 900;
-      (function tick(t){
-        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-        n.textContent = fmt(e * target);
-        if (k < 1) requestAnimationFrame(tick);
-      })(t0);
-    });
-  });
-  allStats.forEach(x => obs.observe(x.el, { attributes: true, attributeFilter: ['class'] }));
-
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', onScroll, { passive: true });
-  stories.forEach(st => st.img.addEventListener('load', onScroll));
-  onScroll();
 
   /* services: hover lights a row and the preview floats beside it; without hover it follows scroll */
   const svcList = document.querySelector('.svcs');

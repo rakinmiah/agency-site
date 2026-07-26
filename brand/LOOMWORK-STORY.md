@@ -166,5 +166,22 @@ Order is the argument: outcome headline -> how it works -> one primary action ->
 - The aerial's bright band runs straight through the copy, so `.heroleft:before` carries a local
   radial scrim rather than darkening the whole frame again; `.btn2` needs its own ground
   (hairline borders vanish over the water).
-- Partner strip moved out of the hero to a `.trustbar` under it — see the ILLUSTRATIVE note in
-  index.html, those three accreditations are NOT held yet.
+- Partner strip: built, then REMOVED entirely on owner's call (2026-07-25). Those three
+  accreditations are not held, so nothing on the page claims them now.
+
+## CASE STUDIES — static, 2026-07-25 (the sticky pan deck is gone)
+Owner's call: "get rid of the scroll feature entirely… more user-experience-friendly."
+- Titled section (`Case Studies`, Anton, `01 / 05` on the spine — the other four sections
+  renumbered 02–05 to match, since the work now sits first).
+- Each card is static: the client site's OWN hero, held still in the browser frame. The window
+  is `aspect-ratio:16/10` on desktop (exactly one 1440x900 viewport of the capture) and 4/5 on
+  mobile. No pan, no auto-scroll, no iframe, no sticky pinning.
+- Numbers still count, once, when the card first enters view (IntersectionObserver at 0.3,
+  130ms stagger). Widths pin to the final string first so the row doesn't reflow mid-count.
+- "Explore the site" -> `case/<slug>/`. **Those pages do not exist yet** — the links 404 until
+  they are built.
+- Mobile order is site -> its numbers -> button, via `.caseview{display:contents}`; nested, the
+  button split the site from its own proof. `£10,000+` also overflowed a fixed-size third of the
+  row, hence the clamped stat size.
+- Scroll cost: the old deck was 3 x 320vh with two -100vh overlaps = 760vh (~6,840px at 900px
+  tall). The section is now 2,857px.
