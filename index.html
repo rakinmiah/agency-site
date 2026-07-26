@@ -173,10 +173,12 @@
     .btn1,.btn2{width:100%;justify-content:center}                /* thumb-width primary action */
     .btn1{padding:13px 13px 13px 22px}
     .hmicro{font-size:.82rem;max-width:31ch;margin-top:14px}   /* 36ch orphaned the last word */
-    .hstats{margin-top:26px}
-    .hstat{padding:2px 18px}
-    .hstat .hn{font-size:1.65rem}
-    .hstat .hl{font-size:.72rem;margin-top:6px}
+    /* three stats wrapped 2+1 and orphaned the third with a stray divider. A real 3-col grid
+       instead of a wrapping flex row, sized so £2,000,000+ (the long pole) still fits a third. */
+    .hstats{display:grid;grid-template-columns:repeat(3,1fr);align-items:start;margin-top:24px}
+    .hstat{padding:2px 6px;min-width:0}
+    .hstat .hn{font-size:clamp(1rem,4.6vw,1.5rem)}
+    .hstat .hl{font-size:.65rem;margin-top:5px;line-height:1.25}
     /* ?hero=center — Monolog-style centered statement variant */
     .hero.centered .heroleft{left:24px;right:24px;text-align:center}
   }
@@ -615,8 +617,10 @@
     <div class="hstats">
       <div class="hstat" data-count="2000000" data-prefix="&pound;" data-suffix="+">
         <span class="hn">&pound;0</span><span class="hl">ad spend managed</span></div>
-      <div class="hstat" data-count="30" data-suffix="+">
+      <div class="hstat" data-count="50" data-suffix="+">
         <span class="hn">0</span><span class="hl">clients managed</span></div>
+      <div class="hstat" data-count="30" data-suffix="+">
+        <span class="hn">0</span><span class="hl">industries worked in</span></div>
     </div>
   </div>
   <div class="scrollpill" aria-hidden="true"></div>

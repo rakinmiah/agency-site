@@ -181,8 +181,11 @@ Order is the argument: outcome headline -> how it works -> one primary action ->
   the whole offer: "Site, search and paid ads, run as one job — they only bring in work when
   they work together." (the warp/weft argument in plain words).
 - Primary CTA books the real cal.com intro; secondary jumps to the case studies.
-- Proof rail counts £2,000,000+ ad spend managed and 30+ clients managed, in the accent, with
-  the same ease-out as the case-study stats. Widths lock to the final string AFTER Anton loads
+- Proof rail counts £2,000,000+ ad spend managed · 50+ clients managed · 30+ industries worked
+  in, in the accent, with the same ease-out as the case-study stats. Labels are plain and
+  parallel ("worked in", not "served") — the voice is made and counted, not agency.
+  Mobile is a real 3-col grid: as a wrapping flex row the third stat orphaned onto its own line
+  with a stray divider beside it. Sized so £2,000,000+, the long pole, still fits a third. Widths lock to the final string AFTER Anton loads
   (capped at 600ms) — locking against fallback metrics locks the wrong width.
 - The aerial's bright band runs straight through the copy, so `.heroleft:before` carries a local
   radial scrim rather than darkening the whole frame again; `.btn2` needs its own ground
