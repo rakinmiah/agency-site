@@ -1042,7 +1042,10 @@
     // headline was one line; the rotating word made it two and the mark started eating the
     // stat rail on 720-780px-tall laptops. Cap on the real gap, not a guessed fraction.
     const rail = document.querySelector('.hstats');
-    const free = rail ? innerHeight - rail.getBoundingClientRect().bottom - 14 : innerHeight;
+    // 14px of clearance is nothing under a 200px+ glyph — it read as touching. The breathing
+    // room has to scale with the fold, not be a constant.
+    const gap = Math.max(34, innerHeight * 0.055);
+    const free = rail ? innerHeight - rail.getBoundingClientRect().bottom - gap : innerHeight;
     const fitCap = Math.max(48, free / 0.99);                   // line-height .82 + .17em margin
     wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap, fitCap)) + 'px';
   }
