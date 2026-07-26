@@ -252,10 +252,15 @@ numbers below it are never read out of context.
   no traffic number can. The £10,000+ stat reads "taken online, from £0" — the count-up animating
   0 -> £10,000 IS the story, so the label just names it.
   **Order (2026-07-26): £10,000+ leads, the 3 goes last.** A small integer cannot carry the first
-  slot in a stat rail — the eye skims it. The number is fixed at 3 and cannot honestly be
-  inflated, so the LABEL does the work: "systems running the whole firm" (not "systems built from
-  scratch", which is about us). Copy rule that falls out of it: when the figure is small, the
-  label has to state the consequence, not the deliverable.
+  slot in a stat rail — the eye skims it.
+  **THE SMALL-NUMBER RULE (settled after three attempts).** 3 and 4 cannot be inflated honestly,
+  and no label about US ("systems built from scratch") or about the client ("systems running the
+  whole firm") makes them land. What works is a BENCHMARK: the reader has no idea whether 3 is a
+  lot, so supply the comparison in the label itself.
+    NT   3 — "systems, not one brochure site"   / "Most taxi firms get a page with a phone number."
+    Deen 4 — "systems, not one donate button"   / "Most charities get a form that emails someone."
+  Contrast is what makes a small number feel big. The two benchmarks are deliberately different
+  so the pattern does not read as a template across the cards.
 - **JDH Gas** — ⚠ the old copy claimed the enquiries came "from a site that didn't exist five
   weeks earlier". **False**: Jamie had built his own site; we rebuilt it. Corrected, and every
   label now ends "month one" so the timeframe cannot be missed. Headline is the frame:
