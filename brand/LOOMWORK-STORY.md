@@ -257,8 +257,14 @@ numbers below it are never read out of context.
   the CLIENT'S OPERATION. These are internal platforms that automate a business's processes and
   replace software they would otherwise licence for thousands. It is a distinct USP: coding
   capability on top of marketing, and the reason a build is worth more than a website.
-    NT   3 — "systems automating the operation"   (dispatch, driver assignment, job tracking)
-    Deen 4 — "systems automating the back office" (donations, CMS, sponsorships, admin app)
+    NT   3 — "systems, built from scratch"
+             "Handles the dispatch, manages the drivers, tracks every booking and every pound taken."
+    Deen 4 — "systems, built from scratch"
+             "Manages orphan sponsorships, tracks every donation and sorts them for HMRC automatically."
+  **"Built from scratch" stays in the LABEL — it is the claim.** The description then just says
+  what the software does, in the client's own words. "Automating the operation" / "the back
+  office" were abstractions: a reader has to translate them before they mean anything, and copy
+  that needs translating does not convert. Name the jobs it does instead.
   Three earlier attempts failed by describing the wrong thing: "built from scratch" was about us,
   "running the whole firm" was about the client but vague, and "not one brochure site" framed it
   against a customer-facing benchmark. The value is **automation and cost avoided**, so the copy
