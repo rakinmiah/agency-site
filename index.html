@@ -192,15 +192,23 @@
      Ground, type and borders crossfade TOGETHER — recolouring the text instantly while the
      background eased would leave ~300ms of dark-on-dark. Universal inside the flipping
      sections; the four elements that carry their own transitions keep them (below). ── */
-  .svc,.faq,.close,.svc *,.faq *,.close *{
+  .svc,.faq,.count,.close,.svc *,.faq *,.count *,.close *{
     transition:background-color .55s ease,color .55s ease,border-color .55s ease}
   @media (prefers-reduced-motion:reduce){
-    .svc,.faq,.close,.svc *,.faq *,.close *,.svcs li,.svcs li .d,.qa .q,.qa .a{transition-duration:0s}}
+    .svc,.faq,.count,.close,.svc *,.faq *,.count *,.close *,
+    .svcs li,.svcs li .d,.qa .q,.qa .a{transition-duration:0s}}
   /* ── ground schemes: scroll-driven by default; ?ground= pins one and disables the flip ── */
-  body.g-ex .svc, body.g-ex .faq{background:#F3EFE7;color:#15161A}
+  /* .count sits BETWEEN services and the FAQ — left out of the chapter it read as a black
+     band stranded between two white ones. The paper run has to be continuous. */
+  body.g-ex .svc, body.g-ex .faq, body.g-ex .count{background:#F3EFE7;color:#15161A}
+  body.g-ex .count .c .w{color:rgba(21,22,26,.66)}
+  body.g-ex.pal .count .c .n{color:var(--acc-dark)}
+  body.g-ex .count .sechead{border-top-color:rgba(21,22,26,.2)}
+  body.g-ex .count .sechead .eyebrow{color:rgba(21,22,26,.66)}
+  body.g-ex .count .sechead .secn{color:rgba(21,22,26,.72)}
   body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.66)}
   body.g-ex .svcleft p{color:rgba(21,22,26,.62)}
-  body.g-ex .svcs li{color:rgba(21,22,26,.14)}
+  body.g-ex .svcs li{color:#15161A}      /* on paper the .14 ghost was 1.33:1 — read as blank */
   body.g-ex .svcs li.active{color:#15161A}
   body.g-ex .svcs li .d{color:rgba(21,22,26,.62)}
   body.g-ex .faqleft .eyebrow{color:rgba(21,22,26,.66)}
@@ -446,7 +454,10 @@
   .sechead .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
   body.g-ex .svc .sechead, body.g-ex .faq .sechead{border-top-color:rgba(21,22,26,.2)}
   body.g-ex .svc .sechead .eyebrow, body.g-ex .faq .sechead .eyebrow{color:rgba(21,22,26,.66)}
-  body.g-ex .svc .sechead .secn, body.g-ex .faq .sechead .secn{color:rgba(21,22,26,.35)}
+  body.g-ex .svc .sechead .secn, body.g-ex .faq .sechead .secn{color:rgba(21,22,26,.72)}
+  /* .close's counter and rule were never crossed over at all — still cream, 1.01:1 on paper */
+  body.g-all .close .sechead .secn{color:rgba(21,22,26,.72)}
+  body.g-all .close .sechead{border-top-color:rgba(21,22,26,.2)}
   .pal .sechead .eyebrow{color:var(--acc)}
   /* ── services: dimmed list, one lit, descriptor unfolds under the active row ── */
   .svc{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px 18vh}
@@ -462,7 +473,7 @@
                   font-size:.85rem;font-weight:600;letter-spacing:.06em;color:rgba(244,241,234,.4);
                   font-variant-numeric:tabular-nums}
   body.g-ex .svcs li{border-color:rgba(21,22,26,.14)}
-  body.g-ex .svcs li:before{color:rgba(21,22,26,.4)}
+  body.g-ex .svcs li:before{color:rgba(21,22,26,.72)}
   .pal .svcs li:before{color:var(--acc)}
   .svcs li.active{color:#F4F1EA}
   .svcs li .d{display:block;overflow:hidden;max-height:0;opacity:0;
