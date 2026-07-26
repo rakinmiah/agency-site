@@ -194,10 +194,13 @@ Owner's call: "get rid of the scroll feature entirely… more user-experience-fr
 - Numbers still count, once, when the card first enters view (IntersectionObserver at 0.3,
   130ms stagger). Widths pin to the final string first so the row doesn't reflow mid-count.
 - "Explore the site" -> `case/<slug>/`. **Those pages do not exist yet** — the links 404 until
-  they are built.
-- Mobile order is site -> its numbers -> button, via `.caseview{display:contents}`; nested, the
-  button split the site from its own proof. `£10,000+` also overflowed a fixed-size third of the
-  row, hence the clamped stat size.
+  they are built. The button sits ON the capture, bottom-centre of the frame (dark pill,
+  blurred backdrop, accent arrow): it belongs to the site it opens, not to the card. `.browser`
+  is its containing block and clips it to the rounded corners. Its hover transform has to carry
+  the `translateX(-50%)` or the pill jumps out of centre on hover.
+- Mobile order is site -> its numbers. `display:contents` on `.caseview` is gone: it only
+  existed so the button could be ordered after the stats, and the button now travels with the
+  image. `£10,000+` overflowed a fixed-size third of the row, hence the clamped stat size.
 - Scroll cost: the old deck was 3 x 320vh with two -100vh overlaps = 760vh (~6,840px at 900px
   tall). The section is now 2,857px.
 
