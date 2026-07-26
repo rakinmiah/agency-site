@@ -188,14 +188,22 @@
   .pal .svcleft .eyebrow{color:var(--acc)}
   .pal .svcs li.active{color:var(--acc)}
   .pal .qa.open .q{background:var(--acc);color:#101114}
-  /* ── ground schemes: break the black run (?ground=1 exhale, ?ground=2 daylight) ── */
+  /* ── the light chapter ────────────────────────────────────────────────────────────────
+     Ground, type and borders crossfade TOGETHER — recolouring the text instantly while the
+     background eased would leave ~300ms of dark-on-dark. Universal inside the flipping
+     sections; the four elements that carry their own transitions keep them (below). ── */
+  .svc,.faq,.close,.svc *,.faq *,.close *{
+    transition:background-color .55s ease,color .55s ease,border-color .55s ease}
+  @media (prefers-reduced-motion:reduce){
+    .svc,.faq,.close,.svc *,.faq *,.close *,.svcs li,.svcs li .d,.qa .q,.qa .a{transition-duration:0s}}
+  /* ── ground schemes: scroll-driven by default; ?ground= pins one and disables the flip ── */
   body.g-ex .svc, body.g-ex .faq{background:#F3EFE7;color:#15161A}
-  body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.66)}
   body.g-ex .svcleft p{color:rgba(21,22,26,.62)}
   body.g-ex .svcs li{color:rgba(21,22,26,.14)}
   body.g-ex .svcs li.active{color:#15161A}
   body.g-ex .svcs li .d{color:rgba(21,22,26,.62)}
-  body.g-ex .faqleft .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .faqleft .eyebrow{color:rgba(21,22,26,.66)}
   body.g-ex .faqask p{color:rgba(21,22,26,.65)}
   body.g-ex .qa{border-color:rgba(21,22,26,.16)}
   body.g-ex .qa:last-child{border-color:rgba(21,22,26,.16)}
@@ -204,14 +212,25 @@
   body.g-ex .qa .a{color:rgba(21,22,26,.68)}
   body.g-ex .faq .cta2{background:#15161A;color:#F4F1EA}
   body.g-ex .faq .cta2 .sq{background:#F4F1EA;color:#15161A}
-  body.g-ex.pal .svcs li.active{color:var(--acc)}
+  /* the accent is picked against ink (8.4:1 there) — as large type on paper it is 2.05:1,
+     under even the 3:1 large-text bar. The light chapter uses its darkened sibling. */
+  body.g-ex.pal .svcs li.active{color:var(--acc-dark)}
   body.g-ex.pal .qa.open .q{background:var(--acc);color:#101114}
   body.g-all .close{background:#F3EFE7;color:#15161A;border-top-color:rgba(21,22,26,.12)}
-  body.g-all .close .eyebrow{color:rgba(21,22,26,.5)}
+  body.g-all .close .eyebrow{color:rgba(21,22,26,.66)}
   body.g-all .close p{color:rgba(21,22,26,.7)}
   body.g-all .bigbook{background:#15161A;color:#F4F1EA}
   body.g-all .bigbook .sq{background:#F4F1EA;color:#15161A}
   body.g-all .iform input, body.g-all .iform textarea{border-bottom-color:rgba(21,22,26,.35);color:#15161A}
+  /* the form was only half-inverted: its labels, placeholders, note and submit outline were all
+     still cream, i.e. invisible on paper. The whole control has to cross over, not just the input. */
+  body.g-all .iform label{color:rgba(21,22,26,.62)}
+  body.g-all .iform input::placeholder, body.g-all .iform textarea::placeholder{color:rgba(21,22,26,.4)}
+  body.g-all .iform input:focus, body.g-all .iform textarea:focus,
+  body.g-all.pal .iform input:focus, body.g-all.pal .iform textarea:focus{border-color:#15161A}
+  body.g-all .iform button{border-color:#15161A;color:#15161A}
+  body.g-all .iform button:hover{background:#15161A;color:#F4F1EA}
+  body.g-all .iform .note{color:rgba(21,22,26,.66)}
   /* ── colour worlds (?world=): temperature lives in the GROUND, not in stickers ── */
   body[data-world]{background:var(--wp)}
   body[data-world] .hero, body[data-world] .case, body[data-world] .svc,
@@ -426,7 +445,7 @@
   .sechead .eyebrow{color:rgba(244,241,234,.55);font-weight:600}
   .sechead .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
   body.g-ex .svc .sechead, body.g-ex .faq .sechead{border-top-color:rgba(21,22,26,.2)}
-  body.g-ex .svc .sechead .eyebrow, body.g-ex .faq .sechead .eyebrow{color:rgba(21,22,26,.55)}
+  body.g-ex .svc .sechead .eyebrow, body.g-ex .faq .sechead .eyebrow{color:rgba(21,22,26,.66)}
   body.g-ex .svc .sechead .secn, body.g-ex .faq .sechead .secn{color:rgba(21,22,26,.35)}
   .pal .sechead .eyebrow{color:var(--acc)}
   /* ── services: dimmed list, one lit, descriptor unfolds under the active row ── */
@@ -436,7 +455,7 @@
   .svcleft p{margin-top:16px;color:rgba(244,241,234,.62);font-size:1rem;line-height:1.6;max-width:30ch}
   .svcs{list-style:none;position:relative;counter-reset:svc}
   .svcs li{font-size:clamp(1.9rem,4.6vw,4.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.28;
-           color:rgba(244,241,234,.15);cursor:default;transition:color .35s;position:relative;
+           color:rgba(244,241,234,.15);cursor:default;transition:color .35s,border-color .55s ease;position:relative;
            counter-increment:svc;border-top:1px solid rgba(244,241,234,.1);padding:14px 0 14px 3.2rem}
   .svcs li:last-child{border-bottom:1px solid rgba(244,241,234,.1)}
   .svcs li:before{content:counter(svc,decimal-leading-zero);position:absolute;left:0;top:1.55em;
@@ -448,7 +467,7 @@
   .svcs li.active{color:#F4F1EA}
   .svcs li .d{display:block;overflow:hidden;max-height:0;opacity:0;
               font-size:1rem;font-weight:400;letter-spacing:0;line-height:1.5;
-              color:rgba(244,241,234,.6);transition:max-height .45s ease,opacity .45s ease;max-width:44ch}
+              color:rgba(244,241,234,.6);transition:max-height .45s ease,opacity .45s ease,color .55s ease;max-width:44ch}
   .svcs li.active .d{max-height:3.2em;opacity:1;margin-top:2px;margin-bottom:10px}
   @media (max-width:900px){.svcgrid{grid-template-columns:1fr;gap:30px}.svcs li{width:auto}}
 
@@ -477,7 +496,7 @@
          font-size:clamp(1.05rem,1.6vw,1.35rem);padding:22px 18px;cursor:pointer;border-radius:9px;
          transition:background .25s,color .25s}
   .qa.open .q{background:#F4F1EA;color:#101114}
-  .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease;color:rgba(244,241,234,.68);line-height:1.6}
+  .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease,color .55s ease;color:rgba(244,241,234,.68);line-height:1.6}
   .qa.open .a{max-height:14em}
   .qa .a p{padding:16px 18px 24px;max-width:62ch}
   @media (max-width:900px){.faqgrid{grid-template-columns:1fr;gap:30px}
@@ -839,9 +858,25 @@
   if (new URLSearchParams(location.search).get('stats') === 'cream') document.body.classList.add('stats-cream');
   /* the accent sticks across reloads and BG switches: ?pal / ?acc wins, else last choice */
   const ACC_KEY = 'lw.acc';
+  /* --acc-dark was hardcoded for the ORIGINAL accent and never moved when the accent did.
+     Derive it: walk the accent down until it clears 4.5:1 on the paper ground. */
+  function onPaper(hex){
+    const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim()); if (!m) return '#15161A';
+    const n = parseInt(m[1], 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+    const lin = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const lum = (R, G, B) => 0.2126 * lin(R) + 0.7152 * lin(G) + 0.0722 * lin(B);
+    const paper = lum(243, 239, 231) + 0.05;
+    const hx = v => Math.round(v).toString(16).padStart(2, '0');
+    for (let k = 1; k > 0; k -= 0.02) {
+      if (paper / (lum(r * k, g * k, b * k) + 0.05) >= 4.5)
+        return '#' + hx(r * k) + hx(g * k) + hx(b * k);
+    }
+    return '#15161A';
+  }
   function applyAcc(hex, remember){
     if (!hex) return;
     document.documentElement.style.setProperty('--acc', hex);
+    document.documentElement.style.setProperty('--acc-dark', onPaper(hex));
     if (remember) try { localStorage.setItem(ACC_KEY, hex); } catch(e){}
   }
   (function restoreAcc(){
@@ -864,9 +899,37 @@
                     9:'#83B7D8'}; // previous accent, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) { document.body.classList.add('pal'); applyAcc(PALETTES[palN], true); }
+  /* ── the light chapter: the page opens dark (hero + case studies), turns to paper for the
+     middle (services + FAQ), and closes dark again. Both switch points sit on a section
+     boundary that has ALREADY left the top of the viewport, so the whole frame changes colour
+     at once instead of an edge sweeping up the screen.
+       lit  when .svc has taken the top of the screen
+       unlit when .close takes it back
+     ?ground=0 dark · 1 exhale · 2 daylight pin a scheme and disable the flip. */
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
+  const groundPinned = !isNaN(groundN);
   if (groundN >= 1) document.body.classList.add('g-ex');
   if (groundN >= 2) document.body.classList.add('g-all');
+  const svcSec = document.querySelector('.svc'), closeSec = document.querySelector('.close');
+  if (svcSec && closeSec && !groundPinned) {
+    let lit = null, graf = 0;
+    const ground = () => {
+      graf = 0;
+      // the footer never joins the light chapter, so on a window taller than .close it would
+      // slide in dark under a paper section. Unlit at the last moment it is still off-screen.
+      const unlitAt = Math.max(0, innerHeight - closeSec.offsetHeight);
+      const want = svcSec.getBoundingClientRect().top <= 0 &&
+                   closeSec.getBoundingClientRect().top > unlitAt;
+      if (want === lit) return;
+      lit = want;
+      document.body.classList.toggle('g-ex', want);
+      document.body.classList.toggle('g-all', want);
+    };
+    const onGround = () => { if (!graf) graf = requestAnimationFrame(ground); };
+    addEventListener('scroll', onGround, { passive: true });
+    addEventListener('resize', onGround, { passive: true });
+    ground();
+  }
   const WORLDS = {
     harbour: { wg:'#101822', wp:'#EAE6DA', acc:'#E8683A' },   // navy water, ecru, blaze orange
     bottle:  { wg:'#141D16', wp:'#EFEAD9', acc:'#C75B3C' },   // van green, stone, terracotta
@@ -1278,13 +1341,13 @@
       });
       bar.appendChild(iwrap);
 
-      const gcur=q.get('ground')||'0';
+      const gcur=q.get('ground')||'flip';
       const gwrap=document.createElement('span'); gwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       gwrap.innerHTML='<b>GND</b>';
-      [['0','dark'],['1','exhale'],['2','daylight']].forEach(([n,lab])=>{
+      [['flip','flip'],['0','dark'],['1','exhale'],['2','daylight']].forEach(([n,lab])=>{
         const a=document.createElement('a');
         a.textContent=lab;
-        const p=new URLSearchParams(location.search); if(n!=='0')p.set('ground',n); else p.delete('ground');
+        const p=new URLSearchParams(location.search); if(n!=='flip')p.set('ground',n); else p.delete('ground');
         a.href='?'+p.toString();
         a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(gcur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
         gwrap.appendChild(a);

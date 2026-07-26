@@ -185,3 +185,27 @@ Owner's call: "get rid of the scroll feature entirely… more user-experience-fr
   row, hence the clamped stat size.
 - Scroll cost: the old deck was 3 x 320vh with two -100vh overlaps = 760vh (~6,840px at 900px
   tall). The section is now 2,857px.
+
+## THE LIGHT CHAPTER — live on scroll, 2026-07-25
+The paper chapter (previously only reachable as `?ground=1/2`) is now the default and flips on
+scroll. Three acts: **ink** (hero + case studies) -> **paper** (services + FAQ) -> **ink**
+(closing CTA + footer).
+- Switch points: lit when `.svc` takes the top of the viewport, unlit when `.close` does. Both
+  are boundaries that have ALREADY left the top of the screen, so the whole frame changes colour
+  at once instead of an edge sweeping up. Runtime toggles `g-ex` + `g-all` together, so every
+  colour rule already written for those schemes is reused.
+- The unlit trigger is `close.top <= max(0, innerHeight - close.offsetHeight)`, not `<= 0` —
+  the footer never joins the chapter, so on a window taller than `.close` it would otherwise
+  slide in dark under a paper section. Swept clean at 700/900/1200/1500px tall.
+- Ground, type and borders transition together (.55s). Recolouring text instantly while the
+  background eased left ~300ms of dark-on-dark. `.svcs li`, `.svcs li .d`, `.qa .q` and `.qa .a`
+  keep their own interaction transitions, extended rather than replaced.
+- `?ground=` still pins a scheme (0 dark · 1 exhale · 2 daylight) and disables the flip.
+- **Contrast debt this exposed, now paid:** the contact form was only half-inverted (labels,
+  placeholders, note and submit outline were still cream on paper). Paper eyebrows and the form
+  note sat at 3.3-3.9:1. And `--acc-dark` was hardcoded for the ORIGINAL accent and never moved
+  when the accent did — as large type on paper the live accent was 2.05:1, under even the 3:1
+  large-text bar. `applyAcc()` now derives the sibling by walking the accent down until it clears
+  4.5:1 on paper (#47B2F5 -> #2D729D). Full alpha-composited audit of the chapter: all pass.
+- Deliberately left at parity with the dark ground (design device, not a flip regression): the
+  dimmed `.svcs li` rows, their leading numerals, and `.sechead .secn`.
