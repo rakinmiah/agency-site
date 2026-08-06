@@ -1,0 +1,33 @@
+{
+  "name": "loomwork-reel",
+  "private": true,
+  "description": "Loomwork brand reel — programmatic video (Remotion). Proof-of-grammar first, full reel after.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Proof out/proof.mp4"
+  },
+  "dependencies": {
+    "@remotion/animation-utils": "^4.0.500",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/fonts": "^4.0.500",
+    "@remotion/google-fonts": "^4.0.0",
+    "@remotion/layout-utils": "^4.0.500",
+    "@remotion/lottie": "^4.0.500",
+    "@remotion/motion-blur": "^4.0.500",
+    "@remotion/noise": "^4.0.500",
+    "@remotion/paths": "^4.0.500",
+    "@remotion/shapes": "^4.0.500",
+    "@remotion/three": "^4.0.500",
+    "@remotion/transitions": "^4.0.500",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0",
+    "simple-icons": "^16.27.1",
+    "three": "^0.171.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/three": "^0.171.0",
+    "typescript": "^5.5.0"
+  }
+}

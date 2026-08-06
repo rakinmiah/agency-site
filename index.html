@@ -10,7 +10,13 @@
 <!-- The 12 display families below are used ONLY by the opening logo reel (~197KB). The reel is
      parked for the About page, so this is injected on demand by runReel() instead of blocking
      every hero paint. Href lives in REEL_CSS. -->
-<title>Case study prototype — JDH Gas</title>
+<title>Loomwork — websites that earn their keep | Brighton &amp; Sussex</title>
+<meta name="description" content="One team on the site, the search and the ads. Websites, local SEO and Google Ads for local businesses across Brighton and Sussex.">
+<!-- This link gets dropped into cold emails, so the unfurl matters as much as the page. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Loomwork — websites that earn their keep">
+<meta property="og:description" content="One team on the site, the search and the ads — they only bring work in when they work together.">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   /* Arm the hero reveal BEFORE first paint. Hero content is visible by default (no-JS safe), so
      arming here is what stops it painting and then being hidden. runIntro disarms it.
@@ -25,7 +31,15 @@
 <style>
   /* Light + fast + purposeful. No frameworks, no fonts to download, two images total. */
   :root{
-    --paper:#FAF7F2; --ink:#16181D; --dim:#6b6f76; --line:rgba(22,24,29,.14);
+    /* ── THE THREE GROUNDS ──────────────────────────────────────────────────────────────
+       The page alternates black / off-black down its length, with white used sparingly as a
+       break rather than as a third of the page. Sections reference these, never raw hex, so
+       the whole rhythm is retunable from here.
+         black  hero, contact — the anchors at each end
+         off    case studies, FAQ, footer — the alternating body
+         white  the light band in the middle — services */
+    --black:#000000; --off:#101114; --white:#FFFFFF;
+    --paper:#FFFFFF; --ink:#16181D; --dim:#6b6f76; --line:rgba(22,24,29,.14);
     --blue:#1b46c2; /* JDH's real brand blue — the section borrows the CLIENT's accent */
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -37,7 +51,7 @@
 
   /* ── HERO: mission line floating, giant wordmark anchored, aurora drifting behind ── */
   .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;
-        background:#101114;color:#F4F1EA}
+        background:var(--black);color:var(--white)}
   /* texture, not gradient: film grain (SVG turbulence, stepped like analogue noise) over a
      MONOCHROME light-drift — light moving across paper. No hue mixing, nothing pastel. */
   /* ── LINES: the whole background is a flat ground + a few hairlines + one slow pass.
@@ -45,7 +59,7 @@
   .lines{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
   .lines:before{content:"";position:absolute;inset:0;
     background-image:repeating-linear-gradient(90deg,
-      rgba(244,241,234,.055) 0 1px, transparent 1px 78px)}
+      rgba(255,255,255,.055) 0 1px, transparent 1px 78px)}
   .lines i{position:absolute;top:0;bottom:0;width:1px;left:0;
     background:linear-gradient(180deg,transparent,var(--acc,#D5DDE2) 26%,var(--acc,#D5DDE2) 74%,transparent);
     opacity:.65;animation:pass 15s linear infinite}
@@ -70,7 +84,7 @@
   /* with an image or video mounted, the media is the ONLY animation: no light-field, no grain
      shimmer, no wordmark sheen — nothing moves except the smoke itself */
   .hero.hasimg .texture{display:none}
-  .hero.hasimg .wordmark{animation:none;background:none;color:#F4F1EA;-webkit-text-fill-color:#F4F1EA}
+  .hero.hasimg .wordmark{animation:none;background:none;color:#FFFFFF;-webkit-text-fill-color:#FFFFFF}
   .texture{position:absolute;inset:0;pointer-events:none;z-index:1}
   .pagegrain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.20;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -79,15 +93,86 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.45 0 0 0 0 0.44 0 0 0 0 0.42 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
     animation:grain .9s steps(3) infinite}
   @keyframes grain{0%{transform:translate(0,0)}33%{transform:translate(-60px,40px)}66%{transform:translate(40px,-70px)}100%{transform:translate(0,0)}}
-  .hero .bar{position:absolute;top:0;left:28px;right:28px;z-index:6;margin:0;border-bottom:0}
+  /* ── STICKY NAV ─────────────────────────────────────────────────────────────────────
+     FIXED, not sticky. position:sticky would take flow space above the hero and push the
+     fold past 100svh, putting a scrollbar on a hero that is meant to fit the viewport
+     exactly. Fixed keeps the old overlay-on-the-hero look while surviving the scroll.
+     Two states, because the page changes ground under it:
+       nav-stuck  past the fold, so it needs a ground or it sits on the case captures
+       nav-light  over .svc / .faq, which are paper — white type would vanish there */
+  .bar{position:fixed;top:0;left:0;right:0;z-index:60;
+       display:flex;justify-content:space-between;align-items:center;
+       padding:18px 28px;margin:0;border-bottom:1px solid transparent;
+       transition:background-color .28s ease,border-color .28s ease}
+  body.nav-stuck .bar{background:rgba(16,17,20,.88);
+                      -webkit-backdrop-filter:blur(11px);backdrop-filter:blur(11px);
+                      border-bottom-color:rgba(255,255,255,.13)}
+  body.nav-light .bar{background:rgba(255,255,255,.93);border-bottom-color:rgba(21,22,26,.13)}
+  body.nav-light .bar .mark{color:#15161A}
+  body.nav-light .navnums a{color:rgba(21,22,26,.82)}
+  body.nav-light .navnums a:hover{color:#15161A}
+  body.nav-light .cta2{background:#15161A;color:#FFFFFF;box-shadow:0 10px 30px -14px rgba(0,0,0,.4)}
+  body.nav-light .cta2 .sq{background:#FFFFFF;color:#15161A}
+  /* anchor targets have to clear the fixed bar or the heading lands underneath it */
+  #work,#services,#faq,#contact{scroll-margin-top:88px}
+
+  /* ── MOBILE MENU ────────────────────────────────────────────────────────────────────
+     Three rules of thumb here: the panel sits UNDER the bar (z 55 vs 60) so the burger
+     stays on top and doubles as the close control; the panel is always ink even when the
+     bar is in its light state, so the burger forces white while open; and the bar's own
+     CTA hides while open rather than competing with the big one in the panel. */
+  .burger{display:none;width:42px;height:42px;margin-left:6px;padding:0;flex:none;
+          background:none;border:0;cursor:pointer;position:relative;border-radius:7px}
+  .burger .bl{position:absolute;left:9px;right:9px;height:2px;border-radius:2px;background:#FFFFFF;
+              transition:transform .26s cubic-bezier(.22,.61,.24,1),opacity .16s ease,background-color .28s ease}
+  .burger .bl:nth-child(1){top:14px}
+  .burger .bl:nth-child(2){top:20px}
+  .burger .bl:nth-child(3){top:26px}
+  .burger:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+  body.nav-light .burger .bl{background:#15161A}
+  body.menu-open .burger .bl{background:#FFFFFF}
+  body.menu-open .burger .bl:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  body.menu-open .burger .bl:nth-child(2){opacity:0}
+  body.menu-open .burger .bl:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+  .menu{position:fixed;inset:0;z-index:55;background:#0B0B0D;
+        display:flex;flex-direction:column;justify-content:center;padding:96px 26px 44px;
+        opacity:0;visibility:hidden;transition:opacity .24s ease,visibility .24s ease}
+  body.menu-open .menu{opacity:1;visibility:visible}
+  body.menu-open{overflow:hidden}                       /* no scrolling the page behind it */
+  body.menu-open .bar{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;
+                      border-bottom-color:transparent}
+  body.menu-open .bar .mark{color:#FFFFFF}
+  body.menu-open .bar .cta2{opacity:0;visibility:hidden}   /* visibility, so it leaves the tab order */
+  .mlinks{display:flex;flex-direction:column}
+  .mlinks a{color:#FFFFFF;text-decoration:none;font-family:'Jost',sans-serif;font-weight:300;
+            font-size:clamp(1.9rem,9vw,2.5rem);letter-spacing:-.015em;line-height:1.1;
+            padding:15px 0;border-bottom:1px solid rgba(255,255,255,.13)}
+  .mlinks a:first-child{border-top:1px solid rgba(255,255,255,.13)}
+  .mlinks a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+  .menucta{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:34px;
+           background:#FFFFFF;color:#101114;border-radius:7px;padding:16px 18px;
+           text-decoration:none;font-weight:650;font-size:1.02rem}
+  .menucta .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;
+               color:#FFFFFF;border-radius:5px;font-size:14px}
+  .menucta:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){.menu,.burger .bl{transition:none}}
+  /* Above the breakpoint the burger is display:none. If the panel were still open when the
+     viewport crossed 760 there would be no control left on screen to close it, and body
+     scroll would stay locked — the page would simply be dead. The JS listener below handles
+     the class, but this guarantees the safe state even if that never runs. */
+  @media (min-width:761px){
+    .menu{display:none}
+    body.menu-open{overflow:visible}
+  }
   .navnums{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:44px}
-  .navnums a{color:rgba(244,241,234,.92);text-decoration:none;font-size:15px;font-weight:600}
+  .navnums a{color:rgba(255,255,255,.92);text-decoration:none;font-size:15px;font-weight:600}
   .navnums a:hover{color:#fff}
-  .navnums sup{font-size:10px;color:rgba(244,241,234,.5);margin-left:5px;font-weight:500}
-  .cta2{display:flex;align-items:center;gap:11px;background:#F4F1EA;color:#101114;border-radius:6px;
+  .navnums sup{font-size:10px;color:rgba(255,255,255,.5);margin-left:5px;font-weight:500}
+  .cta2{display:flex;align-items:center;gap:11px;background:#FFFFFF;color:#101114;border-radius:6px;
         padding:8px 8px 8px 16px;text-decoration:none;font-weight:650;font-size:15.5px;
         box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
-  .cta2 .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;color:#F4F1EA;
+  .cta2 .sq{display:grid;place-items:center;width:28px;height:28px;background:#101114;color:#FFFFFF;
             border-radius:5px;font-size:14px}
   .cta2:hover .sq{transform:translate(1px,-1px)}
   /* ── CONVERSION HERO ────────────────────────────────────────────────────────────────
@@ -102,7 +187,7 @@
     background:radial-gradient(ellipse at center,rgba(11,11,13,.62),rgba(11,11,13,.40) 46%,transparent 73%)}
   .heroleft h1{font-family:'Jost',sans-serif;font-weight:400;
                font-size:clamp(2.25rem,4.5vw,4rem);line-height:1.03;letter-spacing:-.025em;
-               color:#F4F1EA;margin:0 auto;max-width:34ch}
+               color:#FFFFFF;margin:0 auto;max-width:34ch}
   /* ── the rotating word ────────────────────────────────────────────────────────────────
      One headline has to say we do three things. The word carrying the service swaps on its
      own line, so the fixed line under it never moves and the sentence always completes.
@@ -114,37 +199,41 @@
             transition:opacity .34s ease,transform .38s cubic-bezier(.22,.61,.24,1)}
   .swap .sw.on{opacity:1;transform:none}
   .swap .sw.out{opacity:0;transform:translateY(-.16em)}
-  .swap .sw i{font-style:normal;color:#F4F1EA}   /* the stop is the sentence's, not the service's */
+  .swap .sw i{font-style:normal;color:#FFFFFF}   /* the stop is the sentence's, not the service's */
   @media (prefers-reduced-motion:reduce){.swap .sw{transition:none}}
   .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
       clip:rect(0 0 0 0);white-space:nowrap;border:0}
-  .hsub{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.5;color:rgba(244,241,234,.74);
+  .hsub{font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.5;color:rgba(255,255,255,.74);
         max-width:46ch;margin:20px auto 0}
   .hcta{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:30px;flex-wrap:wrap}
-  .btn1{display:inline-flex;align-items:center;gap:12px;background:#F4F1EA;color:#101114;
+  .btn1{display:inline-flex;align-items:center;gap:12px;background:#FFFFFF;color:#101114;
         border-radius:7px;padding:11px 11px 11px 22px;text-decoration:none;font-weight:650;
         font-size:1.02rem;box-shadow:0 18px 46px -16px rgba(0,0,0,.8)}
-  .btn1 .sq{display:grid;place-items:center;width:30px;height:30px;background:#101114;color:#F4F1EA;
+  .btn1 .sq{display:grid;place-items:center;width:30px;height:30px;background:#101114;color:#FFFFFF;
             border-radius:6px;font-size:15px;transition:transform .18s ease}
   .btn1:hover .sq{transform:translate(1px,-1px)}
   .pal .btn1 .sq{background:var(--acc);color:#101114}
   /* a hairline border alone disappears against the bright water — it needs its own ground */
-  .btn2{display:inline-flex;align-items:center;color:#F4F1EA;text-decoration:none;font-weight:600;
+  .btn2{display:inline-flex;align-items:center;color:#FFFFFF;text-decoration:none;font-weight:600;
         font-size:1.02rem;padding:11px 20px;border-radius:7px;
-        border:1px solid rgba(244,241,234,.42);background:rgba(11,11,13,.42);
+        border:1px solid rgba(255,255,255,.42);background:rgba(11,11,13,.42);
         -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
         transition:background .18s ease,border-color .18s ease}
-  .btn2:hover{border-color:rgba(244,241,234,.78);background:rgba(11,11,13,.62)}
-  .hmicro{font-size:.85rem;line-height:1.45;color:rgba(244,241,234,.62);max-width:44ch;margin:15px auto 0}
+  .btn2:hover{border-color:rgba(255,255,255,.78);background:rgba(11,11,13,.62)}
+  .hmicro{font-size:.85rem;line-height:1.45;color:rgba(255,255,255,.62);max-width:44ch;margin:15px auto 0}
   /* counted proof, same easing as the case-study stats — the numbers ARE the credential */
   .hstats{display:flex;justify-content:center;flex-wrap:wrap;margin:30px auto 0}
-  .hstat{padding:2px 30px;border-left:1px solid rgba(244,241,234,.17)}
+  .hstat{padding:2px 30px;border-left:1px solid rgba(255,255,255,.17)}
   .hstat:first-child{border-left:0}
-  .hstat .hn{display:block;font-family:'Anton',sans-serif;font-weight:400;
-             font-size:clamp(1.75rem,2.9vw,2.4rem);line-height:1;letter-spacing:.005em;color:#F4F1EA}
+  /* was Anton 400 — an ultra-bold condensed display face sitting directly under a
+     Jost 400 headline, which is what made it read as heavy. Same family as the
+     headline now, one step up in weight. Jost is loaded at 300/400/500 only, so 500
+     is the ceiling; anything higher would synthesise a faux bold. */
+  .hstat .hn{display:block;font-family:'Jost',sans-serif;font-weight:500;
+             font-size:clamp(1.75rem,2.9vw,2.4rem);line-height:1;letter-spacing:-.02em;color:#FFFFFF}
   .pal .hstat .hn{color:var(--acc)}
   .hstat .hl{display:block;margin-top:8px;font-size:.79rem;font-weight:500;letter-spacing:.015em;
-             color:rgba(244,241,234,.56)}
+             color:rgba(255,255,255,.56)}
   /* hero content fades up on load; armed in <head> so nothing is painted then hidden */
   html.heroarm .heroleft > *{opacity:0;transform:translateY(11px);transition:none}
   .heroleft > *{transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.24,1)}
@@ -155,15 +244,20 @@
   @media (prefers-reduced-motion:reduce){.heroleft > *{transition:none}}
 
   .go{display:inline-block;margin-top:26px;color:#fff;text-decoration:none;font-weight:650;
-                font-size:1.05rem;border-bottom:1.5px solid rgba(244,241,234,.9);padding:0 44px 10px 0;position:relative}
+                font-size:1.05rem;border-bottom:1.5px solid rgba(255,255,255,.9);padding:0 44px 10px 0;position:relative}
   .go:after{content:"";position:absolute;right:0;top:2px;width:10px;height:10px;
-                      border-top:1.5px solid rgba(244,241,234,.9);border-right:1.5px solid rgba(244,241,234,.9)}
+                      border-top:1.5px solid rgba(255,255,255,.9);border-right:1.5px solid rgba(255,255,255,.9)}
   .scrollpill{position:absolute;z-index:2;left:50%;bottom:14px;transform:translateX(-50%);
-              width:46px;height:9px;border-radius:999px;border:1.5px solid rgba(244,241,234,.5)}
+              width:46px;height:9px;border-radius:999px;border:1.5px solid rgba(255,255,255,.5)}
   /* mobile hero: Fuel-style single left column — copy, CTA, services, (c) strip, wordmark.
      Monolog keeps its Start-a-project button in the nav, so we keep ours (compact). */
   @media (max-width:760px){
     .navnums,.scrollpill{display:none}
+    .burger{display:block}
+    /* mark 74 + cta 147 + burger 42 + gaps needs 343px; 28px sides put a 320 phone over the
+       edge, so the bar tightens horizontally. Vertical padding is untouched — the bar height
+       feeds scroll-margin-top on the anchors. */
+    .bar{padding-left:18px;padding-right:18px}
     .cta2{font-size:14px;padding:7px 7px 7px 13px;gap:9px}
     .cta2 .sq{width:24px;height:24px;font-size:12.5px}
     .heroleft{top:13%;padding:0 22px}
@@ -183,7 +277,7 @@
     .hero.centered .heroleft{left:24px;right:24px;text-align:center}
   }
   :root{--acc:#83B7D8;--acc-dark:#4F6E82}   /* LOOMWORK accent + its light-ground sibling */
-  .hero .mark{color:#F4F1EA}
+  .bar .mark{color:#FFFFFF}   /* was .hero .mark — the bar is no longer inside the hero */
   /* THRUM logo system: hum line, thrums (thread-ends), living wordmark */
   .mark .lock{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;vertical-align:middle;color:inherit;font-weight:800}
   .mark .hum{width:3.1em;height:.42em;display:block}
@@ -200,45 +294,26 @@
   .pal .faqleft .eyebrow, .pal .close .eyebrow{color:var(--acc)}
   .pal .footbar .ticks{color:var(--acc);opacity:.9}
   .pal .iform input:focus, .pal .iform textarea:focus{border-color:var(--acc);outline:none}
-  .pal .explore{border-color:var(--acc)}
   .pal .bigbook .sq{background:var(--acc);color:#101114}
-  .pal .svcleft .eyebrow{color:var(--acc)}
-  .pal .svcs li.active{color:var(--acc)}
   .pal .qa.open .q{background:var(--acc);color:#101114}
   /* ── the light chapter ────────────────────────────────────────────────────────────────
      Ground, type and borders crossfade TOGETHER — recolouring the text instantly while the
      background eased would leave ~300ms of dark-on-dark. Universal inside the flipping
      sections; the four elements that carry their own transitions keep them (below). ── */
-  .svc,.faq,.close,.svc *,.faq *,.close *{
-    transition:background-color .55s ease,color .55s ease,border-color .55s ease}
-  @media (prefers-reduced-motion:reduce){
-    .svc,.faq,.close,.svc *,.faq *,.close *,
-    .svcs li,.svcs li .d,.qa .q,.qa .a{transition-duration:0s}}
-  /* ── ground schemes: scroll-driven by default; ?ground= pins one and disables the flip ── */
-  body.g-ex .svc, body.g-ex .faq{background:#F3EFE7;color:#15161A}
-  body.g-ex .svcleft .eyebrow{color:rgba(21,22,26,.66)}
-  body.g-ex .svcleft p{color:rgba(21,22,26,.62)}
-  body.g-ex .svcs li{color:#15161A}      /* on paper the .14 ghost was 1.33:1 — read as blank */
-  body.g-ex .svcs li.active{color:#15161A}
-  body.g-ex .svcs li .d{color:rgba(21,22,26,.62)}
-  body.g-ex .faqleft .eyebrow{color:rgba(21,22,26,.66)}
-  body.g-ex .faqask p{color:rgba(21,22,26,.65)}
-  body.g-ex .qa{border-color:rgba(21,22,26,.16)}
-  body.g-ex .qa:last-child{border-color:rgba(21,22,26,.16)}
-  body.g-ex .qa .q{color:#15161A}
-  body.g-ex .qa.open .q{background:#15161A;color:#F4F1EA}
-  body.g-ex .qa .a{color:rgba(21,22,26,.68)}
-  body.g-ex .faq .cta2{background:#15161A;color:#F4F1EA}
-  body.g-ex .faq .cta2 .sq{background:#F4F1EA;color:#15161A}
-  /* the accent is picked against ink (8.4:1 there) — as large type on paper it is 2.05:1,
-     under even the 3:1 large-text bar. The light chapter uses its darkened sibling. */
-  body.g-ex.pal .svcs li.active{color:var(--acc-dark)}
-  body.g-ex.pal .qa.open .q{background:var(--acc);color:#101114}
-  body.g-all .close{background:#F3EFE7;color:#15161A;border-top-color:rgba(21,22,26,.12)}
+  /* The crossfade transitions that used to sit here existed for the scroll-driven ground flip.
+     That flip is gone — the ground is static — so they can never fire, and a transition bound
+     to `.svc *` (every descendant, forever) is not free. Removed.
+     FAQ has LEFT the light chapter: it is off-black now, so every paper override it carried is
+     gone with it. Leaving them would have painted #15161A type onto an off-black ground —
+     i.e. an invisible FAQ. The .qa rules were FAQ-only, so they go wholesale. */
+  body.g-ex .svc{background:var(--white);color:#15161A}
+  /* the old accordion's paper overrides (.svcleft / .svcs) went with it — the list
+     carries its own light-ground colours alongside each rule below. */
+  body.g-all .close{background:#FFFFFF;color:#15161A;border-top-color:rgba(21,22,26,.12)}
   body.g-all .close .eyebrow{color:rgba(21,22,26,.66)}
   body.g-all .close p{color:rgba(21,22,26,.7)}
-  body.g-all .bigbook{background:#15161A;color:#F4F1EA}
-  body.g-all .bigbook .sq{background:#F4F1EA;color:#15161A}
+  body.g-all .bigbook{background:#15161A;color:#FFFFFF}
+  body.g-all .bigbook .sq{background:#FFFFFF;color:#15161A}
   body.g-all .iform input, body.g-all .iform textarea{border-bottom-color:rgba(21,22,26,.35);color:#15161A}
   /* the form was only half-inverted: its labels, placeholders, note and submit outline were all
      still cream, i.e. invisible on paper. The whole control has to cross over, not just the input. */
@@ -247,7 +322,7 @@
   body.g-all .iform input:focus, body.g-all .iform textarea:focus,
   body.g-all.pal .iform input:focus, body.g-all.pal .iform textarea:focus{border-color:#15161A}
   body.g-all .iform button{border-color:#15161A;color:#15161A}
-  body.g-all .iform button:hover{background:#15161A;color:#F4F1EA}
+  body.g-all .iform button:hover{background:#15161A;color:#FFFFFF}
   body.g-all .iform .note{color:rgba(21,22,26,.66)}
   /* ── colour worlds (?world=): temperature lives in the GROUND, not in stickers ── */
   body[data-world]{background:var(--wp)}
@@ -262,17 +337,17 @@
   body[data-world] .explore{background:color-mix(in srgb, var(--wg) 85%, transparent);color:var(--wp)}
   body[data-world].pal .cta2 .sq, body[data-world].pal .bigbook .sq{background:var(--acc);color:var(--wg)}
   body[data-world].pal .qa.open .q{background:var(--acc);color:var(--wg)}
-  .hero .cta{border-color:#F4F1EA;color:#F4F1EA}
-  .hero .cta:hover{background:#F4F1EA;color:#101114}
+  .hero .cta{border-color:#FFFFFF;color:#FFFFFF}
+  .hero .cta:hover{background:#FFFFFF;color:#101114}
   .mission{position:relative;z-index:2;margin:auto auto 0;max-width:36ch;text-align:center;
-           color:rgba(244,241,234,.82);font-size:1.02rem;line-height:1.55;padding:0 24px}
+           color:rgba(255,255,255,.82);font-size:1.02rem;line-height:1.55;padding:0 24px}
   .mission .g{display:block;margin:0 auto 18px;width:34px;opacity:.75}
   .wordmark{position:relative;z-index:2;margin-top:auto;padding:6vh 0 0;
             font-family:'Anton',-apple-system,sans-serif;font-weight:400;
             letter-spacing:-.02em;line-height:.82;white-space:nowrap;user-select:none;text-align:center;
             transform-origin:left bottom;margin-bottom:max(.17em,34px);   /* clears the scroll pill:
             at signature scale .17em is only ~22px and the pill sits 14-23px off the bottom */
-            background:linear-gradient(105deg,#F4F1EA 42%,#FFFFFF 50%,#F4F1EA 58%);
+            background:linear-gradient(105deg,#FFFFFF 42%,#FFFFFF 50%,#FFFFFF 58%);
             background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
             color:transparent;animation:sheen 9s ease-in-out infinite}
   /* ── hero logo reel: the wordmark flips through treatments on load, lands on the real mark ── */
@@ -384,7 +459,8 @@
   @media (prefers-reduced-motion:reduce){.texture .grain,.wordmark{animation:none}}
 
   /* top bar */
-  .bar{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+  /* the old .bar rule lived here and, being later in the sheet at equal specificity, would
+     have silently overridden the fixed nav's padding and border. Merged into it above. */
   .mark{font-family:'Jost',sans-serif;font-weight:400;letter-spacing:-.01em}
   .mark .lw-loop{width:1.16em;height:.62em;border-width:.15em;border-radius:.31em;margin:0 .04em;vertical-align:-.03em}
   .mark .lw-chain i{width:.54em;height:.7em;border-width:.15em;border-radius:.27em;vertical-align:-.04em}
@@ -398,33 +474,54 @@
 
   /* intro */
   .intro{padding:72px 0 40px}
-  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--blue)}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--blue)}
   h1{font-size:clamp(2.4rem,5.2vw,4.4rem);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:14px 0 18px;max-width:18ch}
   .sub{color:var(--dim);font-size:1.05rem;max-width:52ch}
 
   /* ── case studies: three static cards. Each shows the client site's real hero in a browser
      frame and counts its numbers on arrival. The sticky pan deck is gone — visitors no longer
      scroll through three entire websites to reach the services section. ── */
-  #work{background:#0B0B0D;padding:13vh 24px 4vh}
-  .worktitle{max-width:1200px;margin:0 auto 12px;display:flex;justify-content:space-between;
-             align-items:baseline;border-top:1px solid rgba(244,241,234,.16);padding-top:16px}
-  .worktitle h2{font-family:'Anton',-apple-system,sans-serif;font-weight:400;letter-spacing:.005em;
-                font-size:clamp(2.4rem,5.6vw,4.6rem);line-height:1;color:#F4F1EA}
-  .worktitle .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;
-                   font-variant-numeric:tabular-nums}
-  .worklede{max-width:1200px;margin:0 auto 74px;color:rgba(244,241,234,.6);font-size:1.02rem;
-            line-height:1.6}
-  .worklede span{display:block;max-width:56ch}
-  .case{background:#0B0B0D;padding:0 0 13vh}
+  /* No header on this section — the Anton title, the lede and the 01/04 counter all
+     went. The hero has already framed the offer, so cutting straight to a client's
+     headline lands harder than announcing "Case Studies" first. */
+  #work{background:var(--off);padding:15vh 24px 4vh}
+  .case{background:var(--off);padding:0 0 13vh}
   .case:last-of-type{padding-bottom:4vh}
-  .casehead{max-width:1200px;margin:0 auto 26px}
-  .casehead .eyebrow{color:rgba(244,241,234,.55)}
-  .casehead h3{color:#F4F1EA;font-weight:800;letter-spacing:-.02em;
-               font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.15;margin-top:8px;max-width:20ch}
-  /* scope + timeframe. Without it the numbers float free and a reader has to guess what they
-     cover — and "in one month" is the whole point of the JDH card. */
-  .casenote{margin-top:12px;font-size:.92rem;line-height:1.5;color:rgba(244,241,234,.62);max-width:52ch}
-  .casenote b{color:#F4F1EA;font-weight:650}
+
+  /* ── DESKTOP: the cards stack. Each pins under the bar and the next slides over it.
+     This costs no extra scroll — the section is the same 2212px it was — which is the
+     difference from the pan deck that used to live here and gave every card a whole
+     viewport before you could reach services.
+     Each card needs its OWN ground: all three were #101114 on a #101114 section, so an
+     overlap would have been literally invisible. They step lighter as they come forward,
+     and the upward shadow under each leading edge is what actually sells the depth.
+     Mobile is excluded on purpose — cards are taller than a phone viewport there, and a
+     sticky element taller than its viewport just judders instead of pinning. ── */
+  @media (min-width:901px) and (min-height:720px){
+    /* height guard: a card is ~660px, pinned at 104. On a viewport shorter than that
+       sum the card pins with its foot below the fold and you can never scroll to it,
+       because pinned means pinned. Short windows keep the flat stack instead. */
+    .case{position:sticky;max-width:1200px;margin:0 auto 26px;padding:52px 44px;
+          border-radius:22px;border:1px solid rgba(255,255,255,.09);
+          box-shadow:0 -18px 50px -14px rgba(0,0,0,.78)}
+    .case:last-of-type{padding-bottom:52px;margin-bottom:0}   /* beats the base :last-of-type */
+    .case:nth-of-type(1){top:104px;background:#0C0E11}
+    .case:nth-of-type(2){top:130px;background:#131519}
+    .case:nth-of-type(3){top:156px;background:#1A1D23}
+    .casehead{max-width:none;margin:0 0 30px}
+    .casegrid{max-width:none;margin:0}
+  }
+
+  /* Headline and note used to stack in one 374px column with ~830px of empty row
+     beside them, on all three cards. Side by side now: the pair fills the width and
+     the note stops reading as an afterthought hanging off the headline. */
+  /* Business-name eyebrow and scope note both removed: the browser chrome under each
+     card already names the client (nationaltaxi.co.uk), and the stat captions carry
+     the scope. That leaves the headline alone, so it runs full width as a statement
+     rather than sitting in a column with the row empty beside it. */
+  .casehead{max-width:1200px;margin:0 auto 30px}
+  .casehead h3{color:#FFFFFF;font-weight:600;letter-spacing:-.03em;
+               font-size:clamp(1.8rem,4.4vw,3.4rem);line-height:1.06;max-width:none}
   .casegrid{display:grid;grid-template-columns:334px 1fr;gap:52px;align-items:center;
             max-width:1200px;margin:0 auto}
   .case.flip .casegrid{grid-template-columns:1fr 334px}
@@ -432,15 +529,15 @@
   .stats{display:flex;flex-direction:column;gap:34px}
   .stat{opacity:.22;transform:translateY(6px);transition:opacity .5s,transform .5s}
   .stat.on{opacity:1;transform:none}
-  .stat .num{font-size:clamp(2.4rem,3.7vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1;
-             color:#F4F1EA;font-variant-numeric:tabular-nums}
-  .stat .lab{font-weight:700;margin-top:6px;color:#F4F1EA}
-  .stat .ctx{color:rgba(244,241,234,.6);font-size:.95rem;max-width:34ch}
-  .browser{border:1px solid rgba(244,241,234,.14);border-radius:14px;background:#141519;overflow:hidden;
+  .stat .num{font-family:'Jost',sans-serif;font-size:clamp(2.4rem,3.7vw,3.4rem);font-weight:500;
+             letter-spacing:-.03em;line-height:1;color:#FFFFFF;font-variant-numeric:tabular-nums}
+  .stat .lab{font-weight:600;margin-top:6px;color:#FFFFFF}
+  .stat .ctx{color:rgba(255,255,255,.6);font-size:.95rem;max-width:34ch}
+  .browser{border:1px solid rgba(255,255,255,.14);border-radius:14px;background:#141519;overflow:hidden;
            box-shadow:0 34px 80px -30px rgba(0,0,0,.65)}
-  .chrome{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid rgba(244,241,234,.12);background:#17181d}
-  .dot{width:10px;height:10px;border-radius:50%;background:rgba(244,241,234,.18)}
-  .url{flex:1;margin-left:10px;background:rgba(244,241,234,.08);border-radius:7px;padding:5px 12px;font-size:12.5px;color:rgba(244,241,234,.55)}
+  .chrome{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.12);background:#17181d}
+  .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18)}
+  .url{flex:1;margin-left:10px;background:rgba(255,255,255,.08);border-radius:7px;padding:5px 12px;font-size:12.5px;color:rgba(255,255,255,.55)}
   /* one desktop viewport of the real capture — the site's own hero, held still */
   .window{aspect-ratio:16/10;overflow:hidden;position:relative}
   .window img{width:100%;display:block}
@@ -452,119 +549,170 @@
      .browser is the containing block (position:relative) and clips it to the rounded corners. */
   .explore{position:absolute;z-index:3;left:50%;bottom:16px;transform:translateX(-50%);
            display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
-           background:rgba(11,11,13,.82);color:#F4F1EA;border:1px solid rgba(244,241,234,.3);
+           background:rgba(11,11,13,.82);color:#FFFFFF;border:1px solid rgba(255,255,255,.3);
            border-radius:999px;padding:10px 14px 10px 18px;text-decoration:none;
            font-weight:600;font-size:.95rem;
            -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
            box-shadow:0 10px 30px -10px rgba(0,0,0,.7);
            transition:background .18s ease,border-color .18s ease,transform .18s ease}
-  .explore:hover{background:rgba(11,11,13,.95);border-color:rgba(244,241,234,.62);
+  .explore:hover{background:rgba(11,11,13,.95);border-color:rgba(255,255,255,.62);
                  transform:translateX(-50%) translateY(-2px)}   /* keep the centring in the hover */
   .explore .arw{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;
-                background:rgba(244,241,234,.16);font-size:12px;transition:transform .18s ease}
+                background:rgba(255,255,255,.16);font-size:12px;transition:transform .18s ease}
   .explore:hover .arw{transform:translate(1px,-1px)}
-  .pal .explore .arw{background:var(--acc);color:#0B0B0D}
+  /* no accent here: the button sits ON the client's capture, so it stays neutral and lets
+     the screenshot hold the colour. */
   /* client colours retired: each card already shows the client's real site in full colour,
      and the numbers are OUR claim. One studio accent instead of three borrowed ones. */
   .stat .num{color:var(--acc)}
-  body.stats-cream .stat .num{color:#F4F1EA}
+  body.stats-cream .stat .num{color:#FFFFFF}
 
   /* ── editorial section heads: the agency spine ── */
-  .sechead{max-width:1200px;margin:0 auto 64px;display:flex;justify-content:space-between;align-items:baseline;
-           border-top:1px solid rgba(244,241,234,.16);padding-top:16px}
-  .sechead .eyebrow{color:rgba(244,241,234,.55);font-weight:600}
-  .sechead .secn{color:rgba(244,241,234,.35);font-size:.8rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
-  body.g-ex .svc .sechead, body.g-ex .faq .sechead{border-top-color:rgba(21,22,26,.2)}
-  body.g-ex .svc .sechead .eyebrow, body.g-ex .faq .sechead .eyebrow{color:rgba(21,22,26,.66)}
-  body.g-ex .svc .sechead .secn, body.g-ex .faq .sechead .secn{color:rgba(21,22,26,.72)}
-  /* .close's counter and rule were never crossed over at all — still cream, 1.01:1 on paper */
+  .sechead{max-width:1200px;margin:0 auto 64px;display:flex;justify-content:space-between;align-items:baseline}
+  .sechead .eyebrow{color:rgba(255,255,255,.55);font-weight:600}
+  .sechead .secn{color:rgba(255,255,255,.35);font-size:.8rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  /* .faq dropped from these three too — it is off-black now, so a paper-coloured section
+     header would have been the one bit of the FAQ still trying to be dark-on-dark. */
+  body.g-ex .svc .sechead .eyebrow{color:rgba(21,22,26,.66)}
+  body.g-ex .svc .sechead .secn{color:rgba(21,22,26,.72)}
+  /* .close's counter was never crossed over at all — still cream, 1.01:1 on paper */
   body.g-all .close .sechead .secn{color:rgba(21,22,26,.72)}
-  body.g-all .close .sechead{border-top-color:rgba(21,22,26,.2)}
   .pal .sechead .eyebrow{color:var(--acc)}
-  /* ── services: dimmed list, one lit, descriptor unfolds under the active row ── */
-  .svc{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px 18vh}
-  .svcgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(240px,4fr) 8fr;gap:56px;align-items:start}
-  .svcleft .eyebrow{color:rgba(244,241,234,.55)}
-  .svcleft p{margin-top:16px;color:rgba(244,241,234,.62);font-size:1rem;line-height:1.6;max-width:30ch}
-  .svcs{list-style:none;position:relative;counter-reset:svc}
-  .svcs li{font-size:clamp(1.9rem,4.6vw,4.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.28;
-           color:rgba(244,241,234,.15);cursor:default;transition:color .35s,border-color .55s ease;position:relative;
-           counter-increment:svc;border-top:1px solid rgba(244,241,234,.1);padding:14px 0 14px 3.2rem}
-  .svcs li:last-child{border-bottom:1px solid rgba(244,241,234,.1)}
-  .svcs li:before{content:counter(svc,decimal-leading-zero);position:absolute;left:0;top:1.55em;
-                  font-size:.85rem;font-weight:600;letter-spacing:.06em;color:rgba(244,241,234,.4);
-                  font-variant-numeric:tabular-nums}
-  body.g-ex .svcs li{border-color:rgba(21,22,26,.14)}
-  body.g-ex .svcs li:before{color:rgba(21,22,26,.72)}
-  .pal .svcs li:before{color:var(--acc)}
-  .svcs li.active{color:#F4F1EA}
-  .svcs li .d{display:block;overflow:hidden;max-height:0;opacity:0;
-              font-size:1rem;font-weight:400;letter-spacing:0;line-height:1.5;
-              color:rgba(244,241,234,.6);transition:max-height .45s ease,opacity .45s ease,color .55s ease;max-width:44ch}
-  .svcs li.active .d{max-height:3.2em;opacity:1;margin-top:2px;margin-bottom:10px}
-  @media (max-width:900px){.svcgrid{grid-template-columns:1fr;gap:30px}.svcs li{width:auto}}
+
+  /* GROUND ORDER: black (hero) · off-black (work) · white (services) · off-black
+     (FAQ) · black (contact) · off-black (footer). Black is Loomwork talking, the
+     pitch and the ask. Off-black is a mount, so client screenshots and accordion
+     rows land on a surface rather than a void — it is not a chapter break and
+     shouldn't try to be, since it steps only 1.11:1 off black. White is the one
+     plain band in the middle, and it carries the page's only real ground change
+     at 18.88:1, twice. How It Works used to share that white band; it was cut as
+     filler, so services now holds it alone. */
+  /* ── SERVICES: one compact stacked list (M3's homepage pattern — their whole
+     services block is 560px). Number, name, one-line descriptor, arrow. No media
+     and no alternating rows: this section is a menu, not a showcase. The proof
+     already lives in the case studies above it. ── */
+  .svc{background:var(--black);color:var(--white);padding:16vh 24px 18vh}  /* white via .g-ex */
+  .svcintro{max-width:1200px;margin:0 auto}
+  .svcintro p{font-size:clamp(1.4rem,2.6vw,2.1rem);font-weight:300;line-height:1.35;letter-spacing:-.015em;
+              max-width:52ch;color:rgba(255,255,255,.9)}   /* 24ch stacked it 4 lines deep in a
+              narrow column with 60% of the row empty — the void pattern, same as the old grid */
+  body.g-ex .svcintro p{color:#15161A}
+
+  .svclist{max-width:1200px;margin:7vh auto 0;list-style:none;padding:0;
+           border-bottom:1px solid rgba(255,255,255,.14)}
+  body.g-ex .svclist{border-bottom-color:rgba(21,22,26,.14)}
+  /* Four columns put the descriptor in its own track, which left a 350px hole after
+     every name and a 240px hole before every arrow — the columns were far wider than
+     their content and the rows read as broken. Descriptor drops under the name
+     instead: two rows, no horizontal slack, and the only gap left is name→arrow,
+     which is what a list affordance is supposed to look like. */
+  .svclist a{display:grid;grid-template-columns:52px minmax(0,1fr) 46px;gap:0 26px;
+             padding:28px 0;text-decoration:none;color:inherit;
+             border-top:1px solid rgba(255,255,255,.14);
+             transition:padding-left .34s cubic-bezier(.2,.7,.2,1)}
+  .svcnum{grid-column:1;grid-row:1;align-self:baseline}
+  .svcname{grid-column:2;grid-row:1;align-self:baseline}
+  .svcdesc{grid-column:2;grid-row:2;margin-top:9px}
+  .svcarw{grid-column:3;grid-row:1/3;align-self:center}
+  body.g-ex .svclist a{border-top-color:rgba(21,22,26,.14)}
+  .svclist a:hover,.svclist a:focus-visible{padding-left:18px}
+  .svcnum{font-size:.82rem;font-weight:600;letter-spacing:.14em;font-variant-numeric:tabular-nums;
+          color:rgba(255,255,255,.42)}
+  .pal .svcnum{color:var(--acc)}
+  body.g-ex .svcnum{color:rgba(21,22,26,.55)}
+  body.g-ex.pal .svcnum{color:var(--acc-dark)}
+  /* up from 2.6rem: hero and contact both work because big type fills the width,
+     and this section was the thin-column-plus-void pattern that doesn't */
+  .svcname{font-size:clamp(1.9rem,4.6vw,3.2rem);font-weight:600;letter-spacing:-.03em;line-height:1.05;
+           color:#FFFFFF}
+  body.g-ex .svcname{color:#15161A}
+  .svcdesc{font-size:1rem;line-height:1.5;color:rgba(255,255,255,.55);transition:color .2s ease}
+  body.g-ex .svcdesc{color:rgba(21,22,26,.64)}   /* .58 landed at 4.42:1 on white — under AA */
+  .svclist a:hover .svcdesc{color:rgba(255,255,255,.82)}
+  body.g-ex .svclist a:hover .svcdesc{color:rgba(21,22,26,.82)}
+  .svcarw{justify-self:end;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;
+          font-size:15px;border:1px solid rgba(255,255,255,.22);
+          transition:background .24s ease,color .24s ease,border-color .24s ease,
+                     transform .34s cubic-bezier(.2,.7,.2,1)}
+  body.g-ex .svcarw{border-color:rgba(21,22,26,.22)}
+  .svclist a:hover .svcarw{background:#FFFFFF;color:#000000;border-color:#FFFFFF;transform:translate(3px,-3px)}
+  body.g-ex .svclist a:hover .svcarw{background:#15161A;color:#FFFFFF;border-color:#15161A}
+  .pal .svclist a:hover .svcarw{background:var(--acc);color:#101114;border-color:var(--acc)}
+
+  @media (max-width:760px){
+    .svclist{margin-top:5vh}
+    /* same two-row structure as desktop now — only the sizes change */
+    .svclist a{grid-template-columns:38px minmax(0,1fr) 34px;gap:0 14px;padding:22px 0}
+    .svclist a:hover,.svclist a:focus-visible{padding-left:0}   /* no shove on touch */
+    .svcarw{grid-row:1;width:34px;height:34px;font-size:13px}
+    .svcdesc{grid-column:2/4;font-size:.94rem}
+  }
 
   /* ── FAQ: dimmed accordion, lit active row (Monolog pattern), book prompt in the left rail ── */
-  .faq{background:#0B0B0D;color:#F4F1EA;padding:16vh 24px}
+  .faq{background:var(--off);color:var(--white);padding:16vh 24px}   /* off-black, no longer paper */
   .faqgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:8fr minmax(240px,4fr);gap:56px;align-items:start}
   .faqleft{display:flex;flex-direction:column;align-self:stretch;align-items:flex-end;text-align:right;order:2}
-  .faqleft .eyebrow{color:rgba(244,241,234,.55)}
-  .faqask{margin-top:auto;display:flex;flex-direction:column;align-items:flex-end;gap:0}
-  .faqask p{color:rgba(244,241,234,.65);margin-bottom:14px}
-  .faq h2{font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.03em;font-weight:800;line-height:1.06;max-width:18ch;margin-bottom:48px}
-  .qa{border-top:1px solid rgba(244,241,234,.14)}
-  .qa:last-child{border-bottom:1px solid rgba(244,241,234,.14)}
-  .qa .q{width:100%;text-align:left;background:none;border:0;color:#F4F1EA;font:inherit;font-weight:650;
+  .faqleft .eyebrow{color:rgba(255,255,255,.55)}
+  /* was margin-top:auto, which pinned this to the foot of a 713px column — the rail
+     then read as empty for its first 630px, which is what looked broken. Sticky keeps
+     it in view for the whole section without hoisting the CTA above the questions.
+     top clears the fixed bar (~100px). */
+  .faqask{position:sticky;top:130px;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+  .faqask p{color:rgba(255,255,255,.65);margin-bottom:14px}
+  .faq h2{font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.03em;font-weight:600;line-height:1.06;max-width:18ch;margin-bottom:48px}
+  .qa{border-top:1px solid rgba(255,255,255,.14)}
+  .qa:last-child{border-bottom:1px solid rgba(255,255,255,.14)}
+  .qa .q{width:100%;text-align:left;background:none;border:0;color:#FFFFFF;font:inherit;font-weight:650;
          font-size:clamp(1.05rem,1.6vw,1.35rem);padding:22px 18px;cursor:pointer;border-radius:9px;
          transition:background .25s,color .25s}
-  .qa.open .q{background:#F4F1EA;color:#101114}
-  .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease,color .55s ease;color:rgba(244,241,234,.68);line-height:1.6}
+  .qa.open .q{background:#FFFFFF;color:#101114}
+  .qa .a{overflow:hidden;max-height:0;transition:max-height .4s ease,color .55s ease;color:rgba(255,255,255,.68);line-height:1.6}
   .qa.open .a{max-height:14em}
   .qa .a p{padding:16px 18px 24px;max-width:62ch}
   @media (max-width:900px){.faqgrid{grid-template-columns:1fr;gap:30px}
     .faqleft{display:contents}                     /* split: eyebrow above the FAQ, ask below it */
     .faqleft .eyebrow{order:-1;text-align:left}
-    .faqask{order:2;margin-top:8px}}
+    .faqask{order:2;margin-top:8px;position:static}}   /* stacked below the questions: nothing to stick to */
 
   /* ── the close: giant ask, booking primary, inquiry form secondary ── */
-  .close{background:#0B0B0D;color:#F4F1EA;padding:18vh 24px 16vh;border-top:1px solid rgba(244,241,234,.08)}
+  .close{background:var(--black);color:var(--white);padding:18vh 24px 16vh;border-top:1px solid rgba(255,255,255,.08)}
   .closegrid{max-width:1200px;margin:0 auto}
   .close h2{font-family:'Anton',-apple-system,sans-serif;font-weight:400;letter-spacing:.005em;
             font-size:clamp(3rem,9vw,9rem);line-height:.95;margin:10px 0 48px}
   .closecols{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
-  .closecols .lead p{color:rgba(244,241,234,.65);line-height:1.6;max-width:40ch;margin-bottom:26px}
-  .bigbook{display:inline-flex;align-items:center;gap:14px;background:#F4F1EA;color:#101114;border-radius:8px;
+  .closecols .lead p{color:rgba(255,255,255,.65);line-height:1.6;max-width:40ch;margin-bottom:26px}
+  .bigbook{display:inline-flex;align-items:center;gap:14px;background:#FFFFFF;color:#101114;border-radius:8px;
            padding:16px 18px 16px 26px;text-decoration:none;font-weight:700;font-size:1.25rem}
-  .bigbook .sq{display:grid;place-items:center;width:34px;height:34px;background:#101114;color:#F4F1EA;border-radius:6px}
+  .bigbook .sq{display:grid;place-items:center;width:34px;height:34px;background:#101114;color:#FFFFFF;border-radius:6px}
   .bigbook:hover .sq{transform:translate(1px,-1px)}
-  .iform label{display:block;font-size:.85rem;font-weight:600;color:rgba(244,241,234,.55);margin:22px 0 6px}
-  .iform input,.iform textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(244,241,234,.3);
-        color:#F4F1EA;font:inherit;padding:8px 2px;outline:none;resize:none}
-  .iform input:focus,.iform textarea:focus{border-color:#F4F1EA}
-  .iform button{margin-top:30px;display:inline-flex;align-items:center;gap:11px;background:none;border:1.5px solid #F4F1EA;
-        color:#F4F1EA;border-radius:8px;padding:12px 22px;font:inherit;font-weight:650;cursor:pointer}
-  .iform button:hover{background:#F4F1EA;color:#101114}
-  .iform .note{margin-top:14px;font-size:.85rem;color:rgba(244,241,234,.45)}
+  .iform label{display:block;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.55);margin:22px 0 6px}
+  .iform input,.iform textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.3);
+        color:#FFFFFF;font:inherit;padding:8px 2px;outline:none;resize:none}
+  .iform input:focus,.iform textarea:focus{border-color:#FFFFFF}
+  .iform button{margin-top:30px;display:inline-flex;align-items:center;gap:11px;background:none;border:1.5px solid #FFFFFF;
+        color:#FFFFFF;border-radius:8px;padding:12px 22px;font:inherit;font-weight:650;cursor:pointer}
+  .iform button:hover{background:#FFFFFF;color:#101114}
+  .iform .note{margin-top:14px;font-size:.85rem;color:rgba(255,255,255,.45)}
   @media (max-width:900px){.closecols{grid-template-columns:1fr;gap:44px}}
 
   /* ── footer: ink, quiet, bookending the hero's furniture ── */
-  footer{background:#0B0B0D;color:#F4F1EA;border-top:1px solid rgba(244,241,234,.1);padding:64px 28px 30px}
+  footer{background:var(--off);color:var(--white);border-top:1px solid rgba(255,255,255,.1);padding:64px 28px 30px}
   .footgrid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto auto;gap:48px;align-items:start}
-  .footgrid .mark{color:#F4F1EA;font-size:1.2rem}
-  .footgrid .mark span{color:#F4F1EA;font-weight:800}
-  .footgrid .tag{margin-top:10px;color:rgba(244,241,234,.55);font-size:.95rem;max-width:30ch;line-height:1.55}
+  .footgrid .mark{color:#FFFFFF;font-size:1.2rem}
+  .footgrid .mark span{color:#FFFFFF;font-weight:800}
+  .footgrid .tag{margin-top:10px;color:rgba(255,255,255,.55);font-size:.95rem;max-width:30ch;line-height:1.55}
   .footnav{display:flex;flex-direction:column;gap:10px}
-  .footnav a{color:rgba(244,241,234,.75);text-decoration:none;font-size:.98rem}
+  .footnav a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.98rem}
   .footnav a:hover{color:#fff}
-  .footbar{max-width:1200px;margin:52px auto 0;padding-top:22px;border-top:1px solid rgba(244,241,234,.1);
+  .footbar{max-width:1200px;margin:52px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);
            display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
-           color:rgba(244,241,234,.45);font-size:.85rem}
+           color:rgba(255,255,255,.45);font-size:.85rem}
   .footbar .ticks{letter-spacing:2px;font-size:.7rem;opacity:.7}
   @media (max-width:760px){.footgrid{grid-template-columns:1fr;gap:30px}}
 
   @media (max-width:900px){
-    #work{padding:9vh 18px 2vh}
-    .worklede{margin-bottom:48px}
+    #work{padding:10vh 18px 2vh}
+    .casehead{margin-bottom:22px}
     .case{padding-bottom:9vh}
     .casegrid,.case.flip .casegrid{grid-template-columns:1fr;gap:22px}
     .caseview{order:1}
@@ -587,18 +735,38 @@
   }
 </style>
 </head>
-<body>
+<body class="g-ex">
 <div class="pagegrain" aria-hidden="true"></div>
+
+<!-- The bar lives OUTSIDE the hero now so it can stay on screen. It used to be a child of
+     .hero, which carries overflow:hidden — that silently disables position:sticky on any
+     descendant, so nesting it there could never have worked. -->
+<div class="bar">
+  <div class="mark"><span id="markname">Loomwork</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
+  <nav class="navnums">
+    <a href="#work">Work</a><a href="#services">Services</a><a href="#">About</a><a href="#contact">Contact</a>
+  </nav>
+  <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
+  <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu">
+    <span class="bl"></span><span class="bl"></span><span class="bl"></span>
+  </button>
+</div>
+
+<!-- Mobile menu. The .navnums links are display:none under 760px, so before this there was
+     no route to Work / Services / Contact on a phone at all. These four duplicate .navnums
+     above — keep the two lists in step. -->
+<div class="menu" id="mobilemenu">
+  <nav class="mlinks">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="menucta" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Book a 15-minute intro <span class="sq" aria-hidden="true">&#8599;</span></a>
+</div>
 
 <header class="hero centered">
   <div class="texture" aria-hidden="true"><canvas class="fx"></canvas><div class="grain"></div></div>
-  <div class="bar">
-    <div class="mark"><span id="markname">Loomwork</span><sup style="font-size:.55em;opacity:.6">&reg;</sup></div>
-    <nav class="navnums">
-      <a href="#work">Work</a><a href="#">Services</a><a href="#">About</a><a href="#contact">Contact</a>
-    </nav>
-    <a class="cta2" href="https://cal.com/rakin-miah/intro-call" target="_blank" rel="noopener">Start a project <span class="sq">&#8599;</span></a>
-  </div>
   <div class="heroleft">
     <h1>
       <span class="vh">More work from your website, your Google listing and your ads.</span>
@@ -628,21 +796,25 @@
     </div>
   </div>
   <div class="scrollpill" aria-hidden="true"></div>
-  <div class="wordmark" id="wordmark"><span id="wmtext" data-name="LOOMWORK">LOOMWORK</span></div>
+  <!-- The big LOOMWORK wordmark used to sit here. Removed 2026-07-27 (owner: conversion over
+       brand): the name is already in the nav and the footer, and at the bottom of the fold it
+       was competing with the proof rail — the stats are the argument, not the name. The reel
+       that once justified a mark at that size is going to the About page, and ALL of its
+       machinery is kept intact below (markHTML, fitWordmark, runReel, the .wordmark.wN
+       treatments) — it simply no-ops while no #wordmark element exists. Put the element back
+       and the whole thing wakes up. -->
 </header>
 
 <!-- Case studies: static. Each card shows the client site's own hero, held still, and counts
      its numbers on arrival. NOTE: the Explore links point at per-client case-study pages that
      have NOT been built yet — they 404 until case/<slug>/index.html exists. -->
 <section id="work">
-  <div class="worktitle"><h2>Case Studies</h2><span class="secn">01 / 04</span></div>
-  <p class="worklede"><span>Three real businesses, three live sites. The numbers under each one are
-     what the site did after it went up — not what we hope it will do.</span></p>
+  <!-- No section header. The hero has already said what we do; landing straight on a
+       client's headline is a harder cut than a label and an explainer. The nav's
+       "Work" link and the browser chrome under each card carry the framing. -->
 
   <article class="case">
-    <div class="casehead"><div class="eyebrow">NATIONAL TAXI — BRIGHTON</div><h3>The whole operation, built from zero.</h3>
-      <p class="casenote">Not a brochure site — the software the firm runs on. The booking site,
-         the dispatch system and the driver app, <b>all built from scratch</b>.</p></div>
+    <div class="casehead"><h3>The whole operation, built from zero.</h3></div>
     <div class="casegrid">
       <div class="stats">
         <div class="stat" data-count="10000" data-prefix="£" data-suffix="+"><div class="num">£0</div><div class="lab">in revenue, from zero</div><div class="ctx">They were at zero when we started. Real revenue through the door since — not traffic, not clicks.</div></div>
@@ -660,9 +832,7 @@
   </article>
 
   <article class="case flip">
-    <div class="casehead"><div class="eyebrow">JDH GAS — BURGESS HILL</div><h3>Rebuilt and ranking, inside one month.</h3>
-      <p class="casenote">Jamie had built his own site. We rebuilt it and started the search work
-         together — <b>every number below is from that first month</b>.</p></div>
+    <div class="casehead"><h3>Rebuilt and ranking, inside one month.</h3></div>
     <div class="casegrid">
       <div class="stats">
         <div class="stat" data-count="16"><div class="num">0</div><div class="lab">enquiries, month one</div><div class="ctx">Calls, WhatsApps and quote requests, in the first month the rebuilt site was live.</div></div>
@@ -680,9 +850,7 @@
   </article>
 
   <article class="case">
-    <div class="casehead"><div class="eyebrow">DEEN RELIEF — UK REGISTERED CHARITY</div><h3>Built from scratch, funded to be found.</h3>
-      <p class="casenote">Donation platform, CMS, sponsorship portal and an admin app —
-         <b>all built from scratch</b> — with the charity's search advertising run on top.</p></div>
+    <div class="casehead"><h3>Built from scratch, funded to be found.</h3></div>
     <div class="casegrid">
       <div class="stats">
         <div class="stat" data-count="120000" data-prefix="$"><div class="num">$0</div><div class="lab">ad spend a year, managed</div><div class="ctx">Set up, run and optimised end to end — search ads in front of donors every day of the year.</div></div>
@@ -701,25 +869,58 @@
 </section>
 
 <section class="svc" id="services">
-  <div class="sechead"><span class="eyebrow">02 — What we do</span><span class="secn">02 / 04</span></div>
-  <div class="svcgrid">
-    <div class="svcleft">
-      <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
-    </div>
-    <ul class="svcs">
-      <li class="active">Web design<span class="d">Designed around your business — never a template. All three case studies above: ours, end to end.</span></li>
-      <li>Web development<span class="d">Fast, hand-built, and yours — the taxi site takes live bookings and payments.</span></li>
-      <li>Local SEO<span class="d">Found when your town searches for the job — JDH shows up 5&times; more since launch.</span></li>
-      <li>Paid advertising<span class="d">Google Ads spent carefully — we run Deen Relief's six-figure ad budget year-round.</span></li>
-      <li>Maintenance &amp; ongoing care<span class="d">Updates, fixes, and a site that never goes stale — we stay on after launch.</span></li>
-    </ul>
+  <div class="sechead"><span class="eyebrow">01 — What we do</span><span class="secn">01 / 03</span></div>
+  <div class="svcintro">
+    <p>One team for the whole job — the site, the search, and everything that keeps the enquiries coming.</p>
   </div>
+
+  <!-- Compact stacked list: number, name, one-line descriptor, arrow. The whole
+       offer reads in about a screen. Every row points at #contact — we have no
+       per-service pages, and the enquiry is the goal anyway. -->
+  <ul class="svclist">
+
+    <li><a href="#contact">
+      <span class="svcnum">01</span>
+      <span class="svcname">Web design</span>
+      <span class="svcdesc">Built around your business, never a template.</span>
+      <span class="svcarw" aria-hidden="true">&#8599;</span>
+    </a></li>
+
+    <li><a href="#contact">
+      <span class="svcnum">02</span>
+      <span class="svcname">Web development</span>
+      <span class="svcdesc">Fast, hand-built and yours — bookings and payments included.</span>
+      <span class="svcarw" aria-hidden="true">&#8599;</span>
+    </a></li>
+
+    <li><a href="#contact">
+      <span class="svcnum">03</span>
+      <span class="svcname">Local SEO</span>
+      <span class="svcdesc">Found when your town searches for the job.</span>
+      <span class="svcarw" aria-hidden="true">&#8599;</span>
+    </a></li>
+
+    <li><a href="#contact">
+      <span class="svcnum">04</span>
+      <span class="svcname">Paid advertising</span>
+      <span class="svcdesc">Google Ads spent carefully and watched daily.</span>
+      <span class="svcarw" aria-hidden="true">&#8599;</span>
+    </a></li>
+
+    <li><a href="#contact">
+      <span class="svcnum">05</span>
+      <span class="svcname">Maintenance &amp; care</span>
+      <span class="svcdesc">Updates, fixes and a site that never goes stale.</span>
+      <span class="svcarw" aria-hidden="true">&#8599;</span>
+    </a></li>
+
+  </ul>
 </section>
 
 
 
 <section class="faq" id="faq">
-  <div class="sechead"><span class="eyebrow">03 — Questions</span><span class="secn">03 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">02 — Questions</span><span class="secn">02 / 03</span></div>
   <div class="faqgrid">
     <div class="faqleft">
       <div class="faqask">
@@ -746,7 +947,7 @@
 </section>
 
 <section class="close" id="contact">
-  <div class="sechead"><span class="eyebrow">04 — Start</span><span class="secn">04 / 04</span></div>
+  <div class="sechead"><span class="eyebrow">03 — Start</span><span class="secn">03 / 03</span></div>
   <div class="closegrid">
     <h2>READY WHEN YOU ARE.</h2>
     <div class="closecols">
@@ -759,7 +960,10 @@
         <label>Business</label><input name="business" placeholder="e.g. Riverside Joinery">
         <label>What do you need?</label><textarea name="need" rows="3" placeholder="New website, better search, more enquiries…"></textarea>
         <button type="submit">Send message</button>
-        <div class="note">Prototype note: this form wires to your inbox at deploy (Cloudflare Worker). The booking button is live now.</div>
+        <!-- ⚠ LAUNCH BLOCKER: this form is still onsubmit="return false" — it does nothing.
+             It needs the Cloudflare Worker wired before the site goes live, or every enquiry
+             submitted here is silently binned. The booking button IS live. -->
+        <div class="note">Prefer to talk it through? Book a call instead — it takes 15 minutes.</div>
       </form>
     </div>
   </div>
@@ -801,7 +1005,10 @@
     n.textContent = fmt(0);
     const t0 = performance.now(), dur = 1000;
     (function tick(t){
-      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      /* clamp low too: rAF hands back the FRAME-START timestamp, which can predate a
+         performance.now() taken after that frame began. t-t0 then goes negative, and
+         1-(1-k)^3 with k<0 renders a negative number — the review score flashed -0.2. */
+      const k = Math.min(1, Math.max(0, (t - t0) / dur)), e = 1 - Math.pow(1 - k, 3);
       n.textContent = fmt(e * target);
       if (k < 1) requestAnimationFrame(tick);
     })(t0);
@@ -823,23 +1030,9 @@
     io.observe(card);
   });
 
-  /* services: hover lights a row and the preview floats beside it; without hover it follows scroll */
-  const svcList = document.querySelector('.svcs');
-  if (svcList) {
-    const items = [...svcList.querySelectorAll('li')];
-    let hovered = false;
-    function svcActivate(i){ items.forEach((li, k) => li.classList.toggle('active', k === i)); }
-    items.forEach((li, i) => li.addEventListener('mouseenter', () => { hovered = true; svcActivate(i); }));
-    svcList.addEventListener('mouseleave', () => { hovered = false; });
-    addEventListener('scroll', () => requestAnimationFrame(() => {
-      if (hovered) return;
-      const r = svcList.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) return;
-      const p = Math.min(0.999, Math.max(0, (innerHeight * 0.72 - r.top) / r.height));
-      svcActivate(Math.floor(p * items.length));
-    }), { passive: true });
-    svcActivate(0);
-  }
+  /* The services hover/scroll accordion driver lived here. Services are now a
+     flat list — every service is visible at once, so there is no active row to
+     light and nothing for it to do. */
 
   /* FAQ accordion: one open at a time */
   document.querySelectorAll('.qa .q').forEach(btn => btn.addEventListener('click', () => {
@@ -925,37 +1118,85 @@
                     9:'#83B7D8'}; // previous accent, for comparison
   const palN = parseInt(new URLSearchParams(location.search).get('pal'), 10);
   if (PALETTES[palN]) { document.body.classList.add('pal'); applyAcc(PALETTES[palN], true); }
-  /* ── the light chapter: the page opens dark (hero + case studies), turns to paper for the
-     middle (services + FAQ), and closes dark again. Both switch points sit on a section
-     boundary that has ALREADY left the top of the viewport, so the whole frame changes colour
-     at once instead of an edge sweeping up the screen.
-       lit  when .svc has taken the top of the screen
-       unlit when .close takes it back
-     ?ground=0 dark · 1 exhale · 2 daylight pin a scheme and disable the flip. */
+  /* ── the light chapter is STATIC: <body class="g-ex"> puts services + FAQ on paper from the
+     first paint, and .close stays dark. This used to flip on scroll — dark until .svc took the
+     top of the screen, dark again as .close arrived — but the ground no longer moves, so there
+     is no scroll listener and no flash of dark before the middle of the page lightens.
+     ?ground=0 dark · 1 exhale · 2 daylight still pin a scheme for auditioning. */
   const groundN = parseInt(new URLSearchParams(location.search).get('ground'), 10);
-  const groundPinned = !isNaN(groundN);
-  if (groundN >= 1) document.body.classList.add('g-ex');
-  if (groundN >= 2) document.body.classList.add('g-all');
-  const svcSec = document.querySelector('.svc'), closeSec = document.querySelector('.close');
-  if (svcSec && closeSec && !groundPinned) {
-    let lit = null, graf = 0;
-    const ground = () => {
-      graf = 0;
-      // the footer never joins the light chapter, so on a window taller than .close it would
-      // slide in dark under a paper section. Unlit at the last moment it is still off-screen.
-      const unlitAt = Math.max(0, innerHeight - closeSec.offsetHeight);
-      const want = svcSec.getBoundingClientRect().top <= 0 &&
-                   closeSec.getBoundingClientRect().top > unlitAt;
-      if (want === lit) return;
-      lit = want;
-      document.body.classList.toggle('g-ex', want);
-      document.body.classList.toggle('g-all', want);
-    };
-    const onGround = () => { if (!graf) graf = requestAnimationFrame(ground); };
-    addEventListener('scroll', onGround, { passive: true });
-    addEventListener('resize', onGround, { passive: true });
-    ground();
+  if (!isNaN(groundN)) {
+    document.body.classList.toggle('g-ex', groundN >= 1);
+    document.body.classList.toggle('g-all', groundN >= 2);
   }
+
+  /* ── the fixed bar's two states ──────────────────────────────────────────────────────
+     Which sections are PAPER depends on the ground scheme, so read it off the body rather
+     than hard-coding .svc/.faq — under ?ground=0 nothing is light and the bar must stay in
+     its dark register the whole way down.
+     Tested against the bar's own band (does a paper section straddle its bottom edge?)
+     rather than a scroll offset, so it stays correct when section heights change. */
+  (function stickyNav(){
+    const bar = document.querySelector('.bar'), hero = document.querySelector('.hero');
+    if (!bar || !hero) return;
+    const cl = document.body.classList;
+    const paper = [];
+    /* .svc only — the FAQ left the light chapter, and listing it here would have inverted the
+       nav to its light state over a section that is now off-black. */
+    if (cl.contains('g-ex')) paper.push(...document.querySelectorAll('.svc'));
+    if (cl.contains('g-all')) paper.push(...document.querySelectorAll('.close'));
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
+      const h = bar.offsetHeight;
+      cl.toggle('nav-stuck', hero.getBoundingClientRect().bottom <= h);
+      cl.toggle('nav-light', paper.some(s => {
+        const r = s.getBoundingClientRect();
+        return r.top <= h && r.bottom > h;
+      }));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    apply();
+  })();
+
+  /* ── mobile menu ─────────────────────────────────────────────────────────────────────
+     Closed is the CSS default (opacity 0 / visibility hidden), so the panel is never shown
+     before this runs. `inert` keeps its links out of the tab order and off screen readers
+     while shut — visibility alone would do most of that, but inert also survives the
+     transition window where visibility is still resolving. */
+  (function mobileMenu(){
+    const burger = document.querySelector('.burger');
+    const menu = document.getElementById('mobilemenu');
+    if (!burger || !menu) return;
+    const cl = document.body.classList;
+
+    const setOpen = open => {
+      cl.toggle('menu-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      menu.toggleAttribute('inert', !open);
+      if (open) (menu.querySelector('a') || menu).focus({ preventScroll: true });
+      else burger.focus({ preventScroll: true });
+    };
+
+    burger.addEventListener('click', () => setOpen(!cl.contains('menu-open')));
+    // any link closes it — they are all same-page anchors, so the panel must get out of the way
+    menu.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+    addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cl.contains('menu-open')) setOpen(false);
+    });
+    // Rotating to landscape past the breakpoint strands the panel over the desktop nav with no
+    // burger left to close it. A resize listener was the obvious hook and proved unreliable —
+    // matchMedia fires on the breakpoint crossing itself, which is the actual event we mean.
+    const mq = matchMedia('(max-width:760px)');
+    const syncBreakpoint = () => { if (!mq.matches && cl.contains('menu-open')) setOpen(false); };
+    mq.addEventListener('change', syncBreakpoint);
+    addEventListener('resize', syncBreakpoint, { passive: true });   // two hooks, either suffices
+    addEventListener('orientationchange', syncBreakpoint);
+
+    setOpen(false);                       // sets inert + aria on first paint
+  })();
   const WORLDS = {
     harbour: { wg:'#101822', wp:'#EAE6DA', acc:'#E8683A' },   // navy water, ecru, blaze orange
     bottle:  { wg:'#141D16', wp:'#EFEAD9', acc:'#C75B3C' },   // van green, stone, terracotta
@@ -969,8 +1210,8 @@
     document.body.dataset.world = 'custom';
     document.body.classList.add('pal');
     st.setProperty('--wg', cInk || '#0B0B0D');
-    st.setProperty('--wp', cPaper || '#F4F1EA');
-    applyAcc(cAcc || cPaper || '#F4F1EA', true);
+    st.setProperty('--wp', cPaper || '#FFFFFF');
+    applyAcc(cAcc || cPaper || '#FFFFFF', true);
   }
   const worldK = new URLSearchParams(location.search).get('world');
   if (WORLDS[worldK]) {
@@ -986,14 +1227,16 @@
   const THRUMS = '<svg class="thrums" viewBox="0 0 40 24" aria-hidden="true"><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 2v15M11 2v19M18 2v12M25 2v17M32 2v14"/></g></svg>';
   const logoN = parseInt(new URLSearchParams(location.search).get('logo'), 10);
   if (logoN >= 1 && logoN <= 3) {
-    document.getElementById('wmtext').textContent = 'THRUM';
-    if (logoN === 3) document.getElementById('wordmark').classList.add('humming');
+    const wt0 = document.getElementById('wmtext');          // absent since the hero mark was removed
+    if (wt0) wt0.textContent = 'THRUM';
+    const wm0 = document.getElementById('wordmark');
+    if (logoN === 3 && wm0) wm0.classList.add('humming');
     const navHTML = {
       1: '<span class="lock">Thrum' + HUM + '</span>',
       2: THRUMS + 'Thrum',
       3: 'Thrum<sup class="r">&reg;</sup>'
     }[logoN];
-    document.querySelector('.hero .mark').innerHTML = navHTML;
+    document.querySelector('.bar .mark').innerHTML = navHTML;   /* bar moved out of .hero */
     const fm = document.querySelector('.footgrid .mark');
     if (fm) fm.innerHTML = navHTML;
     const fc = document.getElementById('footcopy'); if (fc) fc.textContent = 'Thrum';
@@ -1005,7 +1248,11 @@
   if (nm) {
     const clean = nm.replace(/[^\w &'’.-]/g, '').slice(0, 18).toUpperCase();
     if (clean) { const t = clean[0] + clean.slice(1).toLowerCase();
-      const wt = document.getElementById('wmtext'); wt.dataset.name = clean; wt.innerHTML = markHTML(clean);
+      const wt = document.getElementById('wmtext');
+      if (wt) { wt.dataset.name = clean; wt.innerHTML = markHTML(clean); }
+      // wmtext.dataset.name used to carry the audition name through to paintMarks below. With the
+      // hero mark removed there is no element to carry it, so park it on <html> instead.
+      document.documentElement.dataset.brand = clean;
       document.getElementById('markname').innerHTML = markHTML(clean, null, true);
       const fn = document.getElementById('footname'); if (fn) fn.innerHTML = document.getElementById('markname').innerHTML;
       const fc = document.getElementById('footcopy'); if (fc) fc.textContent = t;
@@ -1052,6 +1299,8 @@
      At 52% width it still anchors the composition and shows the interlace mark at size, and
      the ~100px it gives back goes to the headline and the proof rail. */
   function fitWordmark(){
+    if (!wm) return;                  // no mark in the hero — kept live for the About page
+    wm.style.display = '';            // a previous pass may have stood the mark down — measure in flow
     wm.style.fontSize = '100px';
     const tw = document.getElementById('wmtext').offsetWidth;   // LAYOUT width — unaffected by the intro transform
     if (!tw) return;
@@ -1070,20 +1319,38 @@
     // mark up into the rail, so solve for both cases instead of assuming the em one.
     const byFloor = (free - 34) / 0.99;      // 34px margin dominates (fs under ~200px)
     const byEm    = free / 1.16;             // .17em margin dominates
-    const fitCap  = Math.max(40, byFloor <= 200 ? byFloor : byEm);
-    wm.style.fontSize = Math.floor(Math.min(widthFit, heightCap, fitCap)) + 'px';
+    const fitCap  = byFloor <= 200 ? byFloor : byEm;
+    const size    = Math.floor(Math.min(widthFit, heightCap, fitCap));
+    // fitCap used to be wrapped in Math.max(40, …), and that floor WON over the fit: on a short
+    // fold (<~660px on a 1504-wide window) the mark was drawn at 40px whether or not 40px fit,
+    // and it sat straight on the stat rail. The floor is gone, so the fit always wins.
+    // Standing down keys on fitCap — the VERTICAL room left under the rail — and NOT on the
+    // final size: on a narrow window the mark is legitimately small because widthFit binds
+    // (~39px on a 375px phone), and that has to keep rendering.
+    const MIN = 40;
+    const noRoom = fitCap < MIN;
+    wm.style.display = noRoom ? 'none' : '';
+    if (!noRoom) wm.style.fontSize = Math.max(1, size) + 'px';
   }
   (function paintMarks(){
     const wt = document.getElementById('wmtext');
-    const nm = wt.dataset.name || wt.textContent.trim();
-    wt.innerHTML = markHTML(nm);
-    document.getElementById('wordmark').classList.add('rest');
+    // the hero mark is gone; the nav and footer marks are NOT, and they still need painting
+    const nm = wt ? (wt.dataset.name || wt.textContent.trim())
+                  : (document.documentElement.dataset.brand || 'LOOMWORK');
+    if (wt) {
+      wt.innerHTML = markHTML(nm);
+      document.getElementById('wordmark').classList.add('rest');
+    }
     const small = markHTML(nm, null, true);
     const mn = document.getElementById('markname'); if (mn) mn.innerHTML = small;
     const fn = document.getElementById('footname'); if (fn) fn.innerHTML = small;
   })();
   fitWordmark();
-  addEventListener('resize', fitWordmark, { passive: true });
+  /* The rail-collision watcher (window resize + a ResizeObserver on .hstats/.heroleft) lived here.
+     It existed only because the mark shared the fold with the stat rail; with the mark gone there
+     is nothing to collide, so the watcher goes too. fitWordmark itself stays for the About page,
+     where the mark will not sit over a proof rail at all. */
+  if (wm) addEventListener('resize', fitWordmark, { passive: true });
 
   /* the resting mark: CONTINUOUS — one thread through the name (wordmark study #16) */
   function markHTML(name, variant, small){
@@ -1267,7 +1534,7 @@
       n.textContent = fmt(0);
       const t0 = performance.now(), dur = 1100;
       (function tick(t){
-        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        const k = Math.min(1, Math.max(0, (t - t0) / dur)), e = 1 - Math.pow(1 - k, 3);  /* see note above */
         n.textContent = fmt(e * target);
         if (k < 1) requestAnimationFrame(tick);
       })(t0);
@@ -1287,7 +1554,9 @@
     const html = document.documentElement;
     const disarm = () => { html.classList.remove('heroarm'); countHeroStats(); runSwap(); };
     const start = () => { if (vid) vid.play().catch(()=>{}); };
-    if (reduced || !html.classList.contains('reelon')) {
+    // ...and with no #wordmark in the hero there is nothing for the reel to hand off to, so the
+    // reel branch (and the dev bar's ↻ replay, which is this same function) stands down too.
+    if (reduced || !html.classList.contains('reelon') || !wm) {
       start();
       requestAnimationFrame(() => requestAnimationFrame(disarm));   // let the armed state paint once
       return;
@@ -1349,18 +1618,21 @@
 </script>
 
 <!-- dev-only logo switcher -->
-<div style="position:fixed;left:14px;bottom:14px;z-index:99;background:rgba(16,17,20,.92);color:#F4F1EA;
-     border:1px solid rgba(244,241,234,.25);border-radius:10px;padding:7px 10px;font-size:12px;display:flex;gap:6px;align-items:center">
+<div style="position:fixed;left:14px;bottom:14px;z-index:99;background:rgba(16,17,20,.92);color:#FFFFFF;
+     border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:7px 10px;font-size:12px;display:flex;gap:6px;align-items:center">
   <b>LOGO</b>
   <script>
     (function(){
       const q=new URLSearchParams(location.search), cur=q.get('logo')||'0', bar=document.currentScript.parentElement;
+      // This panel was labelled dev-only but had no gate of any kind — every visitor got a
+      // design control bar pinned over the page. ?dev=1 brings it back for auditioning.
+      if (!q.has('dev')) { bar.remove(); return; }
       [['none','0'],['hum line','1'],['thrums','2'],['living mark','3']].forEach(([lab,n])=>{
         const a=document.createElement('a');
         a.textContent=lab;
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('logo',n); else p.delete('logo');
         a.href='?'+p.toString();
-        a.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(244,241,234,.3);'+(cur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.3);'+(cur===n?'background:#FFFFFF;color:#101114;font-weight:700;':'');
         bar.appendChild(a);
       });
       const pcur=q.get('pal')||'0';
@@ -1371,14 +1643,14 @@
         const p=new URLSearchParams(location.search); if(n!=='0')p.set('pal',n); else p.delete('pal');
         a.href='?'+p.toString();
         if(n==='0'){a.textContent='reset';a.href='#';
-          a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
+          a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px';
           a.addEventListener('click',e=>{e.preventDefault();
             try{localStorage.removeItem('lw.acc');}catch(err){}
             const p=new URLSearchParams(location.search);
             ['pal','acc','ink','paper','world'].forEach(k=>p.delete(k));
             location.search=p.toString();});}
         else {a.title=c;a.style.cssText='width:22px;height:22px;border-radius:50%;background:'+c+';box-sizing:border-box;'+
-          (pcur===n?'border:2px solid #0B0B0D;box-shadow:0 0 0 2px #F4F1EA;':'border:2px solid rgba(244,241,234,.25);');}
+          (pcur===n?'border:2px solid #0B0B0D;box-shadow:0 0 0 2px #FFFFFF;':'border:2px solid rgba(255,255,255,.25);');}
         pwrap.appendChild(a);
       });
       const swatchNow=document.createElement('span');
@@ -1396,7 +1668,7 @@
         a.textContent=lab;
         const p=new URLSearchParams(location.search); p.set('img',n);
         a.href='?'+p.toString();
-        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(icur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px;'+(icur===n?'background:#FFFFFF;color:#101114;font-weight:700;':'');
         iwrap.appendChild(a);
       });
       bar.appendChild(iwrap);
@@ -1404,12 +1676,12 @@
       const gcur=q.get('ground')||'flip';
       const gwrap=document.createElement('span'); gwrap.style.cssText='display:flex;gap:5px;align-items:center;margin-left:8px';
       gwrap.innerHTML='<b>GND</b>';
-      [['flip','flip'],['0','dark'],['1','exhale'],['2','daylight']].forEach(([n,lab])=>{
+      [['flip','static'],['0','dark'],['1','exhale'],['2','daylight']].forEach(([n,lab])=>{
         const a=document.createElement('a');
         a.textContent=lab;
         const p=new URLSearchParams(location.search); if(n!=='flip')p.set('ground',n); else p.delete('ground');
         a.href='?'+p.toString();
-        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(gcur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px;'+(gcur===n?'background:#FFFFFF;color:#101114;font-weight:700;':'');
         gwrap.appendChild(a);
       });
       bar.appendChild(gwrap);
@@ -1421,7 +1693,7 @@
         a.textContent=n;
         const p=new URLSearchParams(location.search); if(n!=='none')p.set('world',n); else p.delete('world');
         a.href='?'+p.toString();
-        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;'+(wcur===n?'background:#F4F1EA;color:#101114;font-weight:700;':'');
+        a.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px;'+(wcur===n?'background:#FFFFFF;color:#101114;font-weight:700;':'');
         wwrap.appendChild(a);
       });
       bar.appendChild(wwrap);
@@ -1431,7 +1703,7 @@
       const labc={ink:q.get('ink')||'0B0B0D', paper:q.get('paper')||'F4F1EA', acc:q.get('acc')||getComputedStyle(document.documentElement).getPropertyValue('--acc').trim().replace('#','')||'D5DDE2'};
       ['ink','paper','acc'].forEach(k=>{
         const i=document.createElement('input'); i.type='color'; i.value='#'+labc[k].replace('#','');
-        i.title=k; i.style.cssText='width:22px;height:22px;border:1px solid rgba(244,241,234,.35);border-radius:6px;background:none;padding:0;cursor:pointer';
+        i.title=k; i.style.cssText='width:22px;height:22px;border:1px solid rgba(255,255,255,.35);border-radius:6px;background:none;padding:0;cursor:pointer';
         i.addEventListener('input',()=>{labc[k]=i.value.replace('#','');
           const st=document.documentElement.style;
           document.body.dataset.world='custom'; document.body.classList.add('pal');
@@ -1440,7 +1712,7 @@
         lab.appendChild(i);
       });
       const save=document.createElement('a'); save.textContent='link';
-      save.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px';
+      save.style.cssText='color:inherit;text-decoration:none;padding:3px 7px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px';
       save.addEventListener('click',e=>{e.preventDefault();
         const p=new URLSearchParams(location.search);
         p.set('ink',labc.ink); p.set('paper',labc.paper); p.set('acc',labc.acc); p.delete('world');
@@ -1448,7 +1720,7 @@
       save.href='#'; lab.appendChild(save);
       bar.appendChild(lab);
       const rp=document.createElement('a'); rp.textContent='↻ reel'; rp.href='#';
-      rp.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(244,241,234,.3);font-size:11px;margin-left:8px';
+      rp.style.cssText='color:inherit;text-decoration:none;padding:3px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.3);font-size:11px;margin-left:8px';
       rp.addEventListener('click',e=>{e.preventDefault(); if(window.__replayReel) window.__replayReel();});
       bar.appendChild(rp);
     })();

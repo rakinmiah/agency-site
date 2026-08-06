@@ -1,1 +1,12 @@
 .DS_Store
+
+# reel/ — programmatic video (Remotion). Source is versioned; deps and renders are not.
+reel/node_modules/
+reel/out/
+
+# secrets — the Pexels key lives in reel/.env.local; recreate by hand, never commit
+reel/.env.local
+reel/.env*
+
+# remotion build artefacts
+reel/.remotion/
