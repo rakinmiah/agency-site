@@ -1,5 +1,5 @@
 // Ordered list of clips, in the order they were attached to the chat.
-// Final set: 13 clips.
+// Final set: 14 clips.
 export const CLIP_FILES: string[] = [
   'clips/clip-01.mov',
   'clips/clip-02.mov',
@@ -14,4 +14,5 @@ export const CLIP_FILES: string[] = [
   'clips/clip-11.mov',
   'clips/clip-12.mov',
   'clips/clip-13.mov',
+  'clips/clip-14.mov',
 ];
