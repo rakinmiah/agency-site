@@ -7,9 +7,8 @@ export type ClipMeta = {
 
 export type BirthdayProps = {
   clips: ClipMeta[];
-  // Crossfade length between clip i and i+1, in frames. length = clips.length + 1
-  // (index 0 = intro→first clip, last = last clip→outro).
+  // Crossfade length between sequence i and i+1 of [clips..., outro], in
+  // frames. length = clips.length (the last entry leads into the outro card).
   transitions: number[];
   title: string;
-  outroLine: string;
 };

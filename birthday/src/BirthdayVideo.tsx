@@ -1,17 +1,31 @@
 import {linearTiming, TransitionSeries} from '@remotion/transitions';
 import {fade} from '@remotion/transitions/fade';
 import React from 'react';
-import {AbsoluteFill} from 'remotion';
-import {IntroCard, OutroCard} from './Cards';
+import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {OutroCard} from './Cards';
 import {ClipFill} from './ClipFill';
-import {INTRO_FRAMES, OUTRO_FRAMES} from './timing';
+import {OPENING_FADE, OUTRO_FRAMES} from './timing';
 import {BirthdayProps} from './types';
+
+// Soft fade in from black over the very first frames of the film.
+const OpeningFade: React.FC = () => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(frame, [0, OPENING_FADE], [1, 0], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  if (opacity <= 0) {
+    return null;
+  }
+  return (
+    <AbsoluteFill style={{backgroundColor: '#000', opacity, zIndex: 10}} />
+  );
+};
 
 export const BirthdayVideo: React.FC<BirthdayProps> = ({
   clips,
   transitions,
   title,
-  outroLine,
 }) => {
   if (clips.length === 0) {
     return (
@@ -34,20 +48,7 @@ export const BirthdayVideo: React.FC<BirthdayProps> = ({
   // fragments would defeat its child inspection.
   const items: React.ReactNode[] = [];
 
-  items.push(
-    <TransitionSeries.Sequence key="intro" durationInFrames={INTRO_FRAMES}>
-      <IntroCard title={title} />
-    </TransitionSeries.Sequence>
-  );
-
   clips.forEach((clip, i) => {
-    items.push(
-      <TransitionSeries.Transition
-        key={`t-${i}`}
-        presentation={fade()}
-        timing={linearTiming({durationInFrames: transitions[i]})}
-      />
-    );
     items.push(
       <TransitionSeries.Sequence
         key={`clip-${i}`}
@@ -55,29 +56,30 @@ export const BirthdayVideo: React.FC<BirthdayProps> = ({
       >
         <ClipFill
           clip={clip}
-          fadeIn={transitions[i]}
-          fadeOut={transitions[i + 1]}
+          fadeIn={i === 0 ? OPENING_FADE : transitions[i - 1]}
+          fadeOut={transitions[i]}
         />
       </TransitionSeries.Sequence>
+    );
+    items.push(
+      <TransitionSeries.Transition
+        key={`t-${i}`}
+        presentation={fade()}
+        timing={linearTiming({durationInFrames: transitions[i]})}
+      />
     );
   });
 
   items.push(
-    <TransitionSeries.Transition
-      key="t-outro"
-      presentation={fade()}
-      timing={linearTiming({durationInFrames: transitions[clips.length]})}
-    />
-  );
-  items.push(
     <TransitionSeries.Sequence key="outro" durationInFrames={OUTRO_FRAMES}>
-      <OutroCard title={title} outroLine={outroLine} />
+      <OutroCard title={title} />
     </TransitionSeries.Sequence>
   );
 
   return (
     <AbsoluteFill style={{backgroundColor: '#0b0710'}}>
       <TransitionSeries>{items}</TransitionSeries>
+      <OpeningFade />
     </AbsoluteFill>
   );
 };

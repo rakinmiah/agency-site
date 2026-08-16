@@ -9,8 +9,7 @@ import {BirthdayProps, ClipMeta} from './types';
 const DEFAULT_PROPS: BirthdayProps = {
   clips: [],
   transitions: [],
-  title: 'Happy Birthday!',
-  outroLine: 'With love, from all of us ♥',
+  title: 'Happy Birthday Yahya',
 };
 
 export const Root: React.FC = () => {
