@@ -1,0 +1,10 @@
+node_modules/
+out/
+.remotion/
+.env*
+
+# personal source footage + renders stay out of git — delivered via chat
+public/clips/*.mov
+public/clips/*.mp4
+public/clips/*.webm
+public/clips/*.m4v
