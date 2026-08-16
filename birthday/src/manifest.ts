@@ -1,5 +1,5 @@
 // Ordered list of clips, in the order they were attached to the chat.
-// Batches 1-3 of ~16 — append new entries as they arrive.
+// Final set: 13 clips.
 export const CLIP_FILES: string[] = [
   'clips/clip-01.mov',
   'clips/clip-02.mov',
